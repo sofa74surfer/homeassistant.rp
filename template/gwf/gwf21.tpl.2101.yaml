@@ -1,0 +1,75 @@
+# ####### #################### #######
+# ####### GWF Zählerdaten 2101 #######
+# ####### #################### #######
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2101 HZ kW"
+      state: "{% if states('sensor.gwf_21_state') == 'OK' -%}
+      {{ 
+(state_attr('sensor.gwf_21_state','gwf')['WG2101']['energy_2']['wert']|float 
+-state_attr('sensor.gwf_21_state','old')['WG2101']['energy_2']['wert']|float 
+)|round(0)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2101_hz_kw') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_21_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_21_state','gwf')['zeit'] }}"
+      device_class: power
+      state_class: measurement
+      unit_of_measurement: "kW"
+      unique_id: template.sensor_gwf_2101_hz_kw
+
+# Heizung Volumen l
+- sensor:
+    - name: "GWF 2101 HZ l"
+      state: "{% if states('sensor.gwf_21_state') == 'OK' -%}
+      {{ 
+((state_attr('sensor.gwf_21_state','gwf')['WG2101']['volume_3']['wert']|float 
+-state_attr('sensor.gwf_21_state','old')['WG2101']['volume_3']['wert']|float 
+)*1000)|round(2)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2101_hz_l') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_21_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_21_state','gwf')['zeit'] }}"
+      device_class: water
+      state_class: measurement
+      unit_of_measurement: "L"
+      unique_id: template.sensor_gwf_2101_hz_l
+
+# Warmwasser Volumen l
+- sensor:
+    - name: "GWF 2101 WW l"
+      state: "{% if states('sensor.gwf_21_state') == 'OK' -%}
+      {{ 
+((state_attr('sensor.gwf_21_state','gwf')['WG2101']['volume_14']['wert']|float
+-state_attr('sensor.gwf_21_state','old')['WG2101']['volume_14']['wert']|float  
+)*1000)|round(2)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2101_ww_l') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_21_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_21_state','gwf')['zeit'] }}"
+      device_class: water
+      state_class: measurement
+      unit_of_measurement: "L"
+      unique_id: template.sensor_gwf_2101_ww_l
+
+# Kaltwasser Volumen l
+- sensor:
+    - name: "GWF 2101 KW l"
+      state: "{% if states('sensor.gwf_21_state') == 'OK' -%}
+      {{ 
+((state_attr('sensor.gwf_21_state','gwf')['WG2101']['volume_13']['wert']|float 
+-state_attr('sensor.gwf_21_state','old')['WG2101']['volume_13']['wert']|float 
+)*1000)|round(2)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2101_kw_l') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_21_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_21_state','gwf')['zeit'] }}"
+      device_class: water
+      state_class: measurement
+      unit_of_measurement: "L"
+      unique_id: template.sensor_gwf_2101_kw_l

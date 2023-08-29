@@ -1,0 +1,10 @@
+# ####### ########################## #######
+# ####### Integration Sensor MyStrom #######
+# ####### ########################## #######
+
+# Ableitung von Template Sensor mystrom.tpl.yaml
+platform: integration
+source: sensor.mystrom_power
+name: "MyStrom Power Consumption"
+unit_prefix: k
+round: 3

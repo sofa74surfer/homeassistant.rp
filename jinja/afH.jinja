@@ -1,0 +1,19 @@
+
+{{( 10**5 * 
+                        18.016 / 
+                        8314.3 * 
+                        states('sensor.netatmo_keller_buhler_humidity')|float / 
+                        100 * 
+                        6.1078 * 
+                        10** (
+                              (7.5 * 
+                                states('sensor.netatmo_keller_buhler_temperature')|float) / 
+                                (237.3 + 
+                                states('sensor.netatmo_keller_buhler_temperature')|float
+                                )
+                              ) / 
+                              (states('sensor.netatmo_keller_buhler_temperature')|float + 
+                              273.15
+                              ) 
+                      )|round(1)}}
+

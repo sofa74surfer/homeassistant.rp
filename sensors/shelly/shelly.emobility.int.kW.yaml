@@ -1,0 +1,10 @@
+# ####### ######################### #######
+# ####### Integration Sensor Shelly #######
+# ####### ######################### #######
+
+# Ableitung von Template Sensor shelly.tpl.yaml
+platform: integration
+source: sensor.shelly_emobility_power
+name: "Shelly eMobility Power Consumption"
+unit_prefix: k
+round: 3

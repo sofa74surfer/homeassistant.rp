@@ -1,0 +1,185 @@
+platform: template
+sensors:
+
+# ####### ###################### #######
+# ####### Wattage Sensoren Solar #######
+# ####### ###################### #######
+
+  solar_power_21:
+    friendly_name: "Solar Power 21 W"
+    value_template: "{{ states('sensor.solar_power_21') if states('sensor.solarlog_21_power_ac') == ('unknown' or 'unavailable') else states('sensor.solarlog_21_power_ac')|float|round(0)}}"    
+    device_class: power
+    unit_of_measurement: "W"
+    attribute_templates:
+      last_updated:  "{{ now() }}"
+    unique_id: template.sensor_solar_power_21
+
+  solar_yield_21_day:
+    friendly_name: "Solar Yield 21 Day kWh"
+    value_template: "{{ states('sensor.solar_yield_21_day') if states('sensor.solarlog_21_yield_day') == ('unknown' or 'unavailable') else states('sensor.solarlog_21_yield_day')|float|round(0)}}"    
+    device_class: power
+    unit_of_measurement: "kWh"
+    attribute_templates:
+      last_updated:  "{{ now() }}"
+    unique_id: template.sensor_solar_yield_21_day
+
+  solar_yield_21_yesterday:
+    friendly_name: "Solar Yield 21 Yesterday kWh"
+    value_template: "{{ states('sensor.solar_yield_21_yesterday') if states('sensor.solarlog_21_yield_yesterday') == ('unknown' or 'unavailable') else states('sensor.solarlog_21_yield_yesterday')|float|round(0)}}"    
+    device_class: power
+    unit_of_measurement: "kWh"
+    attribute_templates:
+      last_updated:  "{{ now() }}"
+    unique_id: template.sensor_solar_yield_21_yesterday
+
+  solar_yield_21_month:
+    friendly_name: "Solar Yield 21 Month kWh"
+    value_template: "{{ states('sensor.solar_yield_21_month') if states('sensor.solarlog_21_yield_month') == ('unknown' or 'unavailable') else states('sensor.solarlog_21_yield_month')|float|round(0)}}"    
+    device_class: power
+    unit_of_measurement: "kWh"
+    attribute_templates:
+      last_updated:  "{{ now() }}"
+    unique_id: template.sensor_solar_yield_21_month
+
+  solar_yield_21_year:
+    friendly_name: "Solar Yield 21 Year kWh"
+    value_template: "{{ states('sensor.solar_yield_21_year') if states('sensor.solarlog_21_yield_year') == ('unknown' or 'unavailable') else states('sensor.solarlog_21_yield_year')|float|round(0)}}"    
+    device_class: power
+    unit_of_measurement: "kWh"
+    attribute_templates:
+      last_updated:  "{{ now() }}"
+    unique_id: template.sensor_solar_yield_21_year
+
+  solar_consumption_21:
+    friendly_name: "Solar Consumption 21 W"
+    value_template: "{{ states('sensor.solar_consumption_21') if states('sensor.solarlog_21_consumption_ac') == ('unknown' or 'unavailable') else states('sensor.solarlog_21_consumption_ac')|float|round(0)}}"    
+    device_class: power
+    unit_of_measurement: "W"
+    attribute_templates:
+      last_updated:  "{{ now() }}"
+    unique_id: template.sensor_solar_consumption_21
+
+  # Warmwasserbetrieb
+  solar_consumption_21_ww: 
+    friendly_name: "Solar Consumption 21 WW W"
+    value_template: "{{(states('sensor.solar_consumption_21_ww') 
+  if states('sensor.luxtronik21_bz') == ('unknown' or 'unavailable') 
+  or states('sensor.solarlog_21_consumption_ac') == ('unknown' or 'unavailable') 
+  else (states('sensor.solarlog_21_consumption_ac')
+        if states('sensor.luxtronik21_bz')|int == 1 
+        or (states('sensor.luxtronik21_bz')|int == 5 
+        and states('sensor.luxtronik21_hs3')|int == 9)
+        else 0)
+  )|float|round(0)}}"
+    device_class: power
+    unit_of_measurement: "W"
+    attribute_templates:
+      last_updated:  "{{ now() }}"
+    unique_id: template.sensor_solar_consumption_21_ww
+
+  # Warmwasserbetrieb Wärmepumpe
+  solar_consumption_21_ww_wp: 
+    friendly_name: "Solar Consumption 21 WW WP W"
+    value_template: "{{(states('sensor.solar_consumption_21_ww_wp') 
+  if states('sensor.luxtronik21_bz') == ('unknown' or 'unavailable') 
+  or states('sensor.solarlog_21_consumption_ac') == ('unknown' or 'unavailable') 
+  else (states('sensor.solarlog_21_consumption_ac') 
+        if states('sensor.luxtronik21_bz')|int == 1 
+        and (states('sensor.luxtronik21_hs3')|int == 5 
+        or states('sensor.luxtronik21_hs3')|int == 9)
+        else 0)
+  )|float|round(0)}}"
+    device_class: power
+    unit_of_measurement: "W"
+    attribute_templates:
+      last_updated:  "{{ now() }}"
+    unique_id: template.sensor_solar_consumption_21_ww_wp
+
+  # Warmwasserbetrieb Elektro
+  solar_consumption_21_ww_el: 
+    friendly_name: "Solar Consumption 21 WW EL W"
+    value_template: "{{(states('sensor.solar_consumption_21_ww_el') 
+  if states('sensor.luxtronik21_bz') == ('unknown' or 'unavailable') 
+  or states('sensor.solarlog_21_consumption_ac') == ('unknown' or 'unavailable') 
+  else (states('sensor.solarlog_21_consumption_ac') 
+        if states('sensor.luxtronik21_bz')|int == 5 
+        and states('sensor.luxtronik21_hs3')|int == 9
+        else 0)
+  )|float|round(0)}}"
+    device_class: power
+    unit_of_measurement: "W"
+    attribute_templates:
+      last_updated:  "{{ now() }}"
+    unique_id: template.sensor_solar_consumption_21_ww_el
+
+  # Standbybetrieb
+  solar_consumption_21_standby: 
+    friendly_name: "Solar Consumption 21 Standby W"
+    value_template: "{{(states('sensor.solar_consumption_21_standby') 
+  if states('sensor.luxtronik21_bz') == ('unknown' or 'unavailable') 
+  or states('sensor.solarlog_21_consumption_ac') == ('unknown' or 'unavailable') 
+  else (states('sensor.solarlog_21_consumption_ac') 
+        if states('sensor.luxtronik21_bz')|int != 0 
+        and states('sensor.luxtronik21_bz')|int != 1 
+        and states('sensor.luxtronik21_hs3')|int != 9
+        and states('sensor.solarlog_21_consumption_ac')|int <= 250
+        else 0)
+  )|float|round(0)}}"
+    device_class: power
+    unit_of_measurement: "W"
+    attribute_templates:
+      last_updated:  "{{ now() }}"
+    unique_id: template.sensor_solar_consumption_21_standby
+
+  # Heizbetrieb
+  solar_consumption_21_hz:
+    friendly_name: "Solar Consumption 21 HZ W"
+    value_template: "{{(states('sensor.solar_consumption_21_hz') 
+  if states('sensor.luxtronik21_bz') == ('unknown' or 'unavailable') 
+  or states('sensor.solarlog_21_consumption_ac') == ('unknown' or 'unavailable') 
+  else (states('sensor.solarlog_21_consumption_ac') 
+        if states('sensor.luxtronik21_bz')|int == 0 
+        and states('input_boolean.luxtronik_heizphase_haus_21')
+        else 0)
+  )|float|round(0)}}"
+    device_class: power
+    unit_of_measurement: "W"
+    attribute_templates:
+      last_updated:  "{{ now() }}"
+    unique_id: template.sensor_solar_consumption_21_hz
+
+  solar_consumption_21_day:
+    friendly_name: "Solar Consumption 21 Day kWh"
+    value_template: "{{ states('sensor.solar_consumption_21_day') if states('sensor.solarlog_21_consumption_day') == ('unknown' or 'unavailable') else states('sensor.solarlog_21_consumption_day')|float|round(0)}}"    
+    device_class: power
+    unit_of_measurement: "kWh"
+    attribute_templates:
+      last_updated:  "{{ now() }}"
+    unique_id: template.sensor_solar_consumption_21_day
+
+  solar_consumption_21_yesterday:
+    friendly_name: "Solar Consumption 21 Yesterday kWh"
+    value_template: "{{ states('sensor.solar_consumption_21_yesterday') if states('sensor.solarlog_21_consumption_yesterday') == ('unknown' or 'unavailable') else states('sensor.solarlog_21_consumption_yesterday')|float|round(0)}}"    
+    device_class: power
+    unit_of_measurement: "kWh"
+    attribute_templates:
+      last_updated:  "{{ now() }}"
+    unique_id: template.sensor_solar_consumption_21_yesterday
+
+  solar_consumption_21_month:
+    friendly_name: "Solar Consumption 21 Month kWh"
+    value_template: "{{ states('sensor.solar_consumption_21_month') if states('sensor.solarlog_21_consumption_month') == ('unknown' or 'unavailable') else states('sensor.solarlog_21_consumption_month')|float|round(0)}}"    
+    device_class: power
+    unit_of_measurement: "kWh"
+    attribute_templates:
+      last_updated:  "{{ now() }}"
+    unique_id: template.sensor_solar_consumption_21_month
+
+  solar_consumption_21_year:
+    friendly_name: "Solar Consumption 21 Year kWh"
+    value_template: "{{ states('sensor.solar_consumption_21_year') if states('sensor.solarlog_21_consumption_year') == ('unknown' or 'unavailable') else states('sensor.solarlog_21_consumption_year')|float|round(0)}}"    
+    device_class: power
+    unit_of_measurement: "kWh"
+    attribute_templates:
+      last_updated:  "{{ now() }}"
+    unique_id: template.sensor_solar_consumption_21_year

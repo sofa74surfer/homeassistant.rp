@@ -1,0 +1,12 @@
+# ####### ######################## #######
+# ####### Avarage Sensor Luxtronik #######
+# ####### ######################## #######
+
+# Ableitung von Template Sensor luxtronik21.tpl.yaml
+platform: average
+name: "Average Luxtronik 21 TWQ aus korr °C"
+unique_id: average_luxtronik_21_twq_aus_korr_deg
+entities: 
+  - sensor.luxtronik21_twq_aus_korr
+duration:
+  days: 2

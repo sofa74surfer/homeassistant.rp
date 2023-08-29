@@ -1,0 +1,11 @@
+platform: rest
+method: GET
+resource: !secret url_sensor_mystrom_207
+name: MyStrom 207 Report
+value_template: "OK"
+scan_interval: 20
+force_update: true
+json_attributes:
+  - "power"
+  - "Ws"
+  - "relay"

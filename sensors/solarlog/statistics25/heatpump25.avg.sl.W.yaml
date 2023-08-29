@@ -1,0 +1,12 @@
+# ####### ####################### #######
+# ####### Avarage Sensor Solarlog #######
+# ####### ####################### #######
+
+# Ableitung von Template Sensor solar_25.tpl.W.yaml
+platform: average
+name: "Average Solar 25"
+unique_id: average_solar_25_power
+entities: 
+  - sensor.energy_statistic_solar_25_w
+duration:
+  days: 5

@@ -1,0 +1,24 @@
+platform: template
+sensors:
+
+# ####### ####################### #######
+# ####### Wattage Sensoren Zaptec #######
+# ####### ####################### #######
+
+# Ableitung von Custom Integration zaptec
+  zaptec_power:
+    friendly_name: "Zaptec W"
+    value_template: "{{ (
+      (0 if states('sensor.zaptec_charger_zpr055424') == ('unknown' or 'unavailable') else state_attr('sensor.zaptec_charger_zpr055424', 'total_charge_power')|float) +
+      (0 if states('sensor.zaptec_charger_zpr111423') == ('unknown' or 'unavailable') else state_attr('sensor.zaptec_charger_zpr111423', 'total_charge_power')|float) +
+      (0 if states('sensor.zaptec_charger_zpr118007') == ('unknown' or 'unavailable') else state_attr('sensor.zaptec_charger_zpr118007', 'total_charge_power')|float) +
+      (0 if states('sensor.zaptec_charger_zpr124763') == ('unknown' or 'unavailable') else state_attr('sensor.zaptec_charger_zpr124763', 'total_charge_power')|float) +
+      (0 if states('sensor.zaptec_charger_zpr211132') == ('unknown' or 'unavailable') else state_attr('sensor.zaptec_charger_zpr211132', 'total_charge_power')|float) +
+      (0 if states('sensor.zaptec_charger_zpg003786') == ('unknown' or 'unavailable') else state_attr('sensor.zaptec_charger_zpg003786', 'total_charge_power')|float) 
+    )|round(0) }}"
+    device_class: power
+    unit_of_measurement: "W"
+    attribute_templates:
+      last_updated:  "{{ now() }}"
+    unique_id: template.sensor_zaptec_power
+

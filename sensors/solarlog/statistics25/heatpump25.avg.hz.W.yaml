@@ -1,0 +1,12 @@
+# ####### ####################### #######
+# ####### Avarage Sensor Solarlog #######
+# ####### ####################### #######
+
+# Ableitung von Template Sensor solar_25.tpl.W.yaml
+platform: average
+name: "Average Heatpump 25 HZ"
+unique_id: average_heatpump_25_hz_power
+entities: 
+  - sensor.energy_statistic_heatpump_25_hz_w
+duration:
+  days: 5

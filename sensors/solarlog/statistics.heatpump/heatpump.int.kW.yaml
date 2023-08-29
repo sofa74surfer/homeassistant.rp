@@ -1,0 +1,10 @@
+# ####### ########################### #######
+# ####### Integration Sensor Solarlog #######
+# ####### ########################### #######
+
+# Ableitung von Template Sensor heatpump.tpl.yaml
+platform: integration
+source: sensor.heatpump_power
+name: "Heatpump Power Consumption"
+unit_prefix: k
+round: 3

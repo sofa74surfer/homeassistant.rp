@@ -1,0 +1,309 @@
+# ####### ########################### #######
+# ####### Integration SQL Heizung kWh #######
+# ####### ########################### #######
+
+# Alle Häuser 1day
+- name: SQL Heatpump Power hz kWh 1day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_hz_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_hz_kwh_1day
+# Alle Häuser 7day
+- name: SQL Heatpump Power hz kWh 7day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_hz_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*7));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_hz_kwh_7day
+# Alle Häuser 30day
+- name: SQL Heatpump Power hz kWh 30day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_hz_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*30));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_hz_kwh_30day
+# Haus 19 1day
+- name: SQL Heatpump Power 19 hz kWh 1day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_19_hz_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_19_hz_kwh_1day
+# Haus 19 7day
+- name: SQL Heatpump Power 19 hz kWh 7day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_19_hz_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*7));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_19_hz_kwh_7day
+# Haus 19 30day
+- name: SQL Heatpump Power 19 hz kWh 30day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_19_hz_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*30));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_19_hz_kwh_30day
+# Haus 21 1day
+- name: SQL Heatpump Power 21 hz kWh 1day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_21_hz_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_21_hz_kwh_1day
+# Haus 21 7day
+- name: SQL Heatpump Power 21 hz kWh 7day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_21_hz_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*7));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_21_hz_kwh_7day
+# Haus 21 30day
+- name: SQL Heatpump Power 21 hz kWh 30day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_21_hz_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*30));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_21_hz_kwh_30day
+# Haus 23 1day
+- name: SQL Heatpump Power 23 hz kWh 1day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_23_hz_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_23_hz_kwh_1day
+# Haus 23 7day
+- name: SQL Heatpump Power 23 hz kWh 7day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_23_hz_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*7));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_23_hz_kwh_7day
+# Haus 23 30day
+- name: SQL Heatpump Power 23 hz kWh 30day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_23_hz_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*30));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_23_hz_kwh_30day
+# Haus 25 1day
+- name: SQL Heatpump Power 25 hz kWh 1day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_25_hz_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_25_hz_kwh_1day
+# Haus 25 7day
+- name: SQL Heatpump Power 25 hz kWh 7day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_25_hz_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*7));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_25_hz_kwh_7day
+# Haus 25 30day
+- name: SQL Heatpump Power 25 hz kWh 30day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_25_hz_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*30));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_25_hz_kwh_30day
+
+# ####### ############################## #######
+# ####### Integration SQL Warmwasser kWh #######
+# ####### ############################## #######
+
+# Alle Häuser 1day
+- name: SQL Heatpump Power ww kWh 1day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_ww_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_ww_kwh_1day
+# Alle Häuser 7day
+- name: SQL Heatpump Power ww kWh 7day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_ww_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*7));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_ww_kwh_7day
+# Alle Häuser 30day
+- name: SQL Heatpump Power ww kWh 30day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_ww_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*30));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_ww_kwh_30day
+# Haus 19 1day
+- name: SQL Heatpump Power 19 ww kWh 1day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_19_ww_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_19_ww_kwh_1day
+# Haus 19 7day
+- name: SQL Heatpump Power 19 ww kWh 7day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_19_ww_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*7));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_19_ww_kwh_7day
+# Haus 19 30day
+- name: SQL Heatpump Power 19 ww kWh 30day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_19_ww_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*30));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_19_ww_kwh_30day
+# Haus 21 1day
+- name: SQL Heatpump Power 21 ww kWh 1day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_21_ww_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_21_ww_kwh_1day
+# Haus 21 7day
+- name: SQL Heatpump Power 21 ww kWh 7day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_21_ww_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*7));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_21_ww_kwh_7day
+# Haus 21 30day
+- name: SQL Heatpump Power 21 ww kWh 30day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_21_ww_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*30));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_21_ww_kwh_30day
+# Haus 23 1day
+- name: SQL Heatpump Power 23 ww kWh 1day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_23_ww_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_23_ww_kwh_1day
+# Haus 23 7day
+- name: SQL Heatpump Power 23 ww kWh 7day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_23_ww_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*7));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_23_ww_kwh_7day
+# Haus 23 30day
+- name: SQL Heatpump Power 23 ww kWh 30day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_23_ww_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*30));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_23_ww_kwh_30day
+# Haus 25 1day
+- name: SQL Heatpump Power 25 ww kWh 1day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_25_ww_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_25_ww_kwh_1day
+# Haus 25 7day
+- name: SQL Heatpump Power 25 ww kWh 7day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_25_ww_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*7));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_25_ww_kwh_7day
+# Haus 25 30day
+- name: SQL Heatpump Power 25 ww kWh 30day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_25_ww_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*30));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_25_ww_kwh_30day

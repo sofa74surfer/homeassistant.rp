@@ -1,0 +1,10 @@
+# ####### ########################## #######
+# ####### Integration Sensor Janitza #######
+# ####### ########################## #######
+
+# Ableitung von Template Sensor umg604.tpl.yaml
+platform: integration
+source: sensor.janitza_umg604_power
+name: "Janitza UMG604 Power Consumption"
+unit_prefix: k
+round: 3

@@ -1,0 +1,10 @@
+platform: rest
+method: GET
+resource: !secret url_sensor_umg604
+name: Janitza UMG604 State
+unique_id: rest.janitza_umg604_state
+value_template: "OK"
+scan_interval: 20
+force_update: true
+json_attributes:
+  - "_P_SUM3"

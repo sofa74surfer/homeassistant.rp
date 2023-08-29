@@ -1,0 +1,10 @@
+# ####### ##################### #######
+# ####### Avarage Sensor Shelly #######
+# ####### ##################### #######
+
+platform: average
+unique_id: average_shelly_box_haus_19_switch_0_power
+name: "Average Shelly Box Haus 19 Switch 0 Power W"
+entities: 
+  - sensor.shelly_box_haus_19_switch_0_power
+duration: 60

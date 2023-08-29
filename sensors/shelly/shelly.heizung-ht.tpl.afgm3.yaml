@@ -1,0 +1,114 @@
+platform: template
+sensors:
+
+# ####### ########################### #######
+# ####### Absolute Feuchte Shelly     #######
+# ####### ########################### #######
+
+# sensor.shelly_h_and_t_haus_19_humidity
+# sensor.shelly_h_and_t_haus_19_temperature
+
+# Heizung Haus 19
+  shelly_h_and_t_haus_19_absolute_feuchte:
+    friendly_name: "Shelly H&T Haus 19 absolute Feuchte g/m³"
+    value_template: "{{(10**5 * 
+                        18.016 / 
+                        8314.3 * 
+                        states('sensor.shelly_h_and_t_haus_19_humidity')|float / 
+                        100 * 
+                        6.1078 * 
+                        10** (
+                              (7.5 * 
+                                states('sensor.shelly_h_and_t_haus_19_temperature')|float) / 
+                                (237.3 + 
+                                states('sensor.shelly_h_and_t_haus_19_temperature')|float
+                                )
+                              ) / 
+                              (states('sensor.shelly_h_and_t_haus_19_temperature')|float + 
+                              273.15
+                              ) 
+                      )|round(1)}}"
+    device_class: weight
+    unit_of_measurement: "g"
+    attribute_templates:
+      last_updated:  "{{ now() }}"
+    unique_id: template.shelly_h_and_t_haus_19_absolute_feuchte
+
+# Heizung Haus 21
+  shelly_h_and_t_haus_21_absolute_feuchte:
+    friendly_name: "Shelly H&T Haus 21 absolute Feuchte g/m³"
+    value_template: "{{(10**5 * 
+                        18.016 / 
+                        8314.3 * 
+                        states('sensor.shelly_h_and_t_haus_21_humidity')|float / 
+                        100 * 
+                        6.1078 * 
+                        10** (
+                              (7.5 * 
+                                states('sensor.shelly_h_and_t_haus_21_temperature')|float) / 
+                                (237.3 + 
+                                states('sensor.shelly_h_and_t_haus_21_temperature')|float
+                                )
+                              ) / 
+                              (states('sensor.shelly_h_and_t_haus_21_temperature')|float + 
+                              273.15
+                              ) 
+                      )|round(1)}}"
+    device_class: weight
+    unit_of_measurement: "g"
+    attribute_templates:
+      last_updated:  "{{ now() }}"
+    unique_id: template.shelly_h_and_t_haus_21_absolute_feuchte
+
+# Heizung Haus 23
+  shelly_h_and_t_haus_23_absolute_feuchte:
+    friendly_name: "Shelly H&T Haus 23 absolute Feuchte g/m³"
+    value_template: "{{(10**5 * 
+                        18.016 / 
+                        8314.3 * 
+                        states('sensor.shelly_h_and_t_haus_23_humidity')|float / 
+                        100 * 
+                        6.1078 * 
+                        10** (
+                              (7.5 * 
+                                states('sensor.shelly_h_and_t_haus_23_temperature')|float) / 
+                                (237.3 + 
+                                states('sensor.shelly_h_and_t_haus_23_temperature')|float
+                                )
+                              ) / 
+                              (states('sensor.shelly_h_and_t_haus_23_temperature')|float + 
+                              273.15
+                              ) 
+                      )|round(1)}}"
+    device_class: weight
+    unit_of_measurement: "g"
+    attribute_templates:
+      last_updated:  "{{ now() }}"
+    unique_id: template.shelly_h_and_t_haus_23_absolute_feuchte
+
+# Heizung Haus 25
+  shelly_h_and_t_haus_25_absolute_feuchte:
+    friendly_name: "Shelly H&T Haus 25 absolute Feuchte g/m³"
+    value_template: "{{(10**5 * 
+                        18.016 / 
+                        8314.3 * 
+                        states('sensor.shelly_h_and_t_haus_25_humidity')|float / 
+                        100 * 
+                        6.1078 * 
+                        10** (
+                              (7.5 * 
+                                states('sensor.shelly_h_and_t_haus_25_temperature')|float) / 
+                                (237.3 + 
+                                states('sensor.shelly_h_and_t_haus_25_temperature')|float
+                                )
+                              ) / 
+                              (states('sensor.shelly_h_and_t_haus_25_temperature')|float + 
+                              273.15
+                              ) 
+                      )|round(1)}}"
+    device_class: weight
+    unit_of_measurement: "g"
+    attribute_templates:
+      last_updated:  "{{ now() }}"
+    unique_id: template.shelly_h_and_t_haus_25_absolute_feuchte
+

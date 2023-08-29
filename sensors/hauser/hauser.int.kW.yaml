@@ -1,0 +1,10 @@
+# ####### ######################### #######
+# ####### Integration Sensor Häuser #######
+# ####### ######################### #######
+
+# Ableitung von Template Sensor häuser.tpl.yaml
+platform: integration
+source: sensor.hauser_power
+name: "Hauser Power Consumption"
+unit_prefix: k
+round: 3

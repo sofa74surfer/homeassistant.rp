@@ -1,0 +1,69 @@
+schalte_warmwasser_zieltemperatur:
+  alias: Schalte Warmwasser Zieltemperatur
+  sequence:
+  - service: rest_command.luxtronik_set_parameter
+    data:
+      heatpump: '{{ heatpump }}'
+      parameter: warmwater_target_temperature
+      value: '{{ value }}'
+  mode: parallel
+schalte_heizung_operation_mode:
+  alias: Schalte Heizung Operation Mode
+  sequence:
+  - service: rest_command.luxtronik_set_parameter
+    data:
+      heatpump: '{{ heatpump }}'
+      parameter: heating_operation_mode
+      value: '{{ value }}'
+  mode: parallel
+schalte_warmwasser_hysterese:
+  alias: Schalte Warmwasser Hysterese
+  sequence:
+  - service: rest_command.luxtronik_set_parameter
+    data:
+      heatpump: '{{ heatpump }}'
+      parameter: hotwater_temperature_hysteresis
+      value: '{{ value }}'
+  mode: parallel
+  max: 10
+schalte_warmwasser_operation_mode:
+  alias: Schalte Warmwasser Operation Mode
+  sequence:
+  - service: rest_command.luxtronik_set_parameter
+    data:
+      heatpump: '{{ heatpump }}'
+      parameter: warmwater_operation_mode
+      value: '{{ value }}'
+  mode: parallel
+  max: 10
+schalte_heizung_hysterese:
+  alias: Schalte Heizung Hysterese
+  sequence:
+  - service: rest_command.luxtronik_set_parameter
+    data:
+      heatpump: '{{ heatpump }}'
+      parameter: return_temperature_hysteresis
+      value: '{{ value }}'
+  mode: parallel
+  max: 10
+schalte_warmwasser_zieltemperatur_wunschwert:
+  alias: Schalte Warmwasser Zieltemperatur Wunschwert
+  sequence:
+  - service: rest_command.luxtronik_set_parameter
+    data:
+      heatpump: '{{ heatpump }}'
+      parameter: temperature_hot_water_target
+      value: '{{ value }}'
+  mode: parallel
+  max: 10
+schalte_warmwasser_temperatur_vorlauf_vd2:
+  alias: Schalte Warmwasser Temperatur Vorlauf VD2
+  sequence:
+  - service: rest_command.luxtronik_set_parameter
+    data:
+      heatpump: '{{ heatpump }}'
+      parameter: hotwater_temperature_forerun_2nd_compressor
+      value: '{{ value }}'
+  mode: parallel
+  icon: mdi:water-thermometer
+  max: 10

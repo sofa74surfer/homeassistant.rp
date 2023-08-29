@@ -1,0 +1,10 @@
+platform: rest
+method: GET
+resource: !secret url_sensor_luxtronik21_param
+name: Luxtronik 21 Param State
+unique_id: rest.sensor_luxtronik_21_param_state
+value_template: "{% if state_attr('sensor.luxtronik_21_param_state', 'parameters')|safe == 'None' -%}NOK{%- else -%}OK{%- endif %}"
+scan_interval: 60
+force_update: true
+json_attributes:
+  - "parameters"

@@ -1,0 +1,20 @@
+# ####### ####################### #######
+# ####### Counter Sensoren Zaptec #######
+# ####### ####################### #######
+
+# Ableitung von Uniquity Integration 
+- sensor:
+    - name: "Zaptec Counter New"
+      state: "{{
+            (
+              ( states.device_tracker
+                |selectattr('entity_id', 'search', 'device_tracker.z')
+                |selectattr('attributes.essid', 'search', 'eRotseepark')
+                |map(attribute='state'
+              )
+            |list|count) 
+            if is_state('device_tracker.rotseepark_dm', 'home') 
+            else states('sensor.zaptec_counter_new')|float)}}"
+      attributes:
+        last_updated:  "{{ now() }}"
+      unique_id: template.sensor_zaptec_counter_new

@@ -1,0 +1,38 @@
+platform: template
+sensors:
+
+# ####### ################################ #######
+# ####### Zaptec Binary Sensoren zpr111423 #######
+# ####### ################################ #######
+
+    # Zaptec zpr111423 Is Online
+    zpr111423_is_online:
+      friendly_name: "Zaptec zpr111423 Is Online"
+      value_template: "
+        {% if states('sensor.zaptec_charger_zpr111423') != 'unavailable' -%}
+          {% if ((state_attr('sensor.zaptec_charger_zpr111423','is_online'))|float == 1) -%}
+            on
+          {%- else -%}
+            off
+          {%- endif %}
+        {%- else -%}
+          {{ states('sensor.zpr111423_is_online') }}
+        {%- endif %}"
+      device_class: connectivity
+      unique_id: template.zpr111423_is_online
+
+   # Zaptec zpr111423 Offline Mode
+    zpr111423_offline_mode:
+      friendly_name: "Zaptec zpr111423 Offline Mode"
+      value_template: "
+        {% if states('sensor.zaptec_charger_zpr111423') != 'unavailable' -%}
+          {% if ((state_attr('sensor.zaptec_charger_zpr111423','offline_mode'))|float == 1) -%}
+            on
+          {%- else -%}
+            off
+          {%- endif %}
+        {%- else -%}
+          {{ states('sensor.zpr111423_offline_mode') }}
+        {%- endif %}"
+      device_class: connectivity
+      unique_id: template.zpr111423_offline_mode

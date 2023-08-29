@@ -1,0 +1,12 @@
+# ####### ######################### #######
+# ####### Statistik Sensor Solarlog #######
+# ####### ######################### #######
+
+# Ableitung von Template Sensor heatpump.tpl.yaml
+platform: statistics
+unique_id: energy_statistic_heatpump_power_ww_el
+entity_id: sensor.heatpump_power_ww_el
+name: "Energy Statistic Heatpump WW EL W"
+state_characteristic: mean
+sampling_size: 5
+precision: 0

@@ -1,0 +1,10 @@
+# ####### ########################### #######
+# ####### Integration Sensor Solarlog #######
+# ####### ########################### #######
+
+# Ableitung von Template Sensor solar_21.tpl.W.yaml
+platform: integration
+source: sensor.solar_consumption_21_hz
+name: "Heatpump 21 HZ Power Consumption"
+unit_prefix: k
+round: 3

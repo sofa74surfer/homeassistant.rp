@@ -1,0 +1,51 @@
+{% set bup_start = '2023-08-27 21:11:16.495419+02:00' %}
+bup_start:{{ bup_start }}
+{% set btw_low_ende = '2023-08-27 21:46:16.705289+02:00' %}
+btw_low_ende:{{ btw_low_ende }}
+{% set btw_low = '41.9' %}
+btw_low:{{ btw_low }}
+{% set btw_lowtime = '0:35:00.210211' %}
+btw_lowtime:{{ btw_lowtime  }}
+{% set btw_lowminute = '35' %}
+btw_lowminute:{{ btw_lowminute }}
+{% set bup_ende = '2023-08-28 00:23:17.983815+02:00' %}
+bup_ende:{{ bup_ende }}
+{% set pumpen_kw = (  ( 2300/1000/60* ( strptime(bup_ende, '%Y-%m-%d
+        %H:%M:%S.%f%z').timestamp()  - strptime(bup_start, '%Y-%m-%d
+        %H:%M:%S.%f%z').timestamp() )/60 )|round(1)  ) %}
+pumpen_kw:{{ pumpen_kw }}
+{% set btw_lowdiff = (( states('input_number.luxtronik_21_ww_solltemperatur')|float
+        )-(btw_low)|float+(5/60*(btw_lowminute)|float)|round(1)) %}
+btw_lowdiff:{{ btw_lowdiff }}
+
+{% set esti_kw_b = ( ( (4400/4*3/1000) )* ( (
+        states('input_number.luxtronik_21_ww_solltemperatur')|float
+        )-((states('input_number.luxtronik_21_ww_solltemperatur')|float)
+        -(btw_lowdiff))|float+(5/60*(btw_lowminute)|float))*1.16 )
+        |round(0) %}
+esti_kw_b:{{ esti_kw_b }}
+{% set esti_kw_b = ((4400/4*3/1000)*1.16*btw_lowdiff)|round(0) %}
+esti_kw_b:{{ esti_kw_b }}
+
+{% set esti_kw_a = ( ( states('input_number.gwf_21_ww_m3_helper')|float )* ( (
+        states('input_number.luxtronik_21_ww_solltemperatur')|float )-15 )*1.16
+        )|round(0) %}
+esti_kw_a:{{ esti_kw_a }}
+{% set esti_kw_a = ((states('input_number.gwf_21_ww_m3_helper')|float)*1.16*
+(states('input_number.luxtronik_21_ww_solltemperatur')|float-15))|round(0) %}
+esti_kw_a:{{ esti_kw_a }}
+
+{% set bup_ende = '2023-08-28 00:23:17.983815+02:00' %}
+bup_ende:{{ bup_ende }}
+{% set gwf_ende = '2023-08-28 02:49:08.844836+02:00' %}
+gwf_ende:{{ gwf_ende }}
+
+{{ states('input_number.heatpump_21_ww_power_consumption_helper')}}
+{{ states('input_number.gwf_21_ww_m3_helper') }}
+{{ states('input_number.gwf_21_hz_ug_kw_helper') }}
+
+{{ (states('input_number.heatpump_21_ww_power_consumption_helper')|float - pumpen_kw)|round(0) }}
+
+{{ (((esti_kw_a + esti_kw_b)/2*100)/states('input_number.gwf_21_hz_ug_kw_helper')|float)|round(0) }}%
+
+{{ ((states('input_number.gwf_21_hz_ug_kw_helper')|float)/(states('input_number.heatpump_21_ww_power_consumption_helper')|float - pumpen_kw))|round(1) }}

@@ -1,0 +1,10 @@
+# ####### ########################### #######
+# ####### Integration Sensor Solarlog #######
+# ####### ########################### #######
+
+# Ableitung von Template Sensor solar_25.tpl.W.yaml
+platform: integration
+source: sensor.solar_consumption_25_ww
+name: "Heatpump 25 WW Power Consumption"
+unit_prefix: k
+round: 3

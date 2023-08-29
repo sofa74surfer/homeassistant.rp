@@ -1,0 +1,12 @@
+# ####### ######################### #######
+# ####### Statistik Sensor Solarlog #######
+# ####### ######################### #######
+
+# Ableitung von Template Sensor solar_23.tpl.W.yaml
+platform: statistics
+unique_id: energy_statistic_heatpump_23_hz_power
+entity_id: sensor.solar_consumption_23_hz
+name: "Energy Statistic Heatpump 23 HZ W"
+state_characteristic: mean
+sampling_size: 5
+precision: 0

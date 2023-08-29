@@ -1,0 +1,20 @@
+  luxtronik_set_parameter:
+    url: !secret url_luxtronik_set_parameter
+    method: POST
+    payload: '{"heatpump":"{{ heatpump }}","parameter":"{{ parameter }}","value":"{{ value }}"}'
+    headers:
+      accept: "application/json, text/html"
+    content_type:  'application/json; charset=utf-8'
+
+# warmwater_target_temperature (2)
+# heating_operation_mode (3)
+# warmwater_operation_mode (4)
+# temperature_hot_water_target (105)
+
+# Operation Modes
+# '0': 'Automatik',
+# '1': 'Zusatzheizung',
+# '2': 'Party',
+# '3': 'Ferien',
+# '4': 'Aus'
+

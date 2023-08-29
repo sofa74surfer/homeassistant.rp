@@ -1,0 +1,360 @@
+platform: template
+sensors:
+
+# ####### ##################### #######
+# ####### Luxtronik Sensoren 25 #######
+# ####### ##################### #######
+
+# Temperatur Vorlauf
+  luxtronik25_tvl:
+    friendly_name: "Luxtronik 25 TVL °C"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+      {{ state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_supply'] }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_tvl') }}
+    {%- endif %}"
+    device_class: temperature
+    unit_of_measurement: "°C"
+    unique_id: template.sensor_luxtronik25_tvl
+
+# Temperatur Rücklauf
+  luxtronik25_trl:
+    friendly_name: "Luxtronik 25 TRL °C"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+      {{ state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_return'] }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_trl') }}
+    {%- endif %}"
+    device_class: temperature
+    unit_of_measurement: "°C"
+    unique_id: template.sensor_luxtronik25_trl
+
+# Temperatur Spreizung Vorlauf und Rücklauf
+  luxtronik25_spz_tvl_trl:
+    friendly_name: "Luxtronik 25 Spreizung TVL & TRL °C"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+      {{ ((state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_supply']) - (state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_return']))|round(1) }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_spz_tvl_trl') }}
+    {%- endif %}"
+    device_class: temperature
+    unit_of_measurement: "°C"
+    unique_id: template.sensor_luxtronik25_spz_tvl_trl
+
+# Temperatur Rücklauf Extern
+  luxtronik25_trl_ext:
+    friendly_name: "Luxtronik 25 TRL ext °C"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+      {{ state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_extern_return'] }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_trl_ext') }}
+    {%- endif %}"
+    device_class: temperature
+    unit_of_measurement: "°C"
+    unique_id: template.sensor_luxtronik25_trl_ext
+
+  # Temperatur Rücklauf Soll
+  luxtronik25_trl_soll:
+    friendly_name: "Luxtronik 25 TRL soll °C"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+      {{ state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_target_return'] }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_trl_soll') }}
+    {%- endif %}"
+    device_class: temperature
+    unit_of_measurement: "°C"
+    unique_id: template.sensor_luxtronik25_trl_soll
+
+# Temperatur Spreizung Rücklauf Soll Extern
+  luxtronik25_spz_trl_soll_ext:
+    friendly_name: "Luxtronik 25 Spreizung TRL Soll & Ext °C"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+      {{ ((state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_extern_return']) - (state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_target_return']))|round(1) }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_spz_trl_soll_ext') }}
+    {%- endif %}"
+    device_class: temperature
+    unit_of_measurement: "°C"
+    unique_id: template.sensor_luxtronik25_spz_trl_soll_ext
+
+  # Temperatur Aussen
+  luxtronik25_ta:
+    friendly_name: "Luxtronik 25 TA °C"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+      {{ state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_outside'] }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_ta') }}
+    {%- endif %}"
+    device_class: temperature
+    unit_of_measurement: "°C"
+    unique_id: template.sensor_luxtronik25_ta
+
+  # Temperatur Aussen Mittelwert
+  luxtronik25_ta_mittel:
+    friendly_name: "Luxtronik 25 TA mittel °C"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+      {{ state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_outside_avg'] }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_ta_mittel') }}
+    {%- endif %}"
+    device_class: temperature
+    unit_of_measurement: "°C"
+    unique_id: template.sensor_luxtronik25_ta_mittel
+
+# Temperatur Brauchwasser
+  luxtronik25_tbw:
+    friendly_name: "Luxtronik 25 TBW °C"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+      {{ state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_hot_water'] }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_tbw') }}
+    {%- endif %}"
+    device_class: temperature
+    unit_of_measurement: "°C"
+    unique_id: template.sensor_luxtronik25_tbw
+
+# Temperatur Brauchwasser Ziel
+  luxtronik25_tbw_soll:
+    friendly_name: "Luxtronik 25 TBW soll °C"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+      {{ state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_hot_water_target'] }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_tbw_soll') }}
+    {%- endif %}"
+    device_class: temperature
+    unit_of_measurement: "°C"
+    unique_id: template.sensor_luxtronik25_tbw_soll
+
+# Temperatur Brauchwasser Minimal
+  luxtronik25_tbw_min:
+    friendly_name: "Luxtronik 25 TBW min °C"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' and states('sensor.luxtronik_25_param_state') == 'OK' -%}
+      {{ state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_hot_water_target'] - state_attr('sensor.luxtronik_25_param_state', 'parameters')['hotWaterTemperatureHysteresis'] }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_tbw_min') }}
+    {%- endif %}"
+    device_class: temperature
+    unit_of_measurement: "°C"
+    unique_id: template.sensor_luxtronik25_tbw_min
+
+  # Temperatur Wärmequelle Eintritt (in die Maschine hinein)
+  luxtronik25_twq_ein:
+    friendly_name: "Luxtronik 25 TWQ ein °C"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+      {{ ((state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_heat_source_in'])|round(1)) }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_twq_ein') }}
+    {%- endif %}"
+    device_class: temperature
+    unit_of_measurement: "°C"
+    unique_id: template.sensor_luxtronik25_twq_ein
+
+  # Temperatur Wärmequelle Austritt (aus der Maschine heraus)
+  luxtronik25_twq_aus:
+    friendly_name: "Luxtronik 25 TWQ aus °C"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+      {{ ((state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_heat_source_out'])|round(1)) }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_twq_aus') }}
+    {%- endif %}"
+    device_class: temperature
+    unit_of_measurement: "°C"
+    unique_id: template.sensor_luxtronik25_twq_aus
+
+  # Temperatur Spreizung Wärmequelle Austritt & Eintritt
+  luxtronik25_spz_twq_ein_aus:
+    friendly_name: "Luxtronik 25 Spreizung TWQ ein & aus °C"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+      {{ (state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_heat_source_in'] - state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_heat_source_out'])|round(1) }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_spz_twq_ein_aus') }}
+    {%- endif %}"
+    device_class: temperature
+    unit_of_measurement: "°C"
+    unique_id: template.sensor_luxtronik25_spz_twq_ein_aus
+
+  # Temperatur Wärmequelle Eintritt (in die Maschine hinein) (korrigiert)
+  luxtronik25_twq_ein_korr:
+    friendly_name: "Luxtronik 25 TWQ ein °C korrigiert"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+      {{ ((state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_heat_source_in'])+states('input_number.luxtronik_25_twq_ein_offset')|round(1)) }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_twq_ein_korr') }}
+    {%- endif %}"
+    device_class: temperature
+    unit_of_measurement: "°C"
+    unique_id: template.sensor_luxtronik25_twq_ein_korr
+
+  # Temperatur Wärmequelle Austritt (aus der Maschine heraus) (korrigiert)
+  luxtronik25_twq_aus_korr:
+    friendly_name: "Luxtronik 25 TWQ aus °C korrigiert"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+      {{ ((state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_heat_source_out'])+states('input_number.luxtronik_25_twq_aus_offset')|round(1)) }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_twq_aus_korr') }}
+    {%- endif %}"
+    device_class: temperature
+    unit_of_measurement: "°C"
+    unique_id: template.sensor_luxtronik25_twq_aus_korr
+
+  # Temperatur Wärmequelle Austritt (aus der Maschine heraus) (korrigiert) AVG min
+  luxtronik25_twq_aus_korr_avg_min:
+    friendly_name: "Luxtronik 25 TWQ aus °C korrigiert AVG min"
+    value_template: "{% if states('sensor.average_luxtronik_25_twq_aus_korr_degc') != ('unknown' or 'unavailable') -%}
+      {{ state_attr('sensor.average_luxtronik_25_twq_aus_korr_degc','min_value') }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_twq_aus_korr_avg_min') }}
+    {%- endif %}"
+    device_class: temperature
+    unit_of_measurement: "°C"
+    unique_id: template.sensor_luxtronik25_twq_aus_korr_avg_min
+
+  # Temperatur Spreizung Wärmequelle Eintritt & Austritt (korrigiert)
+  luxtronik25_spz_twq_ein_aus_korr:
+    friendly_name: "Luxtronik 25 Spreizung TWQ ein & aus °C"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+      {{ ((state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_heat_source_in']+states('input_number.luxtronik_25_twq_ein_offset')|float)-(state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_heat_source_out']+states('input_number.luxtronik_25_twq_aus_offset')|float))|round(1) }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_spz_twq_ein_aus_korr') }}
+    {%- endif %}"
+    device_class: temperature
+    unit_of_measurement: "°C"
+    unique_id: template.sensor_luxtronik25_spz_twq_ein_aus_korr
+
+# Hysterese Brauchwasser 
+  luxtronik25_hyst_ww:
+    friendly_name: "Luxtronik 25 Hysterese WW °C"
+    value_template: "{% if states('sensor.luxtronik_25_param_state') == 'OK' -%}
+      {{ state_attr('sensor.luxtronik_25_param_state', 'parameters')['hotWaterTemperatureHysteresis'] }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_hyst_ww') }}
+    {%- endif %}"
+    device_class: temperature
+    unit_of_measurement: "°C"
+    unique_id: template.sensor_luxtronik25_hyst_ww
+
+# Hysterese Heizungsregler 
+  luxtronik25_hyst_hr:
+    friendly_name: "Luxtronik 25 Hysterese HR °C"
+    value_template: "{% if states('sensor.luxtronik_25_param_state') == 'OK' -%}
+      {{ state_attr('sensor.luxtronik_25_param_state', 'parameters')['returnTemperatureHysteresis'] }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_hyst_hr') }}
+    {%- endif %}"
+    device_class: temperature
+    unit_of_measurement: "°C"
+    unique_id: template.sensor_luxtronik25_hyst_hr
+
+# Heizgrenze 
+  luxtronik25_heizgrenze:
+    friendly_name: "Luxtronik 25 Heizgrenze °C"
+    value_template: "{% if states('sensor.luxtronik_25_param_state') == 'OK' -%}
+      {{ state_attr('sensor.luxtronik_25_param_state', 'parameters')['thresholdHeatingLimit'] }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_heizgrenze') }}
+    {%- endif %}"
+    device_class: temperature
+    unit_of_measurement: "°C"
+    unique_id: template.sensor_luxtronik25_heizgrenze
+
+# Temperatur Heissgas
+  luxtronik25_hg:
+    friendly_name: "Luxtronik 25 HG °C (Heissgas)"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+      {{ state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_hot_gas'] }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_hg') }}
+    {%- endif %}"
+    device_class: temperature
+    unit_of_measurement: "°C"
+    unique_id: template.sensor_luxtronik25_hg
+
+# Bivalenz Level
+  luxtronik25_biv:
+    friendly_name: "Luxtronik 25 BIV (Bivalenz Level)"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+      {{ state_attr('sensor.luxtronik_25_value_state', 'values')['bivalentLevel'] }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_biv') }}
+    {%- endif %}"
+    unique_id: template.sensor_luxtronik25_biv
+
+# Betriebszustand aktuell
+  luxtronik25_bz:
+    friendly_name: "Luxtronik 25 BZ (Betriebszustand)"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+      {{ state_attr('sensor.luxtronik_25_value_state', 'values')['WP_BZ_akt'] }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_bz') }}
+    {%- endif %}"
+    unique_id: template.sensor_luxtronik25_bz
+
+# hs1 heatpump_state1 Haus 25
+  luxtronik25_hs1:
+    friendly_name: "Luxtronik 25 hs1 (heatpump_state1)"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+      {{ state_attr('sensor.luxtronik_25_value_state', 'values')['heatpump_state1'] }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_hs1') }}
+    {%- endif %}"
+    unique_id: template.sensor_luxtronik25_hs1
+
+# hs2 heatpump_state2 Haus 25
+  luxtronik25_hs2:
+    friendly_name: "Luxtronik 25 hs2 (heatpump_state2)"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+      {{ state_attr('sensor.luxtronik_25_value_state', 'values')['heatpump_state2'] }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_hs2') }}
+    {%- endif %}"
+    unique_id: template.sensor_luxtronik25_hs2
+
+# hs3 heatpump_state3 Haus 25
+  luxtronik25_hs3:
+    friendly_name: "Luxtronik 25 hs3 (heatpump_state3)"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+      {{ state_attr('sensor.luxtronik_25_value_state', 'values')['heatpump_state3'] }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_hs3') }}
+    {%- endif %}"
+    unique_id: template.sensor_luxtronik25_hs3
+
+# osh opStateHeating Haus 25
+  luxtronik25_osh:
+    friendly_name: "Luxtronik 25 osh (opStateHeating)"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+      {{ state_attr('sensor.luxtronik_25_value_state', 'values')['opStateHeating'] }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_osh') }}
+    {%- endif %}"
+    unique_id: template.sensor_luxtronik25_osh
+
+# osm1 opStateMixer1 Haus 25
+  luxtronik25_osm1:
+    friendly_name: "Luxtronik 25 osm1 (opStateMixer1)"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+      {{ state_attr('sensor.luxtronik_25_value_state', 'values')['opStateMixer1'] }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_osm1') }}
+    {%- endif %}"
+    unique_id: template.sensor_luxtronik25_osm1
+
+# osm2 opStateMixer2 Haus 25
+  luxtronik25_osm2:
+    friendly_name: "Luxtronik 25 osm2 (opStateMixer2)"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+      {{ state_attr('sensor.luxtronik_25_value_state', 'values')['opStateMixer2'] }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_osm2') }}
+    {%- endif %}"
+    unique_id: template.sensor_luxtronik25_osm2
+
+# osm3 opStateMixer3 Haus 25
+  luxtronik25_osm3:
+    friendly_name: "Luxtronik 25 osm3 (opStateMixer3)"
+    value_template: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+      {{ state_attr('sensor.luxtronik_25_value_state', 'values')['opStateMixer3'] }}
+    {%- else -%}
+      {{ states('sensor.luxtronik25_osm3') }}
+    {%- endif %}"
+    unique_id: template.sensor_luxtronik25_osm3

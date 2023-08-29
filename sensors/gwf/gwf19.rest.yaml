@@ -1,0 +1,10 @@
+platform: rest
+method: GET
+resource: !secret url_sensor_gwf_19
+name: GWF 19 State
+unique_id: rest.sensor_gwf_19_state
+value_template: "{% if state_attr('sensor.gwf_19_state', 'gwf')|safe == 'None' -%}NOK{%- else -%}OK{%- endif %}"
+scan_interval: 300
+json_attributes:
+  - "gwf"
+  - "old"

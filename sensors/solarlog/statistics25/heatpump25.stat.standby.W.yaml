@@ -1,0 +1,12 @@
+# ####### ######################### #######
+# ####### Statistik Sensor Solarlog #######
+# ####### ######################### #######
+
+# Ableitung von Template Sensor solar_25.tpl.W.yaml
+platform: statistics
+unique_id: energy_statistic_heatpump_25_standby_power
+entity_id: sensor.solar_consumption_25_standby
+name: "Energy Statistic Heatpump 25 Standby W"
+state_characteristic: mean
+sampling_size: 5
+precision: 0

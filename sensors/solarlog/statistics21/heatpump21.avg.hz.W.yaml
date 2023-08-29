@@ -1,0 +1,12 @@
+# ####### ####################### #######
+# ####### Avarage Sensor Solarlog #######
+# ####### ####################### #######
+
+# Ableitung von Template Sensor solar_21.tpl.W.yaml
+platform: average
+name: "Average Heatpump 21 HZ"
+unique_id: average_heatpump_21_hz_power
+entities: 
+  - sensor.energy_statistic_heatpump_21_hz_w
+duration:
+  days: 5

@@ -1,0 +1,5 @@
+  luxtronik_set_temperature_hot_water_target:
+    url: !secret url_luxtronik_set_temperature_hot_water_target
+    method: POST
+    payload: 'temperature_hot_water_target={{ temperatur }}'
+    content_type: 'application/x-www-form-urlencoded; charset=utf-8'

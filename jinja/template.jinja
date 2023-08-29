@@ -1,0 +1,314 @@
+
+{{ 
+  (now().hour > 22 or now().hour < 6)
+  and states('sensor.netatmo_keller_buhler_noise')|int < 46
+}}
+
+
+{{ 
+     (states('sensor.netatmo_keller_buhler_absolute_feuchte') <
+      states('sensor.netatmo_outdoor_absolute_feuchte')) 
+  or (states('sensor.netatmo_keller_gang_absolute_feuchte') <
+      states('sensor.netatmo_outdoor_absolute_feuchte')) 
+}}
+
+{{(states('sensor.solar_consumption_19_ww') 
+  if states('sensor.luxtronik19_bz') == ('unknown' or 'unavailable') 
+  or states('sensor.solarlog_19_consumption_ac') == ('unknown' or 'unavailable') 
+  else (states('sensor.solarlog_19_consumption_ac')
+        if states('sensor.luxtronik19_bz')|int == 1 
+        or (states('sensor.luxtronik19_bz')|int == 5 
+        and states('sensor.luxtronik19_hs3')|int == 9)
+        else 0)
+  )|float|round(0)}}
+  
+{{(states('sensor.solar_consumption_19_ww') 
+  if states('sensor.luxtronik19_bz') == ('unknown' or 'unavailable') 
+  or states('sensor.solarlog_19_consumption_ac') == ('unknown' or 'unavailable') 
+  else (states('sensor.solarlog_19_consumption_ac') 
+        if states('sensor.luxtronik19_bz')|int == 1 
+        and (states('sensor.luxtronik19_hs3')|int == 5 
+             or states('sensor.luxtronik19_hs3')|int == 9)
+        else 0)
+  )|float|round(0)}}
+
+{{(states('sensor.solar_consumption_19_ww') 
+  if states('sensor.luxtronik19_bz') == ('unknown' or 'unavailable') 
+  or states('sensor.solarlog_19_consumption_ac') == ('unknown' or 'unavailable') 
+  else (states('sensor.solarlog_19_consumption_ac') 
+        if states('sensor.luxtronik19_bz')|int == 5 
+        and states('sensor.luxtronik19_hs3')|int == 9
+        else 0)
+  )|float|round(0)}}
+
+{{(states('sensor.solar_consumption_19_hz') 
+  if states('sensor.luxtronik19_bz') == ('unknown' or 'unavailable') 
+  or states('sensor.solarlog_19_consumption_ac') == ('unknown' or 'unavailable') 
+  else (states('sensor.solarlog_19_consumption_ac') 
+        if states('sensor.luxtronik19_bz')|int == 0 
+        and states('input_boolean.luxtronik_heizphase_haus_19')
+        else 0)
+  )|float|round(0)}}
+
+{{(states('sensor.solar_consumption_19_standby') 
+  if states('sensor.luxtronik19_bz') == ('unknown' or 'unavailable') 
+  or states('sensor.solarlog_19_consumption_ac') == ('unknown' or 'unavailable') 
+  else (states('sensor.solarlog_19_consumption_ac') 
+        if states('sensor.luxtronik19_bz')|int != 0 
+        and states('sensor.luxtronik19_bz')|int != 5 
+        and states('sensor.luxtronik19_hs3')|int != 9
+        else 0)
+  )|float|round(0)}}
+  
+{{( states('input_number.anzahl_zaptec_stationen')|int if states('device_tracker.rotseepark_dm') != ('home') 
+                      else states.device_tracker
+                      |selectattr('entity_id', 'search', 'device_tracker.z')
+                      |selectattr('attributes.essid', 'search', 'eRotseepark')
+                      |map(attribute='state')
+                      |list|count)}}
+                    
+{{states.media_player
+ |selectattr('entity_id', 'search', '_tv')
+ |rejectattr('entity_id', 'search', 'tv_')
+ |map(attribute='state')
+ |select('eq','off')
+  |list|count}}
+
+{{ (
+      (0 if states('sensor.shelly_e_mobilitat_phase_a_active_power') == ('unknown' or 'unavailable') else states('sensor.shelly_e_mobilitat_phase_a_active_power')|float) +
+      (0 if states('sensor.shelly_e_mobilitat_phase_b_active_power') == ('unknown' or 'unavailable') else states('sensor.shelly_e_mobilitat_phase_b_active_power')|float) +
+      (0 if states('sensor.shelly_e_mobilitat_phase_c_active_power') == ('unknown' or 'unavailable') else states('sensor.shelly_e_mobilitat_phase_c_active_power')|float)
+    )|round(0) }}
+
+{{ (states('input_number.ewl_mixstrom_tagestarif')|float - 0.002) }}
+
+
+{{(states('sensor.solar_consumption_19_ww') 
+  if states('sensor.luxtronik19_bz') == ('unknown' or 'unavailable') 
+  or states('sensor.solarlog_19_consumption_ac') == ('unknown' or 'unavailable') 
+  else (0 
+        if states('sensor.luxtronik19_bz')|int == 0 
+        else states('sensor.solarlog_19_consumption_ac'))
+  )|float|round(0)}}
+
+
+{{(states('sensor.solar_consumption_19_hz') 
+  if states('sensor.luxtronik19_bz') == ('unknown' or 'unavailable') 
+  or states('sensor.solarlog_19_consumption_ac') == ('unknown' or 'unavailable') 
+  else (0 
+        if states('sensor.luxtronik19_bz')|int != 0 
+        or not states('input_boolean.luxtronik_heizphase_haus_19')
+        else states('sensor.solarlog_19_consumption_ac'))
+  )|float|round(0)}}
+
+
+{{ 
+    ((states('sensor.forecast_solar_production_now_1')|replace('unavailable', 0)|float +
+    states('sensor.forecast_solar_production_now_2')|replace('unavailable', 0)|float +
+    states('sensor.forecast_solar_production_now_3')|replace('unavailable', 0)|float +
+    states('sensor.forecast_solar_production_now_4')|replace('unavailable', 0)|float +
+    states('sensor.forecast_solar_production_now_5')|replace('unavailable', 0)|float +
+    states('sensor.forecast_solar_production_now_6')|replace('unavailable', 0)|float +
+    states('sensor.forecast_solar_production_now_7')|replace('unavailable', 0)|float +
+    states('sensor.forecast_solar_production_now_8')|replace('unavailable', 0)|float)/1000)|round(0)
+    }}
+
+{{ states('forecast_solar_production_today_remaining_1') 
+  if states('sensor.energy_production_today_remaining')|safe == 'unavailable' 
+  else states('sensor.energy_production_today_remaining')|float 
+    }}
+
+{{ (state_attr('sensor.luxtronik_19_param_state', 'parameters')['hotWaterTemperatureHysteresis'] 
+    != states('input_number.luxtronik_19_ww_hysterese')|int) 
+    and (state_attr('automation.schalte_ww_setze_ww_hysterese_haus_19_bei_anderung','current')|int == 0) 
+}}
+
+{{ state_attr('automation.schalte_ww_setze_ww_hysterese_haus_19_bei_anderung','current')|int > 0 }}
+
+{{ true if (states('sensor.luxtronik21_tbw')|int < (states('input_number.luxtronik_ww_normaltemperatur')|int - (states('input_number.luxtronik_ww_normalhysterese')|int * 0.5 ))|int 
+ and now().hour >= 2 and now().hour <= 4
+ and states('sensor.forecast_solar_production_production_today')|int < 200) 
+ else false
+}}
+
+{{
+            (state_attr('sensor.luxtronik_19_param_state','parameters')['hotWaterTemperatureHysteresis']
+            == states('input_number.luxtronik_19_ww_hysterese')|int) }}
+
+{{ true if 
+  (states('sensor.luxtronik19_tbw')|int <
+  (states('input_number.luxtronik_ww_normaltemperatur')|int -
+  (states('input_number.luxtronik_ww_normalhysterese')|int / 3 * 2))|int 
+   and now().hour >= 13 and now().hour <= 19) or
+  (states('sensor.luxtronik19_tbw')|int <
+  (states('input_number.luxtronik_ww_normaltemperatur')|int -
+  (states('input_number.luxtronik_ww_normalhysterese')|int / 5 * 4))|int 
+   and now().hour >= 9 and now().hour <= 15) or
+  (states('sensor.luxtronik19_tbw')|int <
+  (states('input_number.luxtronik_ww_normaltemperatur')|int -
+  (states('input_number.luxtronik_ww_normalhysterese')|int / 9 * 8))|int 
+   and now().hour >= 6 and now().hour <= 12)
+   else false
+  }}
+
+{{ now().hour < 10 }}
+
+Stufe1: {{(states('input_number.luxtronik_ww_normaltemperatur')|int - (states('input_number.luxtronik_ww_normalhysterese')|int / 3 * 2))|int}}
+Stufe2: {{(states('input_number.luxtronik_ww_normaltemperatur')|int - (states('input_number.luxtronik_ww_normalhysterese')|int / 5 * 4))|int}}
+Stufe3: {{(states('input_number.luxtronik_ww_normaltemperatur')|int - (states('input_number.luxtronik_ww_normalhysterese')|int / 9 * 8))|int}}
+
+Stufe1: {{(states('input_number.luxtronik_ww_normaltemperatur')|int - (states('input_number.luxtronik_ww_normalhysterese')|int * 0.7))|int}}
+Stufe2: {{(states('input_number.luxtronik_ww_normaltemperatur')|int - (states('input_number.luxtronik_ww_normalhysterese')|int * 0.8))|int}}
+Stufe3: {{(states('input_number.luxtronik_ww_normaltemperatur')|int - (states('input_number.luxtronik_ww_normalhysterese')|int * 0.9))|int}}
+
+{{ true if states('sensor.luxtronik19_tbw')|int < (states('input_number.luxtronik_ww_normaltemperatur')|int - (states('input_number.luxtronik_ww_normalhysterese')|int / 5 * 4)) else false }}
+
+{{(100 
+                      if states('sensor.average_heatpump_19_hz_w') == ('unknown' or 'unavailable') 
+                      or states('sensor.average_heatpump_21_hz_w') == ('unknown' or 'unavailable') 
+                      or states('sensor.average_heatpump_23_hz_w') == ('unknown' or 'unavailable') 
+                      or states('sensor.average_heatpump_25_hz_w') == ('unknown' or 'unavailable') 
+                      or (states('sensor.average_heatpump_19_hz_w') == ('0.0') 
+                          and states('sensor.average_heatpump_21_hz_w') == ('0.0') 
+                          and states('sensor.average_heatpump_23_hz_w') == ('0.0') 
+                          and states('sensor.average_heatpump_25_hz_w') == ('0.0') )
+                      else 
+                       (states('sensor.average_heatpump_19_hz_w')|float / 
+                      ((states('sensor.average_heatpump_19_hz_w')|float+
+                        states('sensor.average_heatpump_21_hz_w')|float+
+                        states('sensor.average_heatpump_23_hz_w')|float+
+                        states('sensor.average_heatpump_25_hz_w')|float)/4))*100)
+                    |round(0)}}
+
+{{ states('sensor.average_heatpump_19_hz_w') }}
+
+{{ (states('sensor.luxtronik19_tbw_soll')|int -
+    states('sensor.luxtronik19_tbw')|int - 1 )|int }}
+{{ ((states('sensor.luxtronik21_tbw_soll')|int -
+    states('sensor.luxtronik21_tbw')|int) - 1)|int }}
+
+
+{{ (states('input_number.luxtronik_ww_normalhysterese')|int -
+    ((states('sensor.luxtronik21_tbw_soll')|int -
+    states('sensor.luxtronik21_tbw')|int)))|int }}
+
+{{ states('input_number.luxtronik_ww_normalhysterese')|int }}
+{{ states('sensor.luxtronik21_tbw_soll')|int }}
+{{ states('sensor.luxtronik21_tbw')|int }}
+
+
+{{ states('input_select.luxtronik_operation_mode_aus') }}
+
+{{ (states('input_number.luxtronik_19_ww_hysterese')|int - (states('sensor.luxtronik19_tbw_soll')|int - states('sensor.luxtronik19_tbw')|int + 1 ))|int }}
+
+{{ states('input_number.luxtronik_19_ww_hysterese')|int }}
+
+
+{{ states('input_select.luxtronik_operation_mode_automatik')|int }}
+{{ states('input_select.luxtronik_19_hz_operation_mode')|int }}
+
+{{states('input_number.luxtronik_ww_normaltemperatur')|int}}
+{{states('input_number.luxtronik_19_ww_solltemperatur')|int}}
+
+{{ (now().month == 5 and now().day > 15) or now().month == 6 }}
+
+{{state_attr('sensor.luxtronik_19_param_state', 'parameters')['heating_operation_mode_string'] != "Automatik" }}
+{{(state_attr('sensor.luxtronik_19_param_state', 'parameters')['heating_operation_mode'])|int != 0 }}
+{{states('input_select.luxtronik_19_hz_operation_mode')|int}}
+{{(state_attr('sensor.luxtronik_19_param_state', 'parameters')['heating_operation_mode'])|int}}
+{{(state_attr('sensor.luxtronik_19_param_state', 'parameters')['heating_operation_mode'])|int != states('input_select.luxtronik_19_hz_operation_mode')|int }}
+
+
+
+{{ states('sensor.luxtronik19_ta_mittel')|int <= states('sensor.luxtronik19_heizgrenze')|int }}
+
+
+{{state_attr('sensor.luxtronik_21_param_state',
+                  'parameters')['warmwater_temperature'] != states('input_number.luxtronik_21_ww_solltemperatur')|int }}
+
+{{ states('counter.heatpump_25_kompressor_start')|int - states('counter.heatpump_25_kompressor_start_cycle')|int }}
+{{ states('counter.heatpump_19_kompressor_start') }}
+
+{{ ((states('counter.heatpump_19_kompressor_start')|float) /
+    ((((now().timestamp() -
+    state_attr('input_datetime.heatpump_kompressor_start', 'timestamp')) / 24 /
+    60 / 60 ))))|round(1) }}
+
+
+
+{{ state_attr('input_datetime.heatpump_kompressor_start', 'timestamp') }}
+{{ now().timestamp() }}
+{{ ((now().timestamp() - state_attr('input_datetime.heatpump_kompressor_start', 'timestamp')) / 24 / 60 / 60)|round(0) }}
+{{ (states('counter.heatpump_19_kompressor_start')|float / (((now().timestamp() - state_attr('input_datetime.heatpump_kompressor_start', 'timestamp')) / 24 / 60 / 60)))|round(0) }}
+{{ ((states('counter.heatpump_25_kompressor_start')|float) /
+    (((now().timestamp() -
+    state_attr('input_datetime.heatpump_kompressor_start', 'timestamp')) / 24 /
+    60 / 60 )))|round(0) }}
+
+X: {{ states('counter.heatpump_25_kompressor_start')|float }}
+Y: {{ (((now().timestamp() -
+    state_attr('input_datetime.heatpump_kompressor_start', 'timestamp')) / 24 /
+    60 / 60 ))|round(0) }}
+Z: {{ (states('counter.heatpump_25_kompressor_start')|float) / ((((now().timestamp() - state_attr('input_datetime.heatpump_kompressor_start', 'timestamp')) / 24 / 60 / 60 ))|round(0)) }}
+
+{{
+  state_attr('sensor.luxtronik_21_value_state','values')['rawDeviceTimeCalc']|truncate(24,true,'',0)
+  }}: --- {{
+  state_attr('sensor.luxtronik_21_value_state','values')['heatpump_extendet_state_string']
+  }} | Warmwasser {{
+  state_attr('sensor.luxtronik_21_value_state','values')['opStateHotWaterString']
+  }} | Heizung {{
+  state_attr('sensor.luxtronik_21_value_state','values')['opStateHeatingString']
+  }} --- {{
+  state_attr('sensor.luxtronik_21_value_state','values')['heatpump_state_string']
+  }}
+
+
+{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{{ state_attr('sensor.luxtronik_19_value_state', 'values')['heatingSystemCircPump'] }}{%- else -%}{{ states('sensor.luxtronik19_heatingSystemCircPump') }}{%- endif %}
+
+{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['ASDin']|float == 1 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('sensor.luxtronik19_asd') }}{%- endif %}
+
+
+{{ (
+      (0 if states('sensor.janitza_umg604_power') == ('unknown' or 'unavailable') else states('sensor.janitza_umg604_power')|float) +
+      (0 if states('sensor.solar_power') == ('unknown' or 'unavailable') else states('sensor.solar_power')|float) -
+      (0 if states('sensor.heatpump_power') == ('unknown' or 'unavailable') else states('sensor.heatpump_power')|float) -
+      (0 if states('sensor.zaptec_power') == ('unknown' or 'unavailable') else states('sensor.zaptec_power')|float) -
+      (0 if states('sensor.mystrom_power') == ('unknown' or 'unavailable') else states('sensor.mystrom_power')|float) 
+    )|round(0) }}
+
+{{ (
+      ( states('sensor.janitza_umg604_power') if states('sensor.janitza_umg604_state')|safe == ('unknown' or 'unavailable') else state_attr('sensor.janitza_umg604_state', '_P_SUM3')|first|float)
+      + ((
+      ( states('sensor.solar_power_19') if states('sensor.solarlog_19_power_ac')|safe == ('unknown' or 'unavailable') else states('sensor.solarlog_19_power_ac')|float) +
+      ( states('sensor.solar_power_21') if states('sensor.solarlog_21_power_ac')|safe == ('unknown' or 'unavailable') else states('sensor.solarlog_21_power_ac')|float) +
+      ( states('sensor.solar_power_23') if states('sensor.solarlog_23_power_ac')|safe == ('unknown' or 'unavailable') else states('sensor.solarlog_23_power_ac')|float) +
+      ( states('sensor.solar_power_25') if states('sensor.solarlog_25_power_ac')|safe == ('unknown' or 'unavailable') else states('sensor.solarlog_25_power_ac')|float) 
+      ))
+      - ((
+      ( states('sensor.solar_consumption_19') if states('sensor.solarlog_19_consumption_ac')|safe == ('unknown' or 'unavailable') else states('sensor.solarlog_19_consumption_ac')|float) +
+      ( states('sensor.solar_consumption_21') if states('sensor.solarlog_21_consumption_ac')|safe == ('unknown' or 'unavailable') else states('sensor.solarlog_21_consumption_ac')|float) +
+      ( states('sensor.solar_consumption_23') if states('sensor.solarlog_23_consumption_ac')|safe == ('unknown' or 'unavailable') else states('sensor.solarlog_23_consumption_ac')|float) +
+      ( states('sensor.solar_consumption_25') if states('sensor.solarlog_25_consumption_ac')|safe == ('unknown' or 'unavailable') else states('sensor.solarlog_25_consumption_ac')|float) 
+      ))
+      - ((
+      ( 0 if states('sensor.zaptec_charger_zpr055424')|safe == ('unknown' or 'unavailable') else state_attr('sensor.zaptec_charger_zpr055424', 'total_charge_power')|float) +
+      ( 0 if states('sensor.zaptec_charger_zpr111423')|safe == ('unknown' or 'unavailable') else state_attr('sensor.zaptec_charger_zpr111423', 'total_charge_power')|float) +
+      ( 0 if states('sensor.zaptec_charger_zpr118007')|safe == ('unknown' or 'unavailable') else state_attr('sensor.zaptec_charger_zpr118007', 'total_charge_power')|float) +
+      ( 0 if states('sensor.zaptec_charger_zpr124763')|safe == ('unknown' or 'unavailable') else state_attr('sensor.zaptec_charger_zpr124763', 'total_charge_power')|float) +
+      ( 0 if states('sensor.zaptec_charger_zpr211132')|safe == ('unknown' or 'unavailable') else state_attr('sensor.zaptec_charger_zpr211132', 'total_charge_power')|float) 
+      ))
+      - ((
+      ((state_attr('sensor.mystrom_201_report', 'power')|replace('None', 0) if state_attr('sensor.mystrom_201_report', 'Ws')|safe == 'None' else state_attr('sensor.mystrom_201_report', 'Ws')|replace('None', 0))|float) +
+      ((state_attr('sensor.mystrom_202_report', 'power')|replace('None', 0) if state_attr('sensor.mystrom_202_report', 'Ws')|safe == 'None' else state_attr('sensor.mystrom_202_report', 'Ws')|replace('None', 0))|float) +
+      ((state_attr('sensor.mystrom_203_report', 'power')|replace('None', 0) if state_attr('sensor.mystrom_203_report', 'Ws')|safe == 'None' else state_attr('sensor.mystrom_203_report', 'Ws')|replace('None', 0))|float) +
+      ((state_attr('sensor.mystrom_204_report', 'power')|replace('None', 0) if state_attr('sensor.mystrom_204_report', 'Ws')|safe == 'None' else state_attr('sensor.mystrom_204_report', 'Ws')|replace('None', 0))|float) +
+      ((state_attr('sensor.mystrom_205_report', 'power')|replace('None', 0) if state_attr('sensor.mystrom_205_report', 'Ws')|safe == 'None' else state_attr('sensor.mystrom_205_report', 'Ws')|replace('None', 0))|float) +
+      ((state_attr('sensor.mystrom_206_report', 'power')|replace('None', 0) if state_attr('sensor.mystrom_206_report', 'Ws')|safe == 'None' else state_attr('sensor.mystrom_206_report', 'Ws')|replace('None', 0))|float) +
+      ((state_attr('sensor.mystrom_207_report', 'power')|replace('None', 0) if state_attr('sensor.mystrom_207_report', 'Ws')|safe == 'None' else state_attr('sensor.mystrom_207_report', 'Ws')|replace('None', 0))|float) +
+      ((state_attr('sensor.mystrom_208_report', 'power')|replace('None', 0) if state_attr('sensor.mystrom_208_report', 'Ws')|safe == 'None' else state_attr('sensor.mystrom_208_report', 'Ws')|replace('None', 0))|float) +
+      ((state_attr('sensor.mystrom_209_report', 'power')|replace('None', 0) if state_attr('sensor.mystrom_209_report', 'Ws')|safe == 'None' else state_attr('sensor.mystrom_209_report', 'Ws')|replace('None', 0))|float) +
+      ((state_attr('sensor.mystrom_210_report', 'power')|replace('None', 0) if state_attr('sensor.mystrom_210_report', 'Ws')|safe == 'None' else state_attr('sensor.mystrom_210_report', 'Ws')|replace('None', 0))|float) +
+      ((state_attr('sensor.mystrom_211_report', 'power')|replace('None', 0) if state_attr('sensor.mystrom_211_report', 'Ws')|safe == 'None' else state_attr('sensor.mystrom_211_report', 'Ws')|replace('None', 0))|float)
+      )) 
+      )|round(0) }}
