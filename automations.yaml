@@ -229,7 +229,7 @@
         conditions:
         - condition: numeric_state
           entity_id: sensor.luxtronik19_ta_mittel
-          below: 18
+          below: 16
         - condition: template
           value_template: '{{ now().month == 9 }}'
           alias: Es ist September
@@ -244,8 +244,8 @@
       - service: notify.administrator_rotseepark
         data:
           title: 'HA-Info Heatpump 19: Die Kühlphase ist beendet'
-          message: none
-      alias: Kühlphase ausschalten im September wenn TA Mittel unter 18 °C
+          message: Es ist September und TA-Mittel ist unterhalb 16 °C
+      alias: Kühlphase ausschalten im September wenn TA Mittel unter 16 °C
   - if:
     - condition: template
       value_template: '{% if state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')|safe
@@ -994,7 +994,7 @@
         conditions:
         - condition: numeric_state
           entity_id: sensor.luxtronik21_ta_mittel
-          below: 17
+          below: 14
         - condition: template
           value_template: '{{ now().month == 9 }}'
           alias: Es ist September
@@ -1009,8 +1009,8 @@
       - service: notify.administrator_rotseepark
         data:
           title: 'HA-Info Heatpump 21: Die Kühlphase ist beendet'
-          message: none
-      alias: Kühlphase ausschalten im September wenn TA Mittel unter 17 °C
+          message: Es ist September und TA-Mittel ist unterhalb 14 °C
+      alias: Kühlphase ausschalten im September wenn TA Mittel unter 14 °C
   - if:
     - condition: template
       value_template: '{% if state_attr(''sensor.luxtronik_21_param_state'', ''parameters'')|safe
@@ -1765,7 +1765,7 @@
         conditions:
         - condition: numeric_state
           entity_id: sensor.luxtronik23_ta_mittel
-          below: 18
+          below: 16
         - condition: template
           value_template: '{{ now().month == 9 }}'
           alias: Es ist September
@@ -1780,8 +1780,8 @@
       - service: notify.administrator_rotseepark
         data:
           title: 'HA-Info Heatpump 23: Die Kühlphase ist beendet'
-          message: none
-      alias: Kühlphase ausschalten im September wenn TA Mittel unter 18 °C
+          message: Es ist September und TA-Mittel ist unterhalb 16 °C
+      alias: Kühlphase ausschalten im September wenn TA Mittel unter 16 °C
   - if:
     - condition: template
       value_template: '{% if state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')|safe
@@ -2536,7 +2536,7 @@
         conditions:
         - condition: numeric_state
           entity_id: sensor.luxtronik25_ta_mittel
-          below: 17
+          below: 14
         - condition: template
           value_template: '{{ now().month == 9 }}'
           alias: Es ist September
@@ -2551,8 +2551,8 @@
       - service: notify.administrator_rotseepark
         data:
           title: 'HA-Info Heatpump 25: Die Kühlphase ist beendet'
-          message: none
-      alias: Kühlphase ausschalten im September wenn TA Mittel unter 17 °C
+          message: Es ist September und TA-Mittel ist unterhalb 14 °C
+      alias: Kühlphase ausschalten im September wenn TA Mittel unter 14 °C
   - if:
     - condition: template
       value_template: '{% if state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')|safe
@@ -6746,6 +6746,11 @@
       - sensor.heatpump_21_ww_power_consumption_helper
       - sensor.gwf_21_hz_ug_kw_helper
     alias: Zurücksetzen der Utility Meter für Warmwasser Erzeugung kW und Stromverbrauch
+  - delay:
+      hours: 0
+      minutes: 2
+      seconds: 0
+      milliseconds: 0
   - service: input_number.set_value
     data:
       value: '{{ states(''sensor.luxtronik21_tbw'')|float }}'

@@ -20,7 +20,7 @@ sensors:
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.forecast_solar_production_now
 
   forecast_solar_production_current_hour:
@@ -38,7 +38,7 @@ sensors:
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.forecast_solar_production_current_hour
 
   forecast_solar_production_next_hour:
@@ -56,7 +56,7 @@ sensors:
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.forecast_solar_production_next_hour
 
   forecast_solar_production_production_today:
@@ -74,7 +74,7 @@ sensors:
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.forecast_solar_production_production_today
 
   forecast_solar_production_production_tomorrow:
@@ -92,7 +92,7 @@ sensors:
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.forecast_solar_production_production_tomorrow
 
   forecast_solar_production_today_remaining:
@@ -110,7 +110,7 @@ sensors:
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.forecast_solar_production_remaining_today
 
 #
@@ -122,56 +122,56 @@ sensors:
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_now_2:
     friendly_name: "Forecast Solar Production Now kW 2"
     value_template: "{{ states('forecast_solar_production_now_2') if states('sensor.power_production_now_4')|safe == 'unavailable' else states('sensor.power_production_now_4')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_now_3:
     friendly_name: "Forecast Solar Production Now kW 3"
     value_template: "{{ states('forecast_solar_production_now_3') if states('sensor.power_production_now_5')|safe == 'unavailable' else states('sensor.power_production_now_5')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_now_4:
     friendly_name: "Forecast Solar Production Now kW 4"
     value_template: "{{ states('forecast_solar_production_now_4') if states('sensor.power_production_now_6')|safe == 'unavailable' else states('sensor.power_production_now_6')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_now_5:
     friendly_name: "Forecast Solar Production Now kW 5"
     value_template: "{{ states('forecast_solar_production_now_5') if states('sensor.power_production_now_7')|safe == 'unavailable' else states('sensor.power_production_now_7')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_now_6:
     friendly_name: "Forecast Solar Production Now kW 6"
     value_template: "{{ states('forecast_solar_production_now_6') if states('sensor.power_production_now_8')|safe == 'unavailable' else states('sensor.power_production_now_8')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_now_7:
     friendly_name: "Forecast Solar Production Now kW 7"
     value_template: "{{ states('forecast_solar_production_now_7') if states('sensor.power_production_now_9')|safe == 'unavailable' else states('sensor.power_production_now_9')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_now_8:
     friendly_name: "Forecast Solar Production Now kW 8"
     value_template: "{{ states('forecast_solar_production_now_8') if states('sensor.power_production_now_10')|safe == 'unavailable' else states('sensor.power_production_now_10')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
 #
 # Einzelsensoren Current Hour mit "unavailable" Schutz
 #
@@ -181,56 +181,56 @@ sensors:
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_current_hour_2:
     friendly_name: "Forecast Solar Production Current_hour kW 2"
     value_template: "{{ states('forecast_solar_production_current_hour_2') if states('sensor.energy_current_hour_4')|safe == 'unavailable' else states('sensor.energy_current_hour_4')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_current_hour_3:
     friendly_name: "Forecast Solar Production Current_hour kW 3"
     value_template: "{{ states('forecast_solar_production_current_hour_3') if states('sensor.energy_current_hour_5')|safe == 'unavailable' else states('sensor.energy_current_hour_5')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_current_hour_4:
     friendly_name: "Forecast Solar Production Current_hour kW 4"
     value_template: "{{ states('forecast_solar_production_current_hour_4') if states('sensor.energy_current_hour_6')|safe == 'unavailable' else states('sensor.energy_current_hour_6')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_current_hour_5:
     friendly_name: "Forecast Solar Production Current_hour kW 5"
     value_template: "{{ states('forecast_solar_production_current_hour_5') if states('sensor.energy_current_hour_7')|safe == 'unavailable' else states('sensor.energy_current_hour_7')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_current_hour_6:
     friendly_name: "Forecast Solar Production Current_hour kW 6"
     value_template: "{{ states('forecast_solar_production_current_hour_6') if states('sensor.energy_current_hour_8')|safe == 'unavailable' else states('sensor.energy_current_hour_8')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_current_hour_7:
     friendly_name: "Forecast Solar Production Current_hour kW 7"
     value_template: "{{ states('forecast_solar_production_current_hour_7') if states('sensor.energy_current_hour_9')|safe == 'unavailable' else states('sensor.energy_current_hour_9')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_current_hour_8:
     friendly_name: "Forecast Solar Production Current_hour kW 8"
     value_template: "{{ states('forecast_solar_production_current_hour_8') if states('sensor.energy_current_hour_10')|safe == 'unavailable' else states('sensor.energy_current_hour_10')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
 #
 # Einzelsensoren Next Hour mit "unavailable" Schutz
 #
@@ -240,56 +240,56 @@ sensors:
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_next_hour_2:
     friendly_name: "Forecast Solar Production Next_hour kW 2"
     value_template: "{{ states('forecast_solar_production_next_hour_2') if states('sensor.energy_next_hour_4')|safe == 'unavailable' else states('sensor.energy_next_hour_4')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_next_hour_3:
     friendly_name: "Forecast Solar Production Next_hour kW 3"
     value_template: "{{ states('forecast_solar_production_next_hour_3') if states('sensor.energy_next_hour_5')|safe == 'unavailable' else states('sensor.energy_next_hour_5')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_next_hour_4:
     friendly_name: "Forecast Solar Production Next_hour kW 4"
     value_template: "{{ states('forecast_solar_production_next_hour_4') if states('sensor.energy_next_hour_6')|safe == 'unavailable' else states('sensor.energy_next_hour_6')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_next_hour_5:
     friendly_name: "Forecast Solar Production Next_hour kW 5"
     value_template: "{{ states('forecast_solar_production_next_hour_5') if states('sensor.energy_next_hour_7')|safe == 'unavailable' else states('sensor.energy_next_hour_7')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_next_hour_6:
     friendly_name: "Forecast Solar Production Next_hour kW 6"
     value_template: "{{ states('forecast_solar_production_next_hour_6') if states('sensor.energy_next_hour_8')|safe == 'unavailable' else states('sensor.energy_next_hour_8')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_next_hour_7:
     friendly_name: "Forecast Solar Production Next_hour kW 7"
     value_template: "{{ states('forecast_solar_production_next_hour_7') if states('sensor.energy_next_hour_9')|safe == 'unavailable' else states('sensor.energy_next_hour_9')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_next_hour_8:
     friendly_name: "Forecast Solar Production Next_hour kW 8"
     value_template: "{{ states('forecast_solar_production_next_hour_8') if states('sensor.energy_next_hour_10')|safe == 'unavailable' else states('sensor.energy_next_hour_10')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
 #
 # Einzelsensoren Today mit "unavailable" Schutz
 #
@@ -299,56 +299,56 @@ sensors:
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_today_2:
     friendly_name: "Forecast Solar Production Today kW 2"
     value_template: "{{ states('forecast_solar_production_today_2') if states('sensor.energy_production_today_4')|safe == 'unavailable' else states('sensor.energy_production_today_4')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_today_3:
     friendly_name: "Forecast Solar Production Today kW 3"
     value_template: "{{ states('forecast_solar_production_today_3') if states('sensor.energy_production_today_5')|safe == 'unavailable' else states('sensor.energy_production_today_5')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_today_4:
     friendly_name: "Forecast Solar Production Today kW 4"
     value_template: "{{ states('forecast_solar_production_today_4') if states('sensor.energy_production_today_6')|safe == 'unavailable' else states('sensor.energy_production_today_6')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_today_5:
     friendly_name: "Forecast Solar Production Today kW 5"
     value_template: "{{ states('forecast_solar_production_today_5') if states('sensor.energy_production_today_7')|safe == 'unavailable' else states('sensor.energy_production_today_7')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_today_6:
     friendly_name: "Forecast Solar Production Today kW 6"
     value_template: "{{ states('forecast_solar_production_today_6') if states('sensor.energy_production_today_8')|safe == 'unavailable' else states('sensor.energy_production_today_8')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_today_7:
     friendly_name: "Forecast Solar Production Today kW 7"
     value_template: "{{ states('forecast_solar_production_today_7') if states('sensor.energy_production_today_9')|safe == 'unavailable' else states('sensor.energy_production_today_9')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_today_8:
     friendly_name: "Forecast Solar Production Today kW 8"
     value_template: "{{ states('forecast_solar_production_today_8') if states('sensor.energy_production_today_10')|safe == 'unavailable' else states('sensor.energy_production_today_10')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
 #
 # Einzelsensoren Tomorrow mit "unavailable" Schutz
 #
@@ -358,56 +358,56 @@ sensors:
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_tomorrow_2:
     friendly_name: "Forecast Solar Production Tomorrow kW 2"
     value_template: "{{ states('forecast_solar_production_tomorrow_2') if states('sensor.energy_production_tomorrow_4')|safe == 'unavailable' else states('sensor.energy_production_tomorrow_4')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_tomorrow_3:
     friendly_name: "Forecast Solar Production Tomorrow kW 3"
     value_template: "{{ states('forecast_solar_production_tomorrow_3') if states('sensor.energy_production_tomorrow_5')|safe == 'unavailable' else states('sensor.energy_production_tomorrow_5')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_tomorrow_4:
     friendly_name: "Forecast Solar Production Tomorrow kW 4"
     value_template: "{{ states('forecast_solar_production_tomorrow_4') if states('sensor.energy_production_tomorrow_6')|safe == 'unavailable' else states('sensor.energy_production_tomorrow_6')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_tomorrow_5:
     friendly_name: "Forecast Solar Production Tomorrow kW 5"
     value_template: "{{ states('forecast_solar_production_tomorrow_5') if states('sensor.energy_production_tomorrow_7')|safe == 'unavailable' else states('sensor.energy_production_tomorrow_7')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_tomorrow_6:
     friendly_name: "Forecast Solar Production Tomorrow kW 6"
     value_template: "{{ states('forecast_solar_production_tomorrow_6') if states('sensor.energy_production_tomorrow_8')|safe == 'unavailable' else states('sensor.energy_production_tomorrow_8')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_tomorrow_7:
     friendly_name: "Forecast Solar Production Tomorrow kW 7"
     value_template: "{{ states('forecast_solar_production_tomorrow_7') if states('sensor.energy_production_tomorrow_9')|safe == 'unavailable' else states('sensor.energy_production_tomorrow_9')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_tomorrow_8:
     friendly_name: "Forecast Solar Production Tomorrow kW 8"
     value_template: "{{ states('forecast_solar_production_tomorrow_8') if states('sensor.energy_production_tomorrow_10')|safe == 'unavailable' else states('sensor.energy_production_tomorrow_10')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
 #
 # Einzelsensoren Today Remaining mit "unavailable" Schutz
 #
@@ -417,53 +417,53 @@ sensors:
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_today_remaining_2:
     friendly_name: "Forecast Solar Production Remaining Today kW 2"
     value_template: "{{ states('forecast_solar_production_today_remaining_2') if states('sensor.energy_production_today_remaining_2')|safe == 'unavailable' else states('sensor.energy_production_today_remaining_2')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_today_remaining_3:
     friendly_name: "Forecast Solar Production Remaining Today kW 3"
     value_template: "{{ states('forecast_solar_production_today_remaining_3') if states('sensor.energy_production_today_remaining_3')|safe == 'unavailable' else states('sensor.energy_production_today_remaining_3')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_today_remaining_4:
     friendly_name: "Forecast Solar Production Remaining Today kW 4"
     value_template: "{{ states('forecast_solar_production_today_remaining_4') if states('sensor.energy_production_today_remaining_4')|safe == 'unavailable' else states('sensor.energy_production_today_remaining_4')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_today_remaining_5:
     friendly_name: "Forecast Solar Production Remaining Today kW 5"
     value_template: "{{ states('forecast_solar_production_today_remaining_5') if states('sensor.energy_production_today_remaining_5')|safe == 'unavailable' else states('sensor.energy_production_today_remaining_5')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_today_remaining_6:
     friendly_name: "Forecast Solar Production Remaining Today kW 6"
     value_template: "{{ states('forecast_solar_production_today_remaining_6') if states('sensor.energy_production_today_remaining_6')|safe == 'unavailable' else states('sensor.energy_production_today_remaining_6')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_today_remaining_7:
     friendly_name: "Forecast Solar Production Remaining Today kW 7"
     value_template: "{{ states('forecast_solar_production_today_remaining_7') if states('sensor.energy_production_today_remaining_7')|safe == 'unavailable' else states('sensor.energy_production_today_remaining_7')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   forecast_solar_production_today_remaining_8:
     friendly_name: "Forecast Solar Production Remaining Today kW 8"
     value_template: "{{ states('forecast_solar_production_today_remaining_8') if states('sensor.energy_production_today_remaining_8')|safe == 'unavailable' else states('sensor.energy_production_today_remaining_8')|float }}"
     device_class: power
     unit_of_measurement: "kW"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"

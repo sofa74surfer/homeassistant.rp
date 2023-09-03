@@ -31,7 +31,7 @@ sensors:
     device_class: weight
     unit_of_measurement: "g"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.netatmo_keller_buhler_absolute_feuchte
 
 # sensor.netatmo_keller_gang_humidity
@@ -60,7 +60,7 @@ sensors:
     device_class: weight
     unit_of_measurement: "g"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.netatmo_keller_gang_absolute_feuchte
 
 # sensor.netatmo_outdoor_humidity
@@ -89,5 +89,5 @@ sensors:
     device_class: weight
     unit_of_measurement: "g"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.netatmo_outdoor_absolute_feuchte

@@ -11,7 +11,7 @@ sensors:
     device_class: power
     unit_of_measurement: "W"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.sensor_solar_power_21
 
   solar_yield_21_day:
@@ -20,7 +20,7 @@ sensors:
     device_class: power
     unit_of_measurement: "kWh"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.sensor_solar_yield_21_day
 
   solar_yield_21_yesterday:
@@ -29,7 +29,7 @@ sensors:
     device_class: power
     unit_of_measurement: "kWh"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.sensor_solar_yield_21_yesterday
 
   solar_yield_21_month:
@@ -38,7 +38,7 @@ sensors:
     device_class: power
     unit_of_measurement: "kWh"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.sensor_solar_yield_21_month
 
   solar_yield_21_year:
@@ -47,7 +47,7 @@ sensors:
     device_class: power
     unit_of_measurement: "kWh"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.sensor_solar_yield_21_year
 
   solar_consumption_21:
@@ -56,7 +56,7 @@ sensors:
     device_class: power
     unit_of_measurement: "W"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.sensor_solar_consumption_21
 
   # Warmwasserbetrieb
@@ -74,7 +74,7 @@ sensors:
     device_class: power
     unit_of_measurement: "W"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.sensor_solar_consumption_21_ww
 
   # Warmwasserbetrieb Wärmepumpe
@@ -92,7 +92,7 @@ sensors:
     device_class: power
     unit_of_measurement: "W"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.sensor_solar_consumption_21_ww_wp
 
   # Warmwasserbetrieb Elektro
@@ -109,7 +109,7 @@ sensors:
     device_class: power
     unit_of_measurement: "W"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.sensor_solar_consumption_21_ww_el
 
   # Standbybetrieb
@@ -128,7 +128,7 @@ sensors:
     device_class: power
     unit_of_measurement: "W"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.sensor_solar_consumption_21_standby
 
   # Heizbetrieb
@@ -145,7 +145,7 @@ sensors:
     device_class: power
     unit_of_measurement: "W"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.sensor_solar_consumption_21_hz
 
   solar_consumption_21_day:
@@ -154,7 +154,7 @@ sensors:
     device_class: power
     unit_of_measurement: "kWh"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.sensor_solar_consumption_21_day
 
   solar_consumption_21_yesterday:
@@ -163,7 +163,7 @@ sensors:
     device_class: power
     unit_of_measurement: "kWh"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.sensor_solar_consumption_21_yesterday
 
   solar_consumption_21_month:
@@ -172,7 +172,7 @@ sensors:
     device_class: power
     unit_of_measurement: "kWh"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.sensor_solar_consumption_21_month
 
   solar_consumption_21_year:
@@ -181,5 +181,5 @@ sensors:
     device_class: power
     unit_of_measurement: "kWh"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.sensor_solar_consumption_21_year

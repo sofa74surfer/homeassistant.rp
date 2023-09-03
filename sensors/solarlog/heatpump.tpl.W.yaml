@@ -16,7 +16,7 @@ sensors:
     device_class: power
     unit_of_measurement: "W"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.sensor_heatpump_power
 
   heatpump_power_ww:
@@ -30,7 +30,7 @@ sensors:
     device_class: power
     unit_of_measurement: "W"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.sensor_heatpump_power_ww
 
   heatpump_power_ww_wp:
@@ -44,7 +44,7 @@ sensors:
     device_class: power
     unit_of_measurement: "W"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.sensor_heatpump_power_ww_wp
 
   heatpump_power_ww_el:
@@ -58,7 +58,7 @@ sensors:
     device_class: power
     unit_of_measurement: "W"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.sensor_heatpump_power_ww_el
 
   heatpump_power_hz:
@@ -72,7 +72,7 @@ sensors:
     device_class: power
     unit_of_measurement: "W"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.sensor_heatpump_power_hz
 
   heatpump_power_standby:
@@ -86,5 +86,5 @@ sensors:
     device_class: power
     unit_of_measurement: "W"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.sensor_heatpump_power_standby

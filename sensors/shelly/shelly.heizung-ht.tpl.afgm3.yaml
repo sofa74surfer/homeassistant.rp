@@ -31,7 +31,7 @@ sensors:
     device_class: weight
     unit_of_measurement: "g"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.shelly_h_and_t_haus_19_absolute_feuchte
 
 # Heizung Haus 21
@@ -57,7 +57,7 @@ sensors:
     device_class: weight
     unit_of_measurement: "g"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.shelly_h_and_t_haus_21_absolute_feuchte
 
 # Heizung Haus 23
@@ -83,7 +83,7 @@ sensors:
     device_class: weight
     unit_of_measurement: "g"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.shelly_h_and_t_haus_23_absolute_feuchte
 
 # Heizung Haus 25
@@ -109,6 +109,6 @@ sensors:
     device_class: weight
     unit_of_measurement: "g"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.shelly_h_and_t_haus_25_absolute_feuchte
 

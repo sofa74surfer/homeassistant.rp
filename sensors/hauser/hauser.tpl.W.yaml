@@ -25,7 +25,7 @@ sensors:
     device_class: power
     unit_of_measurement: "W"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.sensor_hauser_power
 
 # {{ (

@@ -307,3 +307,158 @@
   column: 'state'
   unit_of_measurement: "kWh"
   unique_id: template.sensor_sql_heatpump_power_25_ww_kwh_30day
+
+# ####### ############################ #######
+# ####### Integration SQL Solarlog kWh #######
+# ####### ############################ #######
+
+# Alle Häuser 1day
+- name: SQL Solarlog Power kWh 1day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.solar_power_production' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_solarlog_power_kwh_1day
+# Alle Häuser 7day
+- name: SQL Solarlog Power kWh 7day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.solar_power_production' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*7));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_solarlog_power_kwh_7day
+# Alle Häuser 30day
+- name: SQL Solarlog Power kWh 30day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.solar_power_production' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*30));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_solarlog_power_kwh_30day
+# Haus 19 1day
+- name: SQL Solarlog Power 19 kWh 1day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.solarlog_19_yield_total' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_solarlog_power_19_kwh_1day
+# Haus 19 7day
+- name: SQL Solarlog Power 19 kWh 7day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.solarlog_19_yield_total' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*7));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_solarlog_power_19_kwh_7day
+# Haus 19 30day
+- name: SQL Solarlog Power 19 kWh 30day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.solarlog_19_yield_total' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*30));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_solarlog_power_19_kwh_30day
+# Haus 21 1day
+- name: SQL Solarlog Power 21 kWh 1day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.solarlog_21_yield_total' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_solarlog_power_21_kwh_1day
+# Haus 21 7day
+- name: SQL Solarlog Power 21 kWh 7day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.solarlog_21_yield_total' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*7));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_solarlog_power_21_kwh_7day
+# Haus 21 30day
+- name: SQL Solarlog Power 21 kWh 30day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.solarlog_21_yield_total' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*30));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_solarlog_power_21_kwh_30day
+# Haus 23 1day
+- name: SQL Solarlog Power 23 kWh 1day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.solarlog_23_yield_total' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_solarlog_power_23_kwh_1day
+# Haus 23 7day
+- name: SQL Solarlog Power 23 kWh 7day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.solarlog_23_yield_total' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*7));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_solarlog_power_23_kwh_7day
+# Haus 23 30day
+- name: SQL Solarlog Power 23 kWh 30day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.solarlog_23_yield_total' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*30));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_solarlog_power_23_kwh_30day
+# Haus 25 1day
+- name: SQL Solarlog Power 25 kWh 1day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.solarlog_25_yield_total' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_solarlog_power_25_kwh_1day
+# Haus 25 7day
+- name: SQL Solarlog Power 25 kWh 7day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.solarlog_25_yield_total' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*7));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_solarlog_power_25_kwh_7day
+# Haus 25 30day
+- name: SQL Solarlog Power 25 kWh 30day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.solarlog_25_yield_total' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*30));
+  column: 'state'
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_solarlog_power_25_kwh_30day

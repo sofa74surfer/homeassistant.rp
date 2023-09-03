@@ -1,0 +1,10 @@
+# ####### ########################### #######
+# ####### Integration Sensor Solarlog #######
+# ####### ########################### #######
+
+# Ableitung von Template Sensor solar.tpl.yaml
+platform: integration
+source: sensor.solar_power_21
+name: "Solar Power Production 21"
+unit_prefix: k
+round: 3

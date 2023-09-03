@@ -1,0 +1,99 @@
+# ####### ################## #######
+# ####### Ranking Warmwasser #######
+# ####### ################## #######
+
+# Ranking Warmwasser 19
+- sensor:
+    - name: "Ranking Warmwasser 19"
+      state: "{{
+  (
+    (
+      states('sensor.sql_heatpump_power_19_ww_kwh_30day')|float 
+    ) /
+      (
+        (
+          states('sensor.sql_heatpump_power_19_ww_kwh_30day')|float
+          +states('sensor.sql_heatpump_power_21_ww_kwh_30day')|float
+          +states('sensor.sql_heatpump_power_23_ww_kwh_30day')|float
+          +states('sensor.sql_heatpump_power_25_ww_kwh_30day')|float
+        ) / 4 + 0.01
+      ) * 100
+  )|round(0)
+}}"
+      device_class: power_factor
+      state_class: measurement
+      unit_of_measurement: "%"
+      unique_id: template.ranking_warmwasser_19
+
+# Ranking Warmwasser 21
+- sensor:
+    - name: "Ranking Warmwasser 21"
+      state: "{{
+  (
+    (
+      states('sensor.sql_heatpump_power_21_ww_kwh_30day')|float 
+    ) /
+      (
+        (
+          states('sensor.sql_heatpump_power_19_ww_kwh_30day')|float
+          +states('sensor.sql_heatpump_power_21_ww_kwh_30day')|float
+          +states('sensor.sql_heatpump_power_23_ww_kwh_30day')|float
+          +states('sensor.sql_heatpump_power_25_ww_kwh_30day')|float
+        ) / 4 + 0.01
+      ) * 100
+  )|round(0)
+}}"
+      device_class: power_factor
+      state_class: measurement
+      unit_of_measurement: "%"
+      unique_id: template.ranking_warmwasser_21
+
+# Ranking Warmwasser 23
+- sensor:
+    - name: "Ranking Warmwasser 23"
+      state: "{{
+  (
+    (
+      states('sensor.sql_heatpump_power_23_ww_kwh_30day')|float 
+    ) /
+      (
+        (
+          states('sensor.sql_heatpump_power_19_ww_kwh_30day')|float
+          +states('sensor.sql_heatpump_power_21_ww_kwh_30day')|float
+          +states('sensor.sql_heatpump_power_23_ww_kwh_30day')|float
+          +states('sensor.sql_heatpump_power_25_ww_kwh_30day')|float
+        ) / 4 + 0.01
+      ) * 100
+  )|round(0)
+}}"
+      device_class: power_factor
+      state_class: measurement
+      unit_of_measurement: "%"
+      unique_id: template.ranking_warmwasser_23
+
+# Ranking Warmwasser 25
+- sensor:
+    - name: "Ranking Warmwasser 25"
+      state: "{{
+  (
+    (
+      states('sensor.sql_heatpump_power_25_ww_kwh_30day')|float 
+    ) /
+      (
+        (
+          states('sensor.sql_heatpump_power_19_ww_kwh_30day')|float
+          +states('sensor.sql_heatpump_power_21_ww_kwh_30day')|float
+          +states('sensor.sql_heatpump_power_23_ww_kwh_30day')|float
+          +states('sensor.sql_heatpump_power_25_ww_kwh_30day')|float
+        ) / 4 + 0.01
+      ) * 100
+  )|round(0)
+}}"
+      device_class: power_factor
+      state_class: measurement
+      unit_of_measurement: "%"
+      unique_id: template.ranking_warmwasser_25
+
+
+
+

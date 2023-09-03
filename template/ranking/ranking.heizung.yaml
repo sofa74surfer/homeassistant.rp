@@ -1,0 +1,99 @@
+# ####### ############### #######
+# ####### Ranking Heizung #######
+# ####### ############### #######
+
+# Ranking Heizung 19
+- sensor:
+    - name: "Ranking Heizung 19"
+      state: "{{
+  (
+    (
+      states('sensor.sql_heatpump_power_19_hz_kwh_30day')|float 
+    ) /
+      (
+        (
+          states('sensor.sql_heatpump_power_19_hz_kwh_30day')|float
+          +states('sensor.sql_heatpump_power_21_hz_kwh_30day')|float
+          +states('sensor.sql_heatpump_power_23_hz_kwh_30day')|float
+          +states('sensor.sql_heatpump_power_25_hz_kwh_30day')|float
+        ) / 4 + 0.01
+      ) * 100
+  )|round(0)
+}}"
+      device_class: power_factor
+      state_class: measurement
+      unit_of_measurement: "%"
+      unique_id: template.ranking_heizung_19
+
+# Ranking Heizung 21
+- sensor:
+    - name: "Ranking Heizung 21"
+      state: "{{
+  (
+    (
+      states('sensor.sql_heatpump_power_21_hz_kwh_30day')|float 
+    ) /
+      (
+        (
+          states('sensor.sql_heatpump_power_19_hz_kwh_30day')|float
+          +states('sensor.sql_heatpump_power_21_hz_kwh_30day')|float
+          +states('sensor.sql_heatpump_power_23_hz_kwh_30day')|float
+          +states('sensor.sql_heatpump_power_25_hz_kwh_30day')|float
+        ) / 4 + 0.01
+      ) * 100
+  )|round(0)
+}}"
+      device_class: power_factor
+      state_class: measurement
+      unit_of_measurement: "%"
+      unique_id: template.ranking_heizung_21
+
+# Ranking Heizung 23
+- sensor:
+    - name: "Ranking Heizung 23"
+      state: "{{
+  (
+    (
+      states('sensor.sql_heatpump_power_23_hz_kwh_30day')|float 
+    ) /
+      (
+        (
+          states('sensor.sql_heatpump_power_19_hz_kwh_30day')|float
+          +states('sensor.sql_heatpump_power_21_hz_kwh_30day')|float
+          +states('sensor.sql_heatpump_power_23_hz_kwh_30day')|float
+          +states('sensor.sql_heatpump_power_25_hz_kwh_30day')|float
+        ) / 4 + 0.01
+      ) * 100
+  )|round(0)
+}}"
+      device_class: power_factor
+      state_class: measurement
+      unit_of_measurement: "%"
+      unique_id: template.ranking_heizung_23
+
+# Ranking Heizung 25
+- sensor:
+    - name: "Ranking Heizung 25"
+      state: "{{
+  (
+    (
+      states('sensor.sql_heatpump_power_25_hz_kwh_30day')|float 
+    ) /
+      (
+        (
+          states('sensor.sql_heatpump_power_19_hz_kwh_30day')|float
+          +states('sensor.sql_heatpump_power_21_hz_kwh_30day')|float
+          +states('sensor.sql_heatpump_power_23_hz_kwh_30day')|float
+          +states('sensor.sql_heatpump_power_25_hz_kwh_30day')|float
+        ) / 4 + 0.01
+      ) * 100
+  )|round(0)
+}}"
+      device_class: power_factor
+      state_class: measurement
+      unit_of_measurement: "%"
+      unique_id: template.ranking_heizung_25
+
+
+
+

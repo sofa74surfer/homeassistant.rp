@@ -95,11 +95,30 @@ binary_sensor: !include_dir_list binary_sensors/
 rest_command: !include_dir_merge_named rest_commands/
 template: !include_dir_merge_list template/
 
-#influxdb:
-#  host: a0d7b954-influxdb
-#  port: 8086
-#  database: rotseepark
-#  username: rotseepark
-#  password: "-9FYmYVFW_sKkoxZeuTTjt"
-#  max_retries: 3
-#  default_measurement: state
+# Influx DB mit Daten füllen
+influxdb:
+  host: a0d7b954-influxdb
+  port: 8086
+  database: rotseepark
+  username: rotseepark
+  password: "-9FYmYVFW_sKkoxZeuTTjt"
+  max_retries: 3
+  default_measurement: state
+  include:
+    entity_globs:
+      - sensor.gwf_*_*w_l_diff
+      - sensor.gwf_*_ww_m3_helper
+      - input_boolean.luxtronik_*_haus_*
+      - sensor.heatpump*power_consumption
+      - sensor.solar_power_production*
+      - input_number.heatpump_*_kompressor_start_pro_tag
+      - sensor.shelly_emobility_power_consumption
+      - sensor.janitza_umg604_power_consumption
+      - sensor.luxtronik*_bz
+      - sensor.luxtronik*_hs3
+      - sensor.luxtronik*_vd*
+      - sensor.luxtronik*_tbw
+  exclude:
+    entity_globs:
+      - sensor.heatpump*power_consumption_*
+      - sensor.shelly_emobility_power_consumption_*

@@ -24,7 +24,7 @@ sensors:
     device_class: power
     unit_of_measurement: "W"
     attribute_templates:
-      last_updated:  "{{ now() }}"
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
     unique_id: template.sensor_mystrom_power
 
   # mystrom_201_power:
@@ -33,7 +33,7 @@ sensors:
   #   device_class: power
   #   unit_of_measurement: "W"
   #   attribute_templates:
-  #     last_updated:  "{{ now() }}"
+  #     last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   #   unique_id: template.sensor_mystrom_201_power
 
   # mystrom_202_power:
@@ -42,7 +42,7 @@ sensors:
   #   device_class: power
   #   unit_of_measurement: "W"
   #   attribute_templates:
-  #     last_updated:  "{{ now() }}"
+  #     last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   #   unique_id: template.sensor_mystrom_202_power
 
   # mystrom_203_power:
@@ -51,7 +51,7 @@ sensors:
   #   device_class: power
   #   unit_of_measurement: "W"
   #   attribute_templates:
-  #     last_updated:  "{{ now() }}"
+  #     last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   #   unique_id: template.sensor_mystrom_203_power
 
   # mystrom_204_power:
@@ -60,7 +60,7 @@ sensors:
   #   device_class: power
   #   unit_of_measurement: "W"
   #   attribute_templates:
-  #     last_updated:  "{{ now() }}"
+  #     last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   #   unique_id: template.sensor_mystrom_204_power
 
   # mystrom_205_power:
@@ -69,7 +69,7 @@ sensors:
   #   device_class: power
   #   unit_of_measurement: "W"
   #   attribute_templates:
-  #     last_updated:  "{{ now() }}"
+  #     last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   #   unique_id: template.sensor_mystrom_205_power
 
   # mystrom_206_power:
@@ -78,7 +78,7 @@ sensors:
   #   device_class: power
   #   unit_of_measurement: "W"
   #   attribute_templates:
-  #     last_updated:  "{{ now() }}"
+  #     last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   #   unique_id: template.sensor_mystrom_206_power
 
   # mystrom_207_power:
@@ -87,7 +87,7 @@ sensors:
   #   device_class: power
   #   unit_of_measurement: "W"
   #   attribute_templates:
-  #     last_updated:  "{{ now() }}"
+  #     last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   #   unique_id: template.sensor_mystrom_207_power
 
   # mystrom_208_power:
@@ -96,7 +96,7 @@ sensors:
   #   device_class: power
   #   unit_of_measurement: "W"
   #   attribute_templates:
-  #     last_updated:  "{{ now() }}"
+  #     last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   #   unique_id: template.sensor_mystrom_208_power
 
   # mystrom_209_power:
@@ -105,7 +105,7 @@ sensors:
   #   device_class: power
   #   unit_of_measurement: "W"
   #   attribute_templates:
-  #     last_updated:  "{{ now() }}"
+  #     last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   #   unique_id: template.sensor_mystrom_209_power
 
   # mystrom_210_power:
@@ -114,7 +114,7 @@ sensors:
   #   device_class: power
   #   unit_of_measurement: "W"
   #   attribute_templates:
-  #     last_updated:  "{{ now() }}"
+  #     last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   #   unique_id: template.sensor_mystrom_210_power
 
   # mystrom_211_power:
@@ -123,5 +123,5 @@ sensors:
   #   device_class: power
   #   unit_of_measurement: "W"
   #   attribute_templates:
-  #     last_updated:  "{{ now() }}"
+  #     last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
   #   unique_id: template.sensor_mystrom_211_power

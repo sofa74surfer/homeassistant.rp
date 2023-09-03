@@ -4,7 +4,7 @@
 
 # Ableitung von Uniquity Integration 
 - sensor:
-    - name: "Zaptec Counter New"
+    - name: "Zaptec Counter"
       state: "{{
             (
               ( states.device_tracker
@@ -16,5 +16,5 @@
             if is_state('device_tracker.rotseepark_dm', 'home') 
             else states('sensor.zaptec_counter_new')|float)}}"
       attributes:
-        last_updated:  "{{ now() }}"
-      unique_id: template.sensor_zaptec_counter_new
+        last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
+      unique_id: template.sensor_zaptec_counter

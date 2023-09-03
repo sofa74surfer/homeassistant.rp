@@ -1,0 +1,99 @@
+# ####### ################ #######
+# ####### Ranking Solarlog #######
+# ####### ################ #######
+
+# Ranking Solarlog 19
+- sensor:
+    - name: "Ranking Solarlog 19"
+      state: "{{
+  (
+    (
+      states('sensor.sql_solarlog_power_19_kwh_30day')|float 
+    ) /
+      (
+        (
+          states('sensor.sql_solarlog_power_19_kwh_30day')|float
+          +states('sensor.sql_solarlog_power_21_kwh_30day')|float
+          +states('sensor.sql_solarlog_power_23_kwh_30day')|float
+          +states('sensor.sql_solarlog_power_25_kwh_30day')|float
+        ) / 4 + 0.01
+      ) * 100
+  )|round(0)
+}}"
+      device_class: power_factor
+      state_class: measurement
+      unit_of_measurement: "%"
+      unique_id: template.ranking_solarlog_19
+
+# Ranking Solarlog 21
+- sensor:
+    - name: "Ranking Solarlog 21"
+      state: "{{
+  (
+    (
+      states('sensor.sql_solarlog_power_21_kwh_30day')|float 
+    ) /
+      (
+        (
+          states('sensor.sql_solarlog_power_19_kwh_30day')|float
+          +states('sensor.sql_solarlog_power_21_kwh_30day')|float
+          +states('sensor.sql_solarlog_power_23_kwh_30day')|float
+          +states('sensor.sql_solarlog_power_25_kwh_30day')|float
+        ) / 4 + 0.01
+      ) * 100
+  )|round(0)
+}}"
+      device_class: power_factor
+      state_class: measurement
+      unit_of_measurement: "%"
+      unique_id: template.ranking_solarlog_21
+
+# Ranking Solarlog 23
+- sensor:
+    - name: "Ranking Solarlog 23"
+      state: "{{
+  (
+    (
+      states('sensor.sql_solarlog_power_23_kwh_30day')|float 
+    ) /
+      (
+        (
+          states('sensor.sql_solarlog_power_19_kwh_30day')|float
+          +states('sensor.sql_solarlog_power_21_kwh_30day')|float
+          +states('sensor.sql_solarlog_power_23_kwh_30day')|float
+          +states('sensor.sql_solarlog_power_25_kwh_30day')|float
+        ) / 4 + 0.01
+      ) * 100
+  )|round(0)
+}}"
+      device_class: power_factor
+      state_class: measurement
+      unit_of_measurement: "%"
+      unique_id: template.ranking_solarlog_23
+
+# Ranking Solarlog 25
+- sensor:
+    - name: "Ranking Solarlog 25"
+      state: "{{
+  (
+    (
+      states('sensor.sql_solarlog_power_25_kwh_30day')|float 
+    ) /
+      (
+        (
+          states('sensor.sql_solarlog_power_19_kwh_30day')|float
+          +states('sensor.sql_solarlog_power_21_kwh_30day')|float
+          +states('sensor.sql_solarlog_power_23_kwh_30day')|float
+          +states('sensor.sql_solarlog_power_25_kwh_30day')|float
+        ) / 4 + 0.01
+      ) * 100
+  )|round(0)
+}}"
+      device_class: power_factor
+      state_class: measurement
+      unit_of_measurement: "%"
+      unique_id: template.ranking_solarlog_25
+
+
+
+
