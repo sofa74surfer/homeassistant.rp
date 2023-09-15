@@ -1,0 +1,37 @@
+# ####### ################### #######
+# ####### Helper Input Select #######
+# ####### ################### #######
+
+luxtronik_operation_mode_automatik:
+  name: Luxtronik Operation Mode Automatik
+  options:
+    - "0"
+
+luxtronik_operation_mode_aus:
+  name: Luxtronik Operation Mode Aus
+  options:
+    - "4"
+
+luxtronik_19_hz_operation_mode:
+  name: Luxtronik 19 HZ Operation Mode
+  options:
+    - "0"
+    - "4"
+
+luxtronik_21_hz_operation_mode:
+  name: Luxtronik 21 HZ Operation Mode
+  options:
+    - "0"
+    - "4"
+
+luxtronik_25_hz_operation_mode:
+  name: Luxtronik 25 HZ Operation Mode
+  options:
+    - "0"
+    - "4"
+
+luxtronik_23_hz_operation_mode:
+  name: Luxtronik 23 HZ Operation Mode
+  options:
+    - "0"
+    - "4"

@@ -95,6 +95,12 @@ binary_sensor: !include_dir_list binary_sensors/
 rest_command: !include_dir_merge_named rest_commands/
 template: !include_dir_merge_list template/
 
+########### INCLUDES ##### Helpers
+counter: !include helpers/counter.yaml
+input_boolean: !include helpers/input_boolean.yaml
+input_number: !include helpers/input_number.yaml
+input_select: !include helpers/input_select.yaml
+
 # Influx DB mit Daten füllen
 influxdb:
   host: a0d7b954-influxdb
@@ -106,8 +112,8 @@ influxdb:
   default_measurement: state
   include:
     entity_globs:
-      - sensor.gwf_*_*w_l_diff
-      - sensor.gwf_*_ww_m3_helper
+      - sensor.gwf_*_*_*_diff
+      - sensor.gwf_*_*_*_helper
       - input_boolean.luxtronik_*_haus_*
       - sensor.heatpump*power_consumption
       - sensor.solar_power_production*

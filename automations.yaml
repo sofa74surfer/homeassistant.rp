@@ -6802,12 +6802,46 @@
       btw_lowminute: '{{ ((now().timestamp() - strptime(bup_start, ''%Y-%m-%d %H:%M:%S.%f%z'').timestamp())/60)|round(0)
         }}'
   - wait_for_trigger:
+    - platform: numeric_state
+      entity_id: sensor.luxtronik21_tvl
+      above: 49.9
+    alias: Warten bis Vorlauf Temperatur 50°
+  - variables:
+      tvl_50_watt: '{{ states(''sensor.solar_consumption_21_ww_wp'') }}'
+  - wait_for_trigger:
+    - platform: numeric_state
+      entity_id: sensor.luxtronik21_tvl
+      above: 54.9
+    alias: Warten bis Vorlauf Temperatur 55°
+  - variables:
+      tvl_55_watt: '{{ states(''sensor.solar_consumption_21_ww_wp'') }}'
+  - wait_template: '{{ states(''sensor.luxtronik21_tvl'')|int >= 60 or states(''binary_sensor.luxtronik21_bup'')
+      == ''off'' }}'
+    continue_on_timeout: true
+    alias: Warten bis Vorlauf Temperatur 60°
+  - variables:
+      tvl_60_watt: '{{ states(''sensor.solar_consumption_21_ww_wp'') }}'
+  - if:
+    - condition: state
+      entity_id: binary_sensor.luxtronik21_bup
+      state: 'on'
+    then:
+    - wait_for_trigger:
+      - platform: state
+        entity_id:
+        - binary_sensor.luxtronik21_bup
+        from: 'on'
+        to: 'off'
+      alias: Warten, bis die Brauchwasser Produktion endet
+    alias: Warten, bis die Brauchwasser Produktion endet, sofern sie noch läuft
+  - wait_for_trigger:
     - platform: state
       entity_id:
       - binary_sensor.luxtronik21_bup
       from: 'on'
       to: 'off'
     alias: Warten, bis die Brauchwasser Produktion endet
+    enabled: false
   - variables:
       bup_ende: '{{ now() }}'
   - variables:
@@ -6832,25 +6866,29 @@
   - wait_for_trigger:
     - platform: state
       entity_id:
-      - sensor.gwf_21_ww_m3_helper
-    alias: Warten bis der Warmwasser m3 Utility Meter das nächste mal ändert
-  - variables:
-      esti_kw_a: '{{  ((states(''input_number.gwf_21_ww_m3_helper'')|float)*1.16*
-        (states(''input_number.luxtronik_21_ww_solltemperatur'')|float-15))|round(1)  }}'
-    alias: Variablen esti_kw_a definieren (Hochrechnung kW Bedarf anhand m3 Verbrauch
-      GWF)
+      - sensor.gwf_21_all_ww_l_helper
+    alias: Warten bis der Warmwasser l Utility Meter das nächste mal ändert
+    timeout:
+      hours: 1
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
   - service: input_number.set_value
     data:
-      value: '{{ states(''sensor.gwf_21_ww_m3_helper'')|float }}'
+      value: '{{ states(''sensor.gwf_21_all_ww_l_helper'')|float }}'
     target:
-      entity_id: input_number.gwf_21_ww_m3_helper
+      entity_id: input_number.gwf_21_ww_l_helper
     alias: Speichere den Warmwasserverbrauch seit der letzten Ladung
+  - variables:
+      esti_kw_a: '{{  ((states(''input_number.gwf_21_ww_l_helper'')|float)*1.16* (states(''input_number.luxtronik_21_ww_solltemperatur'')|float-15))|round(1)  }}'
+    alias: Variablen esti_kw_a definieren (Hochrechnung kW Bedarf anhand l Verbrauch
+      GWF)
   - service: utility_meter.calibrate
     data:
       value: '0'
     target:
       entity_id:
-      - sensor.gwf_21_ww_m3_helper
+      - sensor.gwf_21_all_ww_l_helper
     alias: Zurücksetzen der Utility Meter für Warmwasserverbrauch
   - service: input_number.set_value
     data:
@@ -6858,6 +6896,31 @@
     target:
       entity_id: input_number.gwf_21_hz_ug_kw_helper
     alias: Speichere den Kilowatt Verbrauch von dieser Ladung
+  - service: input_number.set_value
+    data:
+      value: '{{ esti_kw_a|float }}'
+    target:
+      entity_id: input_number.bwm21_variable_esti_kw_a
+  - service: input_number.set_value
+    data:
+      value: '{{ esti_kw_b|float }}'
+    target:
+      entity_id: input_number.bwm21_variable_esti_kw_b
+  - service: input_number.set_value
+    data:
+      value: '{{ tvl_50_watt|float }}'
+    target:
+      entity_id: input_number.bwm21_variable_tvl_50_watt
+  - service: input_number.set_value
+    data:
+      value: '{{ tvl_55_watt|float }}'
+    target:
+      entity_id: input_number.bwm21_variable_tvl_55_watt
+  - service: input_number.set_value
+    data:
+      value: '{{ tvl_60_watt|float }}'
+    target:
+      entity_id: input_number.bwm21_variable_tvl_60_watt
   - variables:
       gwf_ende: '{{ now() }}'
   - service: notify.administrator_rotseepark
@@ -6872,11 +6935,12 @@
         Wärmepumpe ***\nStrom kW    - {{ states('input_number.heatpump_21_ww_power_consumption_helper')|round(1)
         }} kW Verbrauch ganze Anlage\nPumpen kW   - {{ pumpen_kw }} System kW durch
         Pumpen\nNetto kW WP - {{ (states('input_number.heatpump_21_ww_power_consumption_helper')
-        |float - pumpen_kw)|round(1) }} Netto kW von Wärmepumpe\n*** Warmwasser Verbrauch
-        ***\nm3 WW       - {{ states('input_number.gwf_21_ww_m3_helper') }} m3 seit
-        letzter Ladung\n*** kW Hochrechnungen und GWF Zähler VL/RL ***\nEsti kW A
-        \  - {{ esti_kw_a }} kW anhand m3 Verbrauch\nEsti kW B   - {{ esti_kw_b }}
-        kW anhand btw low und Umwälzvolumen\nVL/RL kW    - {{ states('input_number.gwf_21_hz_ug_kw_helper')
+        |float - pumpen_kw)|round(1) }} Netto kW von Wärmepumpe\n50° TVL W   - {{
+        tvl_50_watt }}\n55° TVL W   - {{ tvl_55_watt }}\n60° TVL W   - {{ tvl_60_watt
+        }}\n*** Warmwasser Verbrauch ***\nl WW       - {{ states('input_number.gwf_21_ww_l_helper')
+        }} l seit letzter Ladung\n*** kW Hochrechnungen und GWF Zähler VL/RL ***\nEsti
+        kW A   - {{ esti_kw_a }} kW anhand l Verbrauch\nEsti kW B   - {{ esti_kw_b
+        }} kW anhand btw low und Umwälzvolumen\nVL/RL kW    - {{ states('input_number.gwf_21_hz_ug_kw_helper')
         }} kW Energie im VL/RL entnommen\n*** Errechnete Wirkungsgrade ***\nWG Platte
         \  - {{ (((esti_kw_a + esti_kw_b)/2)/ states('input_number.gwf_21_hz_ug_kw_helper')|float*100)|round(0)
         }}% Wirkungsgrad Plattentauscher\nWG Faktor   - {{ ((states('input_number.gwf_21_hz_ug_kw_helper')|float)
@@ -6893,4 +6957,670 @@
   action:
   - service: shell_command.setup_apk
     data: {}
+  mode: single
+- id: '1694292079482'
+  alias: Monitoring Heatpump 25 - Brauchwasser Erzeugung Energie Verbrauch
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.luxtronik25_bup
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - variables:
+      bup_start: '{{ now() }}'
+  - service: utility_meter.calibrate
+    data:
+      value: '0'
+    target:
+      entity_id:
+      - sensor.heatpump_25_ww_power_consumption_helper
+      - sensor.gwf_25_hz_ug_kw_helper
+    alias: Zurücksetzen der Utility Meter für Warmwasser Erzeugung kW und Stromverbrauch
+  - delay:
+      hours: 0
+      minutes: 2
+      seconds: 0
+      milliseconds: 0
+  - service: input_number.set_value
+    data:
+      value: '{{ states(''sensor.luxtronik25_tbw'')|float }}'
+    target:
+      entity_id: input_number.luxtronik_25_tbw_degc_helper
+    alias: Speichere die aktuelle Brauchwasser Temperatur
+  - repeat:
+      while:
+      - condition: template
+        value_template: '{{ states(''sensor.luxtronik25_tbw'') >= states(''input_number.luxtronik_25_tbw_degc_helper'')
+          }}'
+        alias: Brauchwasser Temperatur >= gespeicherte Temperatur
+      sequence:
+      - service: input_number.set_value
+        data:
+          value: '{{ states(''sensor.luxtronik25_tbw'')|float }}'
+        target:
+          entity_id: input_number.luxtronik_25_tbw_degc_helper
+        alias: Speichere die aktuelle Brauchwasser Temperatur
+      - wait_for_trigger:
+        - platform: state
+          entity_id:
+          - sensor.luxtronik25_tbw
+        alias: Warten, bis Brauchwasser Temperatur ändert
+    alias: Warten, solange die Brauchwasser Temperatur steigend ist
+  - repeat:
+      while:
+      - condition: template
+        value_template: '{{ states(''sensor.luxtronik25_tbw'') <= states(''input_number.luxtronik_25_tbw_degc_helper'')
+          }}'
+        alias: Brauchwasser Temperatur <= gespeicherte Temperatur
+      sequence:
+      - service: input_number.set_value
+        data:
+          value: '{{ states(''sensor.luxtronik25_tbw'')|float }}'
+        target:
+          entity_id: input_number.luxtronik_25_tbw_degc_helper
+        alias: Speichere die aktuelle Brauchwasser Temperatur
+      - wait_for_trigger:
+        - platform: state
+          entity_id:
+          - sensor.luxtronik25_tbw
+        alias: Warten, bis Brauchwasser Temperatur ändert
+    alias: Warten, solange die Brauchwasser Temperatur sinkend ist
+  - variables:
+      btw_low_ende: '{{ now() }}'
+      btw_low: '{{ states(''sensor.luxtronik25_tbw'') }}'
+      btw_lowtime: '{{ now() - strptime(bup_start, ''%Y-%m-%d %H:%M:%S.%f%z'') }}'
+      btw_lowminute: '{{ ((now().timestamp() - strptime(bup_start, ''%Y-%m-%d %H:%M:%S.%f%z'').timestamp())/60)|round(0)
+        }}'
+  - wait_for_trigger:
+    - platform: numeric_state
+      entity_id: sensor.luxtronik25_tvl
+      above: 49.9
+    alias: Warten bis Vorlauf Temperatur 50°
+  - variables:
+      tvl_50_watt: '{{ states(''sensor.solar_consumption_25_ww_wp'') }}'
+  - wait_for_trigger:
+    - platform: numeric_state
+      entity_id: sensor.luxtronik25_tvl
+      above: 54.9
+    alias: Warten bis Vorlauf Temperatur 55°
+  - variables:
+      tvl_55_watt: '{{ states(''sensor.solar_consumption_25_ww_wp'') }}'
+  - wait_template: '{{ states(''sensor.luxtronik25_tvl'')|int >= 60 or states(''binary_sensor.luxtronik25_bup'')
+      == ''off'' }}'
+    continue_on_timeout: true
+    alias: Warten bis Vorlauf Temperatur 60°
+  - variables:
+      tvl_60_watt: '{{ states(''sensor.solar_consumption_25_ww_wp'') }}'
+  - if:
+    - condition: state
+      entity_id: binary_sensor.luxtronik25_bup
+      state: 'on'
+    then:
+    - wait_for_trigger:
+      - platform: state
+        entity_id:
+        - binary_sensor.luxtronik25_bup
+        from: 'on'
+        to: 'off'
+      alias: Warten, bis die Brauchwasser Produktion endet
+    alias: Warten, bis die Brauchwasser Produktion endet, sofern sie noch läuft
+  - wait_for_trigger:
+    - platform: state
+      entity_id:
+      - binary_sensor.luxtronik25_bup
+      from: 'on'
+      to: 'off'
+    alias: Warten, bis die Brauchwasser Produktion endet
+    enabled: false
+  - variables:
+      bup_ende: '{{ now() }}'
+  - variables:
+      pumpen_kw: '{{  (  ( 2300/1000/60* ( strptime(bup_ende, ''%Y-%m-%d %H:%M:%S.%f%z'').timestamp()  -
+        strptime(bup_start, ''%Y-%m-%d %H:%M:%S.%f%z'').timestamp() )/60 )|round(1)  )
+        }}'
+    alias: Variablen pumpen_kw definieren (Hochrechnung kW Bedarf der Pumpen)
+  - variables:
+      btw_lowdiff: '{{ (( states(''input_number.luxtronik_25_ww_solltemperatur'')|float
+        )-(btw_low)|float+(5/60*(btw_lowminute)|float))|round(1) }}'
+    alias: Variablen btw_lowdiff definieren (Tiefste berechnete Temperatur)
+  - variables:
+      esti_kw_b: '{{  ((4400/4*3/1000)*1.16*btw_lowdiff)|round(1)  }}'
+    alias: Variablen esti_kw_b definieren (Hochrechnung kW Bedarf btw und Umwälzvolumen)
+  - service: input_number.set_value
+    data:
+      value: '{{ 0 if is_state(''sensor.heatpump_25_ww_power_consumption_helper'',
+        ''unknown'')  else states(''sensor.heatpump_25_ww_power_consumption_helper'')|float}}'
+    target:
+      entity_id: input_number.heatpump_25_ww_power_consumption_helper
+    alias: Speichere den Strom Verbrauch von dieser Ladung
+  - wait_for_trigger:
+    - platform: state
+      entity_id:
+      - sensor.gwf_25_all_ww_l_helper
+    alias: Warten bis der Warmwasser l Utility Meter das nächste mal ändert
+    timeout:
+      hours: 1
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - service: input_number.set_value
+    data:
+      value: '{{ states(''sensor.gwf_25_all_ww_l_helper'')|float }}'
+    target:
+      entity_id: input_number.gwf_25_ww_l_helper
+    alias: Speichere den Warmwasserverbrauch seit der letzten Ladung
+  - variables:
+      esti_kw_a: '{{  ((states(''input_number.gwf_25_ww_l_helper'')|float)*1.16* (states(''input_number.luxtronik_25_ww_solltemperatur'')|float-15))|round(1)  }}'
+    alias: Variablen esti_kw_a definieren (Hochrechnung kW Bedarf anhand l Verbrauch
+      GWF)
+  - service: utility_meter.calibrate
+    data:
+      value: '0'
+    target:
+      entity_id:
+      - sensor.gwf_25_all_ww_l_helper
+    alias: Zurücksetzen der Utility Meter für Warmwasserverbrauch
+  - service: input_number.set_value
+    data:
+      value: '{{ states(''sensor.gwf_25_hz_ug_kw_helper'')|float }}'
+    target:
+      entity_id: input_number.gwf_25_hz_ug_kw_helper
+    alias: Speichere den Kilowatt Verbrauch von dieser Ladung
+  - service: input_number.set_value
+    data:
+      value: '{{ esti_kw_a|float }}'
+    target:
+      entity_id: input_number.bwm25_variable_esti_kw_a
+  - service: input_number.set_value
+    data:
+      value: '{{ esti_kw_b|float }}'
+    target:
+      entity_id: input_number.bwm25_variable_esti_kw_b
+  - service: input_number.set_value
+    data:
+      value: '{{ tvl_50_watt|float }}'
+    target:
+      entity_id: input_number.bwm25_variable_tvl_50_watt
+  - service: input_number.set_value
+    data:
+      value: '{{ tvl_55_watt|float }}'
+    target:
+      entity_id: input_number.bwm25_variable_tvl_55_watt
+  - service: input_number.set_value
+    data:
+      value: '{{ tvl_60_watt|float }}'
+    target:
+      entity_id: input_number.bwm25_variable_tvl_60_watt
+  - variables:
+      gwf_ende: '{{ now() }}'
+  - service: notify.administrator_rotseepark
+    data:
+      title: 'HA-Info Heatpump 25: Die Boiler Ladung ist beendet'
+      message: "*** Ablaufzeiten ***\nBUP Start   - {{ bup_start }} \nBTW Low End
+        - {{ btw_low_ende }} \nBUP End     - {{ bup_ende }} \nGWF End     - {{ gwf_ende
+        }} \n*** Low Temperatur ermitteln ***\nBTW Low     - {{ btw_low }} Tiefpunkt
+        Brauchwasser Temperatur\nBTW LowT    - {{ btw_lowtime }} Zeitdauer von Start
+        bis Tiefpunkt\nBTW LowM    - {{ btw_lowminute }} Minuten von Start bis Tiefpunkt\nBTW
+        LowDiff - {{ btw_lowdiff }} Differenz Tiefpunkt BW zu Soll\n*** Stromverbrauch
+        Wärmepumpe ***\nStrom kW    - {{ states('input_number.heatpump_25_ww_power_consumption_helper')|round(1)
+        }} kW Verbrauch ganze Anlage\nPumpen kW   - {{ pumpen_kw }} System kW durch
+        Pumpen\nNetto kW WP - {{ (states('input_number.heatpump_25_ww_power_consumption_helper')
+        |float - pumpen_kw)|round(1) }} Netto kW von Wärmepumpe\n50° TVL W   - {{
+        tvl_50_watt }}\n55° TVL W   - {{ tvl_55_watt }}\n60° TVL W   - {{ tvl_60_watt
+        }}\n*** Warmwasser Verbrauch ***\nl WW       - {{ states('input_number.gwf_25_ww_l_helper')
+        }} l seit letzter Ladung\n*** kW Hochrechnungen und GWF Zähler VL/RL ***\nEsti
+        kW A   - {{ esti_kw_a }} kW anhand l Verbrauch\nEsti kW B   - {{ esti_kw_b
+        }} kW anhand btw low und Umwälzvolumen\nVL/RL kW    - {{ states('input_number.gwf_25_hz_ug_kw_helper')
+        }} kW Energie im VL/RL entnommen\n*** Errechnete Wirkungsgrade ***\nWG Platte
+        \  - {{ (((esti_kw_a + esti_kw_b)/2)/ states('input_number.gwf_25_hz_ug_kw_helper')|float*100)|round(0)
+        }}% Wirkungsgrad Plattentauscher\nWG Faktor   - {{ ((states('input_number.gwf_25_hz_ug_kw_helper')|float)
+        /(states('input_number.heatpump_25_ww_power_consumption_helper')|float  -
+        pumpen_kw))|round(1) }} Faktor Wärme VL/RL versus kW Verdichter"
+  mode: single
+- id: '1694404354860'
+  alias: Monitoring Heatpump 19 - Brauchwasser Erzeugung Energie Verbrauch
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.luxtronik19_bup
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - variables:
+      bup_start: '{{ now() }}'
+  - service: utility_meter.calibrate
+    data:
+      value: '0'
+    target:
+      entity_id:
+      - sensor.heatpump_19_ww_power_consumption_helper
+      - sensor.gwf_19_hz_ug_kw_helper
+    alias: Zurücksetzen der Utility Meter für Warmwasser Erzeugung kW und Stromverbrauch
+  - delay:
+      hours: 0
+      minutes: 2
+      seconds: 0
+      milliseconds: 0
+  - service: input_number.set_value
+    data:
+      value: '{{ states(''sensor.luxtronik19_tbw'')|float }}'
+    target:
+      entity_id: input_number.luxtronik_19_tbw_degc_helper
+    alias: Speichere die aktuelle Brauchwasser Temperatur
+  - repeat:
+      while:
+      - condition: template
+        value_template: '{{ states(''sensor.luxtronik19_tbw'') >= states(''input_number.luxtronik_19_tbw_degc_helper'')
+          }}'
+        alias: Brauchwasser Temperatur >= gespeicherte Temperatur
+      sequence:
+      - service: input_number.set_value
+        data:
+          value: '{{ states(''sensor.luxtronik19_tbw'')|float }}'
+        target:
+          entity_id: input_number.luxtronik_19_tbw_degc_helper
+        alias: Speichere die aktuelle Brauchwasser Temperatur
+      - wait_for_trigger:
+        - platform: state
+          entity_id:
+          - sensor.luxtronik19_tbw
+        alias: Warten, bis Brauchwasser Temperatur ändert
+    alias: Warten, solange die Brauchwasser Temperatur steigend ist
+  - repeat:
+      while:
+      - condition: template
+        value_template: '{{ states(''sensor.luxtronik19_tbw'') <= states(''input_number.luxtronik_19_tbw_degc_helper'')
+          }}'
+        alias: Brauchwasser Temperatur <= gespeicherte Temperatur
+      sequence:
+      - service: input_number.set_value
+        data:
+          value: '{{ states(''sensor.luxtronik19_tbw'')|float }}'
+        target:
+          entity_id: input_number.luxtronik_19_tbw_degc_helper
+        alias: Speichere die aktuelle Brauchwasser Temperatur
+      - wait_for_trigger:
+        - platform: state
+          entity_id:
+          - sensor.luxtronik19_tbw
+        alias: Warten, bis Brauchwasser Temperatur ändert
+    alias: Warten, solange die Brauchwasser Temperatur sinkend ist
+  - variables:
+      btw_low_ende: '{{ now() }}'
+      btw_low: '{{ states(''sensor.luxtronik19_tbw'') }}'
+      btw_lowtime: '{{ now() - strptime(bup_start, ''%Y-%m-%d %H:%M:%S.%f%z'') }}'
+      btw_lowminute: '{{ ((now().timestamp() - strptime(bup_start, ''%Y-%m-%d %H:%M:%S.%f%z'').timestamp())/60)|round(0)
+        }}'
+  - wait_for_trigger:
+    - platform: numeric_state
+      entity_id: sensor.luxtronik19_tvl
+      above: 49.9
+    alias: Warten bis Vorlauf Temperatur 50°
+  - variables:
+      tvl_50_watt: '{{ states(''sensor.solar_consumption_19_ww_wp'') }}'
+  - wait_for_trigger:
+    - platform: numeric_state
+      entity_id: sensor.luxtronik19_tvl
+      above: 54.9
+    alias: Warten bis Vorlauf Temperatur 55°
+  - variables:
+      tvl_55_watt: '{{ states(''sensor.solar_consumption_19_ww_wp'') }}'
+  - wait_template: '{{ states(''sensor.luxtronik19_tvl'')|int >= 60 or states(''binary_sensor.luxtronik19_bup'')
+      == ''off'' }}'
+    continue_on_timeout: true
+    alias: Warten bis Vorlauf Temperatur 60°
+  - variables:
+      tvl_60_watt: '{{ states(''sensor.solar_consumption_19_ww_wp'') }}'
+  - if:
+    - condition: state
+      entity_id: binary_sensor.luxtronik19_bup
+      state: 'on'
+    then:
+    - wait_for_trigger:
+      - platform: state
+        entity_id:
+        - binary_sensor.luxtronik19_bup
+        from: 'on'
+        to: 'off'
+      alias: Warten, bis die Brauchwasser Produktion endet
+    alias: Warten, bis die Brauchwasser Produktion endet, sofern sie noch läuft
+  - wait_for_trigger:
+    - platform: state
+      entity_id:
+      - binary_sensor.luxtronik19_bup
+      from: 'on'
+      to: 'off'
+    alias: Warten, bis die Brauchwasser Produktion endet
+    enabled: false
+  - variables:
+      bup_ende: '{{ now() }}'
+  - variables:
+      pumpen_kw: '{{  (  ( 2300/1000/60* ( strptime(bup_ende, ''%Y-%m-%d %H:%M:%S.%f%z'').timestamp()  -
+        strptime(bup_start, ''%Y-%m-%d %H:%M:%S.%f%z'').timestamp() )/60 )|round(1)  )
+        }}'
+    alias: Variablen pumpen_kw definieren (Hochrechnung kW Bedarf der Pumpen)
+  - variables:
+      btw_lowdiff: '{{ (( states(''input_number.luxtronik_19_ww_solltemperatur'')|float
+        )-(btw_low)|float+(5/60*(btw_lowminute)|float))|round(1) }}'
+    alias: Variablen btw_lowdiff definieren (Tiefste berechnete Temperatur)
+  - variables:
+      esti_kw_b: '{{  ((4400/4*3/1000)*1.16*btw_lowdiff)|round(1)  }}'
+    alias: Variablen esti_kw_b definieren (Hochrechnung kW Bedarf btw und Umwälzvolumen)
+  - service: input_number.set_value
+    data:
+      value: '{{ 0 if is_state(''sensor.heatpump_19_ww_power_consumption_helper'',
+        ''unknown'')  else states(''sensor.heatpump_19_ww_power_consumption_helper'')|float}}'
+    target:
+      entity_id: input_number.heatpump_19_ww_power_consumption_helper
+    alias: Speichere den Strom Verbrauch von dieser Ladung
+  - wait_for_trigger:
+    - platform: state
+      entity_id:
+      - sensor.gwf_19_all_ww_l_helper
+    alias: Warten bis der Warmwasser l Utility Meter das nächste mal ändert
+    timeout:
+      hours: 1
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - service: input_number.set_value
+    data:
+      value: '{{ states(''sensor.gwf_19_all_ww_l_helper'')|float }}'
+    target:
+      entity_id: input_number.gwf_19_ww_l_helper
+    alias: Speichere den Warmwasserverbrauch seit der letzten Ladung
+  - variables:
+      esti_kw_a: '{{  ((states(''input_number.gwf_19_ww_l_helper'')|float)*1.16* (states(''input_number.luxtronik_19_ww_solltemperatur'')|float-15))|round(1)  }}'
+    alias: Variablen esti_kw_a definieren (Hochrechnung kW Bedarf anhand l Verbrauch
+      GWF)
+  - service: utility_meter.calibrate
+    data:
+      value: '0'
+    target:
+      entity_id:
+      - sensor.gwf_19_all_ww_l_helper
+    alias: Zurücksetzen der Utility Meter für Warmwasserverbrauch
+  - service: input_number.set_value
+    data:
+      value: '{{ states(''sensor.gwf_19_hz_ug_kw_helper'')|float }}'
+    target:
+      entity_id: input_number.gwf_19_hz_ug_kw_helper
+    alias: Speichere den Kilowatt Verbrauch von dieser Ladung
+  - service: input_number.set_value
+    data:
+      value: '{{ esti_kw_a|float }}'
+    target:
+      entity_id: input_number.bwm19_variable_esti_kw_a
+  - service: input_number.set_value
+    data:
+      value: '{{ esti_kw_b|float }}'
+    target:
+      entity_id: input_number.bwm19_variable_esti_kw_b
+  - service: input_number.set_value
+    data:
+      value: '{{ tvl_50_watt|float }}'
+    target:
+      entity_id: input_number.bwm19_variable_tvl_50_watt
+  - service: input_number.set_value
+    data:
+      value: '{{ tvl_55_watt|float }}'
+    target:
+      entity_id: input_number.bwm19_variable_tvl_55_watt
+  - service: input_number.set_value
+    data:
+      value: '{{ tvl_60_watt|float }}'
+    target:
+      entity_id: input_number.bwm19_variable_tvl_60_watt
+  - variables:
+      gwf_ende: '{{ now() }}'
+  - service: notify.administrator_rotseepark
+    data:
+      title: 'HA-Info Heatpump 19: Die Boiler Ladung ist beendet'
+      message: "*** Ablaufzeiten ***\nBUP Start   - {{ bup_start }} \nBTW Low End
+        - {{ btw_low_ende }} \nBUP End     - {{ bup_ende }} \nGWF End     - {{ gwf_ende
+        }} \n*** Low Temperatur ermitteln ***\nBTW Low     - {{ btw_low }} Tiefpunkt
+        Brauchwasser Temperatur\nBTW LowT    - {{ btw_lowtime }} Zeitdauer von Start
+        bis Tiefpunkt\nBTW LowM    - {{ btw_lowminute }} Minuten von Start bis Tiefpunkt\nBTW
+        LowDiff - {{ btw_lowdiff }} Differenz Tiefpunkt BW zu Soll\n*** Stromverbrauch
+        Wärmepumpe ***\nStrom kW    - {{ states('input_number.heatpump_19_ww_power_consumption_helper')|round(1)
+        }} kW Verbrauch ganze Anlage\nPumpen kW   - {{ pumpen_kw }} System kW durch
+        Pumpen\nNetto kW WP - {{ (states('input_number.heatpump_19_ww_power_consumption_helper')
+        |float - pumpen_kw)|round(1) }} Netto kW von Wärmepumpe\n50° TVL W   - {{
+        tvl_50_watt }}\n55° TVL W   - {{ tvl_55_watt }}\n60° TVL W   - {{ tvl_60_watt
+        }}\n*** Warmwasser Verbrauch ***\nl WW       - {{ states('input_number.gwf_19_ww_l_helper')
+        }} l seit letzter Ladung\n*** kW Hochrechnungen und GWF Zähler VL/RL ***\nEsti
+        kW A   - {{ esti_kw_a }} kW anhand l Verbrauch\nEsti kW B   - {{ esti_kw_b
+        }} kW anhand btw low und Umwälzvolumen\nVL/RL kW    - {{ states('input_number.gwf_19_hz_ug_kw_helper')
+        }} kW Energie im VL/RL entnommen\n*** Errechnete Wirkungsgrade ***\nWG Platte
+        \  - {{ (((esti_kw_a + esti_kw_b)/2)/ states('input_number.gwf_19_hz_ug_kw_helper')|float*100)|round(0)
+        }}% Wirkungsgrad Plattentauscher\nWG Faktor   - {{ ((states('input_number.gwf_19_hz_ug_kw_helper')|float)
+        /(states('input_number.heatpump_19_ww_power_consumption_helper')|float  -
+        pumpen_kw))|round(1) }} Faktor Wärme VL/RL versus kW Verdichter"
+  mode: single
+- id: '1694404401938'
+  alias: Monitoring Heatpump 23 - Brauchwasser Erzeugung Energie Verbrauch
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.luxtronik23_bup
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - variables:
+      bup_start: '{{ now() }}'
+  - service: utility_meter.calibrate
+    data:
+      value: '0'
+    target:
+      entity_id:
+      - sensor.heatpump_23_ww_power_consumption_helper
+      - sensor.gwf_23_hz_ug_kw_helper
+    alias: Zurücksetzen der Utility Meter für Warmwasser Erzeugung kW und Stromverbrauch
+  - delay:
+      hours: 0
+      minutes: 2
+      seconds: 0
+      milliseconds: 0
+  - service: input_number.set_value
+    data:
+      value: '{{ states(''sensor.luxtronik23_tbw'')|float }}'
+    target:
+      entity_id: input_number.luxtronik_23_tbw_degc_helper
+    alias: Speichere die aktuelle Brauchwasser Temperatur
+  - repeat:
+      while:
+      - condition: template
+        value_template: '{{ states(''sensor.luxtronik23_tbw'') >= states(''input_number.luxtronik_23_tbw_degc_helper'')
+          }}'
+        alias: Brauchwasser Temperatur >= gespeicherte Temperatur
+      sequence:
+      - service: input_number.set_value
+        data:
+          value: '{{ states(''sensor.luxtronik23_tbw'')|float }}'
+        target:
+          entity_id: input_number.luxtronik_23_tbw_degc_helper
+        alias: Speichere die aktuelle Brauchwasser Temperatur
+      - wait_for_trigger:
+        - platform: state
+          entity_id:
+          - sensor.luxtronik23_tbw
+        alias: Warten, bis Brauchwasser Temperatur ändert
+    alias: Warten, solange die Brauchwasser Temperatur steigend ist
+  - repeat:
+      while:
+      - condition: template
+        value_template: '{{ states(''sensor.luxtronik23_tbw'') <= states(''input_number.luxtronik_23_tbw_degc_helper'')
+          }}'
+        alias: Brauchwasser Temperatur <= gespeicherte Temperatur
+      sequence:
+      - service: input_number.set_value
+        data:
+          value: '{{ states(''sensor.luxtronik23_tbw'')|float }}'
+        target:
+          entity_id: input_number.luxtronik_23_tbw_degc_helper
+        alias: Speichere die aktuelle Brauchwasser Temperatur
+      - wait_for_trigger:
+        - platform: state
+          entity_id:
+          - sensor.luxtronik23_tbw
+        alias: Warten, bis Brauchwasser Temperatur ändert
+    alias: Warten, solange die Brauchwasser Temperatur sinkend ist
+  - variables:
+      btw_low_ende: '{{ now() }}'
+      btw_low: '{{ states(''sensor.luxtronik23_tbw'') }}'
+      btw_lowtime: '{{ now() - strptime(bup_start, ''%Y-%m-%d %H:%M:%S.%f%z'') }}'
+      btw_lowminute: '{{ ((now().timestamp() - strptime(bup_start, ''%Y-%m-%d %H:%M:%S.%f%z'').timestamp())/60)|round(0)
+        }}'
+  - wait_for_trigger:
+    - platform: numeric_state
+      entity_id: sensor.luxtronik23_tvl
+      above: 49.9
+    alias: Warten bis Vorlauf Temperatur 50°
+  - variables:
+      tvl_50_watt: '{{ states(''sensor.solar_consumption_23_ww_wp'') }}'
+  - wait_for_trigger:
+    - platform: numeric_state
+      entity_id: sensor.luxtronik23_tvl
+      above: 54.9
+    alias: Warten bis Vorlauf Temperatur 55°
+  - variables:
+      tvl_55_watt: '{{ states(''sensor.solar_consumption_23_ww_wp'') }}'
+  - wait_template: '{{ states(''sensor.luxtronik23_tvl'')|int >= 60 or states(''binary_sensor.luxtronik23_bup'')
+      == ''off'' }}'
+    continue_on_timeout: true
+    alias: Warten bis Vorlauf Temperatur 60°
+  - variables:
+      tvl_60_watt: '{{ states(''sensor.solar_consumption_23_ww_wp'') }}'
+  - if:
+    - condition: state
+      entity_id: binary_sensor.luxtronik23_bup
+      state: 'on'
+    then:
+    - wait_for_trigger:
+      - platform: state
+        entity_id:
+        - binary_sensor.luxtronik23_bup
+        from: 'on'
+        to: 'off'
+      alias: Warten, bis die Brauchwasser Produktion endet
+    alias: Warten, bis die Brauchwasser Produktion endet, sofern sie noch läuft
+  - wait_for_trigger:
+    - platform: state
+      entity_id:
+      - binary_sensor.luxtronik23_bup
+      from: 'on'
+      to: 'off'
+    alias: Warten, bis die Brauchwasser Produktion endet
+    enabled: false
+  - variables:
+      bup_ende: '{{ now() }}'
+  - variables:
+      pumpen_kw: '{{  (  ( 2300/1000/60* ( strptime(bup_ende, ''%Y-%m-%d %H:%M:%S.%f%z'').timestamp()  -
+        strptime(bup_start, ''%Y-%m-%d %H:%M:%S.%f%z'').timestamp() )/60 )|round(1)  )
+        }}'
+    alias: Variablen pumpen_kw definieren (Hochrechnung kW Bedarf der Pumpen)
+  - variables:
+      btw_lowdiff: '{{ (( states(''input_number.luxtronik_23_ww_solltemperatur'')|float
+        )-(btw_low)|float+(5/60*(btw_lowminute)|float))|round(1) }}'
+    alias: Variablen btw_lowdiff definieren (Tiefste berechnete Temperatur)
+  - variables:
+      esti_kw_b: '{{  ((4400/4*3/1000)*1.16*btw_lowdiff)|round(1)  }}'
+    alias: Variablen esti_kw_b definieren (Hochrechnung kW Bedarf btw und Umwälzvolumen)
+  - service: input_number.set_value
+    data:
+      value: '{{ 0 if is_state(''sensor.heatpump_23_ww_power_consumption_helper'',
+        ''unknown'')  else states(''sensor.heatpump_23_ww_power_consumption_helper'')|float}}'
+    target:
+      entity_id: input_number.heatpump_23_ww_power_consumption_helper
+    alias: Speichere den Strom Verbrauch von dieser Ladung
+  - wait_for_trigger:
+    - platform: state
+      entity_id:
+      - sensor.gwf_23_all_ww_l_helper
+    alias: Warten bis der Warmwasser l Utility Meter das nächste mal ändert
+    timeout:
+      hours: 1
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - service: input_number.set_value
+    data:
+      value: '{{ states(''sensor.gwf_23_all_ww_l_helper'')|float }}'
+    target:
+      entity_id: input_number.gwf_23_ww_l_helper
+    alias: Speichere den Warmwasserverbrauch seit der letzten Ladung
+  - variables:
+      esti_kw_a: '{{  ((states(''input_number.gwf_23_ww_l_helper'')|float)*1.16* (states(''input_number.luxtronik_23_ww_solltemperatur'')|float-15))|round(1)  }}'
+    alias: Variablen esti_kw_a definieren (Hochrechnung kW Bedarf anhand l Verbrauch
+      GWF)
+  - service: utility_meter.calibrate
+    data:
+      value: '0'
+    target:
+      entity_id:
+      - sensor.gwf_23_all_ww_l_helper
+    alias: Zurücksetzen der Utility Meter für Warmwasserverbrauch
+  - service: input_number.set_value
+    data:
+      value: '{{ states(''sensor.gwf_23_hz_ug_kw_helper'')|float }}'
+    target:
+      entity_id: input_number.gwf_23_hz_ug_kw_helper
+    alias: Speichere den Kilowatt Verbrauch von dieser Ladung
+  - service: input_number.set_value
+    data:
+      value: '{{ esti_kw_a|float }}'
+    target:
+      entity_id: input_number.bwm23_variable_esti_kw_a
+  - service: input_number.set_value
+    data:
+      value: '{{ esti_kw_b|float }}'
+    target:
+      entity_id: input_number.bwm23_variable_esti_kw_b
+  - service: input_number.set_value
+    data:
+      value: '{{ tvl_50_watt|float }}'
+    target:
+      entity_id: input_number.bwm23_variable_tvl_50_watt
+  - service: input_number.set_value
+    data:
+      value: '{{ tvl_55_watt|float }}'
+    target:
+      entity_id: input_number.bwm23_variable_tvl_55_watt
+  - service: input_number.set_value
+    data:
+      value: '{{ tvl_60_watt|float }}'
+    target:
+      entity_id: input_number.bwm23_variable_tvl_60_watt
+  - variables:
+      gwf_ende: '{{ now() }}'
+  - service: notify.administrator_rotseepark
+    data:
+      title: 'HA-Info Heatpump 23: Die Boiler Ladung ist beendet'
+      message: "*** Ablaufzeiten ***\nBUP Start   - {{ bup_start }} \nBTW Low End
+        - {{ btw_low_ende }} \nBUP End     - {{ bup_ende }} \nGWF End     - {{ gwf_ende
+        }} \n*** Low Temperatur ermitteln ***\nBTW Low     - {{ btw_low }} Tiefpunkt
+        Brauchwasser Temperatur\nBTW LowT    - {{ btw_lowtime }} Zeitdauer von Start
+        bis Tiefpunkt\nBTW LowM    - {{ btw_lowminute }} Minuten von Start bis Tiefpunkt\nBTW
+        LowDiff - {{ btw_lowdiff }} Differenz Tiefpunkt BW zu Soll\n*** Stromverbrauch
+        Wärmepumpe ***\nStrom kW    - {{ states('input_number.heatpump_23_ww_power_consumption_helper')|round(1)
+        }} kW Verbrauch ganze Anlage\nPumpen kW   - {{ pumpen_kw }} System kW durch
+        Pumpen\nNetto kW WP - {{ (states('input_number.heatpump_23_ww_power_consumption_helper')
+        |float - pumpen_kw)|round(1) }} Netto kW von Wärmepumpe\n50° TVL W   - {{
+        tvl_50_watt }}\n55° TVL W   - {{ tvl_55_watt }}\n60° TVL W   - {{ tvl_60_watt
+        }}\n*** Warmwasser Verbrauch ***\nl WW       - {{ states('input_number.gwf_23_ww_l_helper')
+        }} l seit letzter Ladung\n*** kW Hochrechnungen und GWF Zähler VL/RL ***\nEsti
+        kW A   - {{ esti_kw_a }} kW anhand l Verbrauch\nEsti kW B   - {{ esti_kw_b
+        }} kW anhand btw low und Umwälzvolumen\nVL/RL kW    - {{ states('input_number.gwf_23_hz_ug_kw_helper')
+        }} kW Energie im VL/RL entnommen\n*** Errechnete Wirkungsgrade ***\nWG Platte
+        \  - {{ (((esti_kw_a + esti_kw_b)/2)/ states('input_number.gwf_23_hz_ug_kw_helper')|float*100)|round(0)
+        }}% Wirkungsgrad Plattentauscher\nWG Faktor   - {{ ((states('input_number.gwf_23_hz_ug_kw_helper')|float)
+        /(states('input_number.heatpump_23_ww_power_consumption_helper')|float  -
+        pumpen_kw))|round(1) }} Faktor Wärme VL/RL versus kW Verdichter"
   mode: single

@@ -1,0 +1,43 @@
+# ####### #################### #######
+# ####### Helper Input Boolean #######
+# ####### #################### #######
+
+luxtronik_twq_kalibriert:
+  name: Luxtronik TWQ Eintritt / Austritt Daten kalibriert anzeigen (ein / aus)
+  icon: mdi:toggle-switch
+
+luxtronik_spreizung_anzeigen:
+  name: Luxtronik Spreizung TVL / TRL oder TRL ext / soll anzeigen anstelle der einzelnen Werte TVR TRL TRL ext und TRL soll
+  icon: mdi:toggle-switch
+
+luxtronik_heizphase_haus_19:
+  name: Luxtronik Heizphase Haus 19
+  icon: mdi:heat-wave
+
+luxtronik_heizphase_haus_21:
+  name: Luxtronik Heizphase Haus 21
+  icon: mdi:heat-wave
+
+luxtronik_heizphase_haus_23:
+  name: Luxtronik Heizphase Haus 23
+  icon: mdi:heat-wave
+
+luxtronik_heizphase_haus_25:
+  name: Luxtronik Heizphase Haus 25
+  icon: mdi:heat-wave
+
+luxtronik_kuhlphase_haus_19:
+  name: Luxtronik Kühlphase Haus 19
+  icon: mdi:snowflake
+
+luxtronik_kuhlphase_haus_21:
+  name: Luxtronik Kühlphase Haus 21
+  icon: mdi:snowflake
+
+luxtronik_kuhlphase_haus_23:
+  name: Luxtronik Kühlphase Haus 23
+  icon: mdi:snowflake
+
+luxtronik_kuhlphase_haus_25:
+  name: Luxtronik Kühlphase Haus 25
+  icon: mdi:snowflake

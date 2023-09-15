@@ -1,0 +1,450 @@
+# ####### ################### #######
+# ####### Helper Input Number #######
+# ####### ################### #######
+
+anzahl_zaptec_stationen:
+  min: 0.0
+  max: 100.0
+  name: Anzahl Zaptec Stationen
+  mode: box
+  step: 1.0
+
+luxtronik_19_twq_ein_offset:
+  min: -5.0
+  max: 5.0
+  name: Luxtronik 19 TWQ ein Offset
+  mode: box
+  step: 1.0
+
+luxtronik_21_twq_ein_offset:
+  min: -5.0
+  max: 5.0
+  name: Luxtronik 21 TWQ ein Offset
+  mode: box
+  step: 1.0
+
+luxtronik_23_twq_ein_offset:
+  min: -5.0
+  max: 5.0
+  name: Luxtronik 23 TWQ ein Offset
+  mode: box
+  step: 1.0
+
+luxtronik_25_twq_ein_offset:
+  min: -5.0
+  max: 5.0
+  name: Luxtronik 25 TWQ ein Offset
+  mode: box
+  step: 1.0
+
+luxtronik_19_twq_aus_offset:
+  min: -5.0
+  max: 5.0
+  name: Luxtronik 19 TWQ aus Offset
+  mode: box
+  step: 1.0
+
+luxtronik_21_twq_aus_offset:
+  min: -5.0
+  max: 5.0
+  name: Luxtronik 21 TWQ aus Offset
+  mode: box
+  step: 1.0
+
+luxtronik_23_twq_aus_offset:
+  min: -5.0
+  max: 5.0
+  name: Luxtronik 23 TWQ aus Offset
+  mode: box
+  step: 1.0
+
+luxtronik_25_twq_aus_offset:
+  min: -5.0
+  max: 5.0
+  name: Luxtronik 25 TWQ aus Offset
+  mode: box
+  step: 1.0
+
+ewl_mixstrom_tagestarif:
+  min: 0.0
+  max: 100.0
+  unit_of_measurement: CHF/kWh
+  mode: box
+  name: ewl Mixstrom Tagestarif
+  icon: mdi:cash
+  step: 1.0
+
+ewl_mixtrom_nachttarif:
+  min: 0.0
+  max: 100.0
+  name: ewl Mixtrom Nachttarif
+  icon: mdi:cash
+  mode: box
+  unit_of_measurement: CHF/kWh
+  step: 1.0
+
+ewl_mixstrom_aktueller_tarif:
+  min: 0.0
+  max: 100.0
+  name: ewl Mixstrom aktueller Tarif
+  mode: box
+  unit_of_measurement: CHF/kWh
+  icon: mdi:cash
+  step: 1.0
+
+ewl_einspeisung_eigenverbrauch:
+  min: 0.0
+  max: 100.0
+  name: ewl Einspeisung Eigenverbrauch
+  mode: box
+  unit_of_measurement: CHF/kWh
+  icon: mdi:cash
+  step: 1.0
+
+ewl_einspeisung_uberschuss:
+  min: 0.0
+  max: 100.0
+  name: ewl Einspeisung Überschuss
+  icon: mdi:cash
+  unit_of_measurement: CHF/kWh
+  mode: box
+  step: 1.0
+
+ewl_einspeisung_aktueller_tarif:
+  min: 0.0
+  max: 100.0
+  name: ewl Einspeisung aktueller Tarif
+  icon: mdi:cash
+  unit_of_measurement: CHF/kWh
+  mode: box
+  step: 1.0
+
+luxtronik_twq_aus_schwellwert:
+  min: -5.0
+  max: 100.0
+  name: Luxtronik TWQ aus Schwellwert
+  unit_of_measurement: °C
+  step: 1.0
+  mode: box
+
+luxtronik_heizkurve_hks:
+  min: 15.0
+  max: 25.0
+  name: Luxtronik Heizkurve HKS
+  step: 0.5
+  unit_of_measurement: °C
+  mode: box
+
+luxtronik_heizkurve_hke:
+  min: 25.0
+  max: 40.0
+  name: Luxtronik Heizkurve HKE
+  step: 0.5
+  unit_of_measurement: °C
+  mode: box
+
+luxtronik_heizkurve_offset:
+  min: -5.0
+  max: 5.0
+  name: Luxtronik Heizkurve Offset
+  step: 0.5
+  unit_of_measurement: °C
+  mode: box
+
+heatpump_19_kompressor_start_pro_tag:
+  min: 0.0
+  max: 100.0
+  name: Heatpump 19 Kompressor Start pro Tag
+  step: 1.0
+  mode: box
+
+heatpump_21_kompressor_start_pro_tag:
+  min: 0.0
+  max: 100.0
+  name: Heatpump 21 Kompressor Start pro Tag
+  step: 1.0
+  mode: box
+
+heatpump_23_kompressor_start_pro_tag:
+  min: 0.0
+  max: 100.0
+  name: Heatpump 23 Kompressor Start pro Tag
+  step: 1.0
+  mode: box
+
+heatpump_25_kompressor_start_pro_tag:
+  min: 0.0
+  max: 100.0
+  name: Heatpump 25 Kompressor Start pro Tag
+  step: 1.0
+  mode: box
+
+luxtronik_19_ww_solltemperatur:
+  min: 30.0
+  max: 70.0
+  name: Luxtronik 19 WW Solltemperatur
+  unit_of_measurement: °C
+  mode: slider
+  step: 1.0
+
+luxtronik_21_ww_solltemperatur:
+  min: 30.0
+  max: 70.0
+  name: Luxtronik 21 WW Solltemperatur
+  unit_of_measurement: °C
+  mode: slider
+  step: 1.0
+
+luxtronik_23_ww_solltemperatur:
+  min: 30.0
+  max: 70.0
+  name: Luxtronik 23 WW Solltemperatur
+  unit_of_measurement: °C
+  mode: slider
+  step: 1.0
+
+luxtronik_25_ww_solltemperatur:
+  min: 30.0
+  max: 70.0
+  name: Luxtronik 25 WW Solltemperatur
+  unit_of_measurement: °C
+  mode: slider
+  step: 1.0
+
+luxtronik_19_ww_hysterese:
+  min: 1.0
+  max: 30.0
+  name: Luxtronik 19 WW Hysterese
+  mode: slider
+  step: 1.0
+
+luxtronik_21_ww_hysterese:
+  min: 1.0
+  max: 30.0
+  name: Luxtronik 21 WW Hysterese
+  mode: slider
+  step: 1.0
+
+luxtronik_23_ww_hysterese:
+  min: 1.0
+  max: 30.0
+  name: Luxtronik 23 WW Hysterese
+  mode: slider
+  step: 1.0
+
+luxtronik_25_ww_hysterese:
+  min: 1.0
+  max: 30.0
+  name: Luxtronik 25 WW Hysterese
+  mode: slider
+  step: 1.0
+
+luxtronik_19_ww_solltemperatur_wunschwert:
+  min: 30.0
+  max: 70.0
+  name: Luxtronik 19 WW Solltemperatur Wunschwert
+  step: 1.0
+  mode: slider
+  unit_of_measurement: °C
+
+luxtronik_21_ww_solltemperatur_wunschwert:
+  min: 30.0
+  max: 70.0
+  name: Luxtronik 21 WW Solltemperatur Wunschwert
+  step: 1.0
+  mode: slider
+  unit_of_measurement: °C
+
+luxtronik_23_ww_solltemperatur_wunschwert:
+  min: 30.0
+  max: 70.0
+  name: Luxtronik 23 WW Solltemperatur Wunschwert
+  step: 1.0
+  mode: slider
+  unit_of_measurement: °C
+
+luxtronik_25_ww_solltemperatur_wunschwert:
+  min: 30.0
+  max: 70.0
+  name: Luxtronik 25 WW Solltemperatur Wunschwert
+  unit_of_measurement: °C
+  step: 1.0
+  mode: slider
+
+luxtronik_tdi_temperatur:
+  min: 55.0
+  max: 60.0
+  name: Luxtronik WW TDI Temperatur
+  step: 1.0
+  mode: slider
+
+luxtronik_ww_normaltemperatur:
+  min: 30.0
+  max: 70.0
+  name: Luxtronik WW Solltemperatur Normaltemperatur
+  step: 1.0
+  mode: slider
+
+luxtronik_ww_normalhysterese:
+  min: 1.0
+  max: 30.0
+  name: Luxtronik WW Normalhysterese
+  unit_of_measurement: °C
+  step: 1.0
+  mode: slider
+
+gwf_21_ww_l_helper:
+  min: 0.0
+  max: 4400.0
+  name: BWM21 - GWF 21 WW l helper
+  mode: box
+  unit_of_measurement: L
+  step: 10.0
+  icon: mdi:water
+
+gwf_25_ww_l_helper:
+  min: 0.0
+  max: 4400.0
+  name: BWM25 - GWF 25 WW l helper
+  mode: box
+  unit_of_measurement: L
+  step: 10.0
+  icon: mdi:water
+
+heatpump_21_ww_power_consumption_helper:
+  min: 0.0
+  max: 200.0
+  name: BWM21 - Heatpump 21 WW Power Consumption helper
+  mode: box
+  unit_of_measurement: kW
+  step: 1.0
+
+heatpump_25_ww_power_consumption_helper:
+  min: 0.0
+  max: 200.0
+  name: BWM25 - Heatpump 25 WW Power Consumption helper
+  mode: box
+  unit_of_measurement: kW
+  step: 1.0
+
+gwf_21_hz_ug_kw_helper:
+  min: 0.0
+  max: 297.0
+  name: BWM21 - GWF 21 HZ UG kW helper
+  mode: box
+  unit_of_measurement: kW
+  step: 1.0
+
+gwf_25_hz_ug_kw_helper:
+  min: 0.0
+  max: 297.0
+  name: BWM25 - GWF 25 HZ UG kW helper
+  mode: box
+  unit_of_measurement: kW
+  step: 1.0
+
+luxtronik_21_tbw_degc_helper:
+  min: 0.0
+  max: 100.0
+  name: BWM21 - Luxtronik 21 TBW °C helper
+  mode: box
+  unit_of_measurement: °C
+  step: 1.0
+
+luxtronik_25_tbw_degc_helper:
+  min: 0.0
+  max: 100.0
+  name: BWM25 - Luxtronik 25 TBW °C helper
+  mode: box
+  unit_of_measurement: °C
+  step: 1.0
+
+bwm21_variable_tvl_50_watt:
+  min: 0.0
+  max: 15000.0
+  name: BWM21 - Variable tvl_50_watt
+  step: 1.0
+  mode: box
+  icon: mdi:lightning-bolt
+  unit_of_measurement: W
+
+bwm25_variable_tvl_50_watt:
+  min: 0.0
+  max: 15000.0
+  name: BWM25 - Variable tvl_50_watt
+  step: 1.0
+  mode: box
+  icon: mdi:lightning-bolt
+  unit_of_measurement: W
+
+bwm21_variable_tvl_55_watt:
+  min: 0.0
+  max: 15000.0
+  name: BWM21 - Variable tvl_55_watt
+  icon: mdi:lightning-bolt
+  mode: box
+  unit_of_measurement: W
+  step: 1.0
+
+bwm25_variable_tvl_55_watt:
+  min: 0.0
+  max: 15000.0
+  name: BWM25 - Variable tvl_55_watt
+  icon: mdi:lightning-bolt
+  mode: box
+  unit_of_measurement: W
+  step: 1.0
+
+bwm21_variable_tvl_60_watt:
+  min: 0.0
+  max: 15000.0
+  name: BWM21 - Variable tvl_60_watt
+  icon: mdi:lightning-bolt
+  mode: box
+  unit_of_measurement: W
+  step: 1.0
+
+bwm25_variable_tvl_60_watt:
+  min: 0.0
+  max: 15000.0
+  name: BWM25 - Variable tvl_60_watt
+  icon: mdi:lightning-bolt
+  mode: box
+  unit_of_measurement: W
+  step: 1.0
+
+bwm21_variable_esti_kw_a:
+  min: 0.0
+  max: 100.0
+  name: BWM21 - Variable esti_kw_a
+  icon: mdi:counter
+  mode: box
+  unit_of_measurement: kW
+  step: 1.0
+
+bwm25_variable_esti_kw_a:
+  min: 0.0
+  max: 100.0
+  name: BWM25 - Variable esti_kw_a
+  icon: mdi:counter
+  mode: box
+  unit_of_measurement: kW
+  step: 1.0
+
+bwm21_variable_esti_kw_b:
+  min: 0.0
+  max: 100.0
+  name: BWM21 - Variable esti_kw_b
+  icon: mdi:counter
+  mode: box
+  unit_of_measurement: kW
+  step: 1.0
+
+bwm25_variable_esti_kw_b:
+  min: 0.0
+  max: 100.0
+  name: BWM25 - Variable esti_kw_b
+  icon: mdi:counter
+  mode: box
+  unit_of_measurement: kW
+  step: 1.0
