@@ -132,7 +132,7 @@
       state: "{% if states('sensor.gwf_25_state') == 'OK' -%}
       {{ 
 (0
-+state_attr('sensor.gwf_25_state','gwf')['HZ21UG']['energy_2']['wert']|float 
++state_attr('sensor.gwf_25_state','gwf')['HZ25UG']['energy_2']['wert']|float 
 )|round(0)}}
     {%- else -%}
       {{ states('sensor.gwf_25_hz_ug_kw') }}
@@ -150,7 +150,7 @@
       state: "{% if states('sensor.gwf_25_state') == 'OK' -%}
       {{ 
 ((0
-+state_attr('sensor.gwf_25_state','gwf')['HZ21UG']['volume_3']['wert']|float 
++state_attr('sensor.gwf_25_state','gwf')['HZ25UG']['volume_3']['wert']|float 
 )*1000)|round(2)}}
     {%- else -%}
       {{ states('sensor.gwf_25_hz_ug_l') }}

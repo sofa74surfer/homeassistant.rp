@@ -6880,7 +6880,8 @@
       entity_id: input_number.gwf_21_ww_l_helper
     alias: Speichere den Warmwasserverbrauch seit der letzten Ladung
   - variables:
-      esti_kw_a: '{{  ((states(''input_number.gwf_21_ww_l_helper'')|float)*1.16* (states(''input_number.luxtronik_21_ww_solltemperatur'')|float-15))|round(1)  }}'
+      esti_kw_a: '{{  ((states(''input_number.gwf_21_ww_l_helper'')|float)/1000*1.16*
+        (states(''input_number.luxtronik_21_ww_solltemperatur'')|float-15))|round(1)  }}'
     alias: Variablen esti_kw_a definieren (Hochrechnung kW Bedarf anhand l Verbrauch
       GWF)
   - service: utility_meter.calibrate
@@ -7113,7 +7114,8 @@
       entity_id: input_number.gwf_25_ww_l_helper
     alias: Speichere den Warmwasserverbrauch seit der letzten Ladung
   - variables:
-      esti_kw_a: '{{  ((states(''input_number.gwf_25_ww_l_helper'')|float)*1.16* (states(''input_number.luxtronik_25_ww_solltemperatur'')|float-15))|round(1)  }}'
+      esti_kw_a: '{{  ((states(''input_number.gwf_25_ww_l_helper'')|float)/1000*1.16*
+        (states(''input_number.luxtronik_25_ww_solltemperatur'')|float-15))|round(1)  }}'
     alias: Variablen esti_kw_a definieren (Hochrechnung kW Bedarf anhand l Verbrauch
       GWF)
   - service: utility_meter.calibrate
