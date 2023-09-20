@@ -293,10 +293,28 @@ luxtronik_ww_normalhysterese:
   step: 1.0
   mode: slider
 
+gwf_19_ww_l_helper:
+  min: 0.0
+  max: 4400.0
+  name: BWM19 - GWF 19 WW l helper
+  mode: box
+  unit_of_measurement: L
+  step: 10.0
+  icon: mdi:water
+
 gwf_21_ww_l_helper:
   min: 0.0
   max: 4400.0
   name: BWM21 - GWF 21 WW l helper
+  mode: box
+  unit_of_measurement: L
+  step: 10.0
+  icon: mdi:water
+
+gwf_23_ww_l_helper:
+  min: 0.0
+  max: 4400.0
+  name: BWM23 - GWF 23 WW l helper
   mode: box
   unit_of_measurement: L
   step: 10.0
@@ -311,10 +329,26 @@ gwf_25_ww_l_helper:
   step: 10.0
   icon: mdi:water
 
+heatpump_19_ww_power_consumption_helper:
+  min: 0.0
+  max: 200.0
+  name: BWM19 - Heatpump 19 WW Power Consumption helper
+  mode: box
+  unit_of_measurement: kW
+  step: 1.0
+
 heatpump_21_ww_power_consumption_helper:
   min: 0.0
   max: 200.0
   name: BWM21 - Heatpump 21 WW Power Consumption helper
+  mode: box
+  unit_of_measurement: kW
+  step: 1.0
+
+heatpump_23_ww_power_consumption_helper:
+  min: 0.0
+  max: 200.0
+  name: BWM23 - Heatpump 23 WW Power Consumption helper
   mode: box
   unit_of_measurement: kW
   step: 1.0
@@ -327,10 +361,26 @@ heatpump_25_ww_power_consumption_helper:
   unit_of_measurement: kW
   step: 1.0
 
+gwf_19_hz_ug_kw_helper:
+  min: 0.0
+  max: 297.0
+  name: BWM19 - GWF 19 HZ UG kW helper
+  mode: box
+  unit_of_measurement: kW
+  step: 1.0
+
 gwf_21_hz_ug_kw_helper:
   min: 0.0
   max: 297.0
   name: BWM21 - GWF 21 HZ UG kW helper
+  mode: box
+  unit_of_measurement: kW
+  step: 1.0
+
+gwf_23_hz_ug_kw_helper:
+  min: 0.0
+  max: 297.0
+  name: BWM23 - GWF 23 HZ UG kW helper
   mode: box
   unit_of_measurement: kW
   step: 1.0
@@ -343,10 +393,26 @@ gwf_25_hz_ug_kw_helper:
   unit_of_measurement: kW
   step: 1.0
 
+luxtronik_19_tbw_degc_helper:
+  min: 0.0
+  max: 100.0
+  name: BWM19 - Luxtronik 19 TBW °C helper
+  mode: box
+  unit_of_measurement: °C
+  step: 1.0
+
 luxtronik_21_tbw_degc_helper:
   min: 0.0
   max: 100.0
   name: BWM21 - Luxtronik 21 TBW °C helper
+  mode: box
+  unit_of_measurement: °C
+  step: 1.0
+
+luxtronik_23_tbw_degc_helper:
+  min: 0.0
+  max: 100.0
+  name: BWM23 - Luxtronik 23 TBW °C helper
   mode: box
   unit_of_measurement: °C
   step: 1.0
@@ -359,10 +425,28 @@ luxtronik_25_tbw_degc_helper:
   unit_of_measurement: °C
   step: 1.0
 
+bwm19_variable_tvl_50_watt:
+  min: 0.0
+  max: 15000.0
+  name: BWM19 - Variable tvl_50_watt
+  step: 1.0
+  mode: box
+  icon: mdi:lightning-bolt
+  unit_of_measurement: W
+
 bwm21_variable_tvl_50_watt:
   min: 0.0
   max: 15000.0
   name: BWM21 - Variable tvl_50_watt
+  step: 1.0
+  mode: box
+  icon: mdi:lightning-bolt
+  unit_of_measurement: W
+
+bwm23_variable_tvl_50_watt:
+  min: 0.0
+  max: 15000.0
+  name: BWM23 - Variable tvl_50_watt
   step: 1.0
   mode: box
   icon: mdi:lightning-bolt
@@ -377,10 +461,28 @@ bwm25_variable_tvl_50_watt:
   icon: mdi:lightning-bolt
   unit_of_measurement: W
 
+bwm19_variable_tvl_55_watt:
+  min: 0.0
+  max: 15000.0
+  name: BWM19 - Variable tvl_55_watt
+  icon: mdi:lightning-bolt
+  mode: box
+  unit_of_measurement: W
+  step: 1.0
+
 bwm21_variable_tvl_55_watt:
   min: 0.0
   max: 15000.0
   name: BWM21 - Variable tvl_55_watt
+  icon: mdi:lightning-bolt
+  mode: box
+  unit_of_measurement: W
+  step: 1.0
+
+bwm23_variable_tvl_55_watt:
+  min: 0.0
+  max: 15000.0
+  name: BWM23 - Variable tvl_55_watt
   icon: mdi:lightning-bolt
   mode: box
   unit_of_measurement: W
@@ -395,10 +497,28 @@ bwm25_variable_tvl_55_watt:
   unit_of_measurement: W
   step: 1.0
 
+bwm19_variable_tvl_60_watt:
+  min: 0.0
+  max: 15000.0
+  name: BWM19 - Variable tvl_60_watt
+  icon: mdi:lightning-bolt
+  mode: box
+  unit_of_measurement: W
+  step: 1.0
+
 bwm21_variable_tvl_60_watt:
   min: 0.0
   max: 15000.0
   name: BWM21 - Variable tvl_60_watt
+  icon: mdi:lightning-bolt
+  mode: box
+  unit_of_measurement: W
+  step: 1.0
+
+bwm23_variable_tvl_60_watt:
+  min: 0.0
+  max: 15000.0
+  name: BWM23 - Variable tvl_60_watt
   icon: mdi:lightning-bolt
   mode: box
   unit_of_measurement: W
@@ -413,10 +533,28 @@ bwm25_variable_tvl_60_watt:
   unit_of_measurement: W
   step: 1.0
 
+bwm19_variable_esti_kw_a:
+  min: 0.0
+  max: 200.0
+  name: BWM19 - Variable esti_kw_a
+  icon: mdi:counter
+  mode: box
+  unit_of_measurement: kW
+  step: 1.0
+
 bwm21_variable_esti_kw_a:
   min: 0.0
-  max: 100.0
+  max: 200.0
   name: BWM21 - Variable esti_kw_a
+  icon: mdi:counter
+  mode: box
+  unit_of_measurement: kW
+  step: 1.0
+
+bwm23_variable_esti_kw_a:
+  min: 0.0
+  max: 200.0
+  name: BWM23 - Variable esti_kw_a
   icon: mdi:counter
   mode: box
   unit_of_measurement: kW
@@ -424,8 +562,17 @@ bwm21_variable_esti_kw_a:
 
 bwm25_variable_esti_kw_a:
   min: 0.0
-  max: 100.0
+  max: 200.0
   name: BWM25 - Variable esti_kw_a
+  icon: mdi:counter
+  mode: box
+  unit_of_measurement: kW
+  step: 1.0
+
+bwm19_variable_esti_kw_b:
+  min: 0.0
+  max: 200.0
+  name: BWM19 - Variable esti_kw_b
   icon: mdi:counter
   mode: box
   unit_of_measurement: kW
@@ -433,8 +580,17 @@ bwm25_variable_esti_kw_a:
 
 bwm21_variable_esti_kw_b:
   min: 0.0
-  max: 100.0
+  max: 200.0
   name: BWM21 - Variable esti_kw_b
+  icon: mdi:counter
+  mode: box
+  unit_of_measurement: kW
+  step: 1.0
+
+bwm23_variable_esti_kw_b:
+  min: 0.0
+  max: 200.0
+  name: BWM23 - Variable esti_kw_b
   icon: mdi:counter
   mode: box
   unit_of_measurement: kW
@@ -442,7 +598,7 @@ bwm21_variable_esti_kw_b:
 
 bwm25_variable_esti_kw_b:
   min: 0.0
-  max: 100.0
+  max: 200.0
   name: BWM25 - Variable esti_kw_b
   icon: mdi:counter
   mode: box

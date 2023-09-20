@@ -1,0 +1,24 @@
+platform: template
+sensors:
+
+# ####### ####################### #######
+# ####### Forecast Sensoren Solar #######
+# ####### ####################### #######
+
+  forecast_solar_production_now:
+    friendly_name: "Forecast Solar Production Now kW"
+    value_template: "{{ 
+    ((states('sensor.forecast_solar_production_now_1')|replace('unavailable', 0)|float +
+    states('sensor.forecast_solar_production_now_2')|replace('unavailable', 0)|float +
+    states('sensor.forecast_solar_production_now_3')|replace('unavailable', 0)|float +
+    states('sensor.forecast_solar_production_now_4')|replace('unavailable', 0)|float +
+    states('sensor.forecast_solar_production_now_5')|replace('unavailable', 0)|float +
+    states('sensor.forecast_solar_production_now_6')|replace('unavailable', 0)|float +
+    states('sensor.forecast_solar_production_now_7')|replace('unavailable', 0)|float +
+    states('sensor.forecast_solar_production_now_8')|replace('unavailable', 0)|float)/1000)|round(0)
+    }}"
+    device_class: power
+    unit_of_measurement: "kW"
+    attribute_templates:
+      last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
+    unique_id: template.forecast_solar_production_now
