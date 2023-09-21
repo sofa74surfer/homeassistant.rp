@@ -1,0 +1,164 @@
+# ####### ################## #######
+# ####### GWF Zählerdaten 19 #######
+# ####### ################## #######
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 19 HZ kW"
+      state: "{% if states('sensor.gwf_19_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_19_state','gwf')['WG1901']['energy_2']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1902']['energy_2']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1911']['energy_2']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1912']['energy_2']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1921']['energy_2']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1922']['energy_2']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1931']['energy_2']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1932']['energy_2']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1941']['energy_2']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1942']['energy_2']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1951']['energy_2']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1952']['energy_2']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1961']['energy_2']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1962']['energy_2']['wert']|float 
+)|round(0)}}
+    {%- else -%}
+      {{ states('sensor.gwf_19_hz_kw') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_19_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_19_state','gwf')['zeit'] }}"
+      device_class: energy
+      state_class: total_increasing
+      unit_of_measurement: "kW"
+      unique_id: template.sensor_gwf_19_hz_kw
+
+# Heizung Volumen L
+- sensor:
+    - name: "GWF 19 HZ l"
+      state: "{% if states('sensor.gwf_19_state') == 'OK' -%}
+      {{ 
+((0
++state_attr('sensor.gwf_19_state','gwf')['WG1901']['volume_3']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1902']['volume_3']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1911']['volume_3']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1912']['volume_3']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1921']['volume_3']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1922']['volume_3']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1931']['volume_3']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1932']['volume_3']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1941']['volume_3']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1942']['volume_3']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1951']['volume_3']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1952']['volume_3']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1961']['volume_3']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1962']['volume_3']['wert']|float 
+)*1000)|round(2)}}
+    {%- else -%}
+      {{ states('sensor.gwf_19_hz_l') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_19_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_19_state','gwf')['zeit'] }}"
+      device_class: water
+      state_class: total_increasing
+      unit_of_measurement: "L"
+      unique_id: template.sensor_gwf_19_hz_l
+
+# Warmwasser Volumen L
+- sensor:
+    - name: "GWF 19 WW l"
+      state: "{% if states('sensor.gwf_19_state') == 'OK' -%}
+      {{ 
+((0
++state_attr('sensor.gwf_19_state','gwf')['WG1901']['volume_14']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1902']['volume_15']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1911']['volume_14']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1912']['volume_14']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1921']['volume_14']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1922']['volume_14']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1931']['volume_14']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1932']['volume_14']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1941']['volume_14']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1942']['volume_14']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1951']['volume_14']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1952']['volume_14']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1961']['volume_14']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1962']['volume_14']['wert']|float 
+)*1000)|round(2)}}
+    {%- else -%}
+      {{ states('sensor.gwf_19_ww_l') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_19_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_19_state','gwf')['zeit'] }}"
+      device_class: water
+      state_class: total_increasing
+      unit_of_measurement: "L"
+      unique_id: template.sensor_gwf_19_ww_l
+
+# Kaltwasser Volumen L
+- sensor:
+    - name: "GWF 19 KW l"
+      state: "{% if states('sensor.gwf_19_state') == 'OK' -%}
+      {{ 
+((0
++state_attr('sensor.gwf_19_state','gwf')['WG1901']['volume_13']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1902']['volume_13']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1902']['volume_14']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1911']['volume_13']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1912']['volume_13']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1921']['volume_13']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1922']['volume_13']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1931']['volume_13']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1932']['volume_13']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1941']['volume_13']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1942']['volume_13']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1951']['volume_13']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1952']['volume_13']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1961']['volume_13']['wert']|float 
++state_attr('sensor.gwf_19_state','gwf')['WG1962']['volume_13']['wert']|float 
+)*1000)|round(2)}}
+    {%- else -%}
+      {{ states('sensor.gwf_19_kw_l') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_19_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_19_state','gwf')['zeit'] }}"
+      device_class: water
+      state_class: total_increasing
+      unit_of_measurement: "L"
+      unique_id: template.sensor_gwf_19_kw_l
+
+# Heizung Energie UG kW
+- sensor:
+    - name: "GWF 19 HZ UG kW"
+      state: "{% if states('sensor.gwf_19_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_19_state','gwf')['HZ19UG']['energy_2']['wert']|float 
+)|round(0)}}
+    {%- else -%}
+      {{ states('sensor.gwf_19_hz_ug_kw') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_19_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_19_state','gwf')['zeit'] }}"
+      device_class: energy
+      state_class: total_increasing
+      unit_of_measurement: "kW"
+      unique_id: template.sensor_gwf_19_hz_ug_kw
+
+# Heizung Volumen UG L
+- sensor:
+    - name: "GWF 19 HZ UG l"
+      state: "{% if states('sensor.gwf_19_state') == 'OK' -%}
+      {{ 
+((0
++state_attr('sensor.gwf_19_state','gwf')['HZ19UG']['volume_3']['wert']|float 
+)*1000)|round(2)}}
+    {%- else -%}
+      {{ states('sensor.gwf_19_hz_ug_l') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_19_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_19_state','gwf')['zeit'] }}"
+      device_class: water
+      state_class: total_increasing
+      unit_of_measurement: "L"
+      unique_id: template.sensor_gwf_19_hz_ug_l
