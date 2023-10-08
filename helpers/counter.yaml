@@ -65,3 +65,67 @@ heatpump_25_kompressor_start_cycle:
   minimum: null
   maximum: null
   step: 1
+
+secomat_191_usage_counter:
+  name: Secomat 19.1 Usage Counter
+  initial: 0
+  restore: true
+  minimum: null
+  maximum: null
+  step: 1
+
+secomat_192_usage_counter:
+  name: Secomat 19.2 Usage Counter
+  initial: 0
+  restore: true
+  minimum: null
+  maximum: null
+  step: 1
+
+secomat_211_usage_counter:
+  name: Secomat 21.1 Usage Counter
+  initial: 0
+  restore: true
+  minimum: null
+  maximum: null
+  step: 1
+
+secomat_212_usage_counter:
+  name: Secomat 21.2 Usage Counter
+  initial: 0
+  restore: true
+  minimum: null
+  maximum: null
+  step: 1
+
+secomat_231_usage_counter:
+  name: Secomat 23.1 Usage Counter
+  initial: 0
+  restore: true
+  minimum: null
+  maximum: null
+  step: 1
+
+secomat_232_usage_counter:
+  name: Secomat 23.2 Usage Counter
+  initial: 0
+  restore: true
+  minimum: null
+  maximum: null
+  step: 1
+
+secomat_251_usage_counter:
+  name: Secomat 25.1 Usage Counter
+  initial: 0
+  restore: true
+  minimum: null
+  maximum: null
+  step: 1
+
+secomat_252_usage_counter:
+  name: Secomat 25.2 Usage Counter
+  initial: 0
+  restore: true
+  minimum: null
+  maximum: null
+  step: 1

@@ -173,6 +173,7 @@
           message: none
       alias: Heizphase ausschalten im Mai/Juni wenn 72h lang Heizgrenze überschritten
         (Rücklauf Soll = 15 °C)
+      enabled: false
     - if:
       - condition: and
         conditions:
@@ -191,17 +192,12 @@
         data: {}
         target:
           entity_id: input_boolean.luxtronik_heizphase_haus_19
-      - service: input_select.set_options
-        data:
-          options: '{{ states(''input_select.luxtronik_operation_mode_automatik'')
-            }}'
-        target:
-          entity_id: input_select.luxtronik_19_hz_operation_mode
       - service: notify.administrator_rotseepark
         data:
           title: 'HA-Info Heatpump 19: Die Heizphase hat begonnen'
           message: none
       alias: Heizphase einschalten im Oktober/November wenn TA Mittel < Heizgrenze
+      enabled: false
     - if:
       - condition: and
         conditions:
@@ -224,6 +220,7 @@
           title: 'HA-Info Heatpump 19: Die Kühlphase hat begonnen'
           message: none
       alias: Kühlphase einschalten im Juni/Juli wenn TA Mittel über 22 °C
+      enabled: false
     - if:
       - condition: and
         conditions:
@@ -246,6 +243,7 @@
           title: 'HA-Info Heatpump 19: Die Kühlphase ist beendet'
           message: Es ist September und TA-Mittel ist unterhalb 16 °C
       alias: Kühlphase ausschalten im September wenn TA Mittel unter 16 °C
+      enabled: false
   - if:
     - condition: template
       value_template: '{% if state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')|safe
@@ -255,7 +253,7 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')[''heating_temperature'']
-          != -3 }}'
+          != 0 }}'
       then:
       - service: notify.administrator_rotseepark
         data:
@@ -306,33 +304,10 @@
       then:
       - service: notify.administrator_rotseepark
         data:
-          title: 'HA-Alert Heatpump 19: Der Wert heating_operation_mode hat geändert
-            (ausserhalb TDI)'
+          title: 'HA-Alert Heatpump 19: Der Wert heating_operation_mode hat geändert'
           message: Der neue Wert für heating_operation_mode ist {{state_attr('sensor.luxtronik_19_param_state',
             'parameters')['heating_operation_mode']}}
-      alias: Prüfe den Parameter heating_operation_mode (ändert während der TDI)
-    - if:
-      - condition: and
-        conditions:
-        - condition: template
-          value_template: "{{ (((state_attr('sensor.luxtronik_19_param_state', 'parameters')['heating_operation_mode'])|int
-            != states('input_select.luxtronik_operation_mode_automatik')|int) \n and
-            states('input_boolean.luxtronik_heizphase_haus_19') == 'on') \n or\n (((state_attr('sensor.luxtronik_19_param_state',\n'parameters')['heating_operation_mode'])|int
-            != states('input_select.luxtronik_operation_mode_aus')|int) \n and states('input_boolean.luxtronik_heizphase_haus_19')
-            == 'off')}}"
-        - condition: state
-          entity_id: schedule.luxtronik_zeitplan_tdi_haus_19
-          state: 'off'
-          enabled: true
-      then:
-      - service: notify.administrator_rotseepark
-        data:
-          title: 'HA-Alert Heatpump 19: Der Wert heating_operation_mode hat geändert
-            (während TDI)'
-          message: Der neue Wert für heating_operation_mode ist {{state_attr('sensor.luxtronik_19_param_state',
-            'parameters')['heating_operation_mode']}}
-      alias: Prüfe den Parameter heating_operation_mode Normabweichung  (nicht während
-        der TDI)
+      alias: Prüfe den Parameter heating_operation_mode
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')[''warmwater_operation_mode_string'']
@@ -348,7 +323,7 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')[''heating_curve_end_point'']
-          != 35 }}'
+          != 30 }}'
       then:
       - service: notify.administrator_rotseepark
         data:
@@ -359,7 +334,7 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')[''heating_curve_parallel_offset'']
-          != 22 }}'
+          != 20 }}'
       then:
       - service: notify.administrator_rotseepark
         data:
@@ -371,7 +346,7 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')[''deltaHeatingReduction'']
-          != 0 }}'
+          != -15 }}'
       then:
       - service: notify.administrator_rotseepark
         data:
@@ -396,7 +371,7 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')[''returnTemperatureHysteresis'']
-          != 3 }}'
+          != 2 }}'
       then:
       - service: notify.administrator_rotseepark
         data:
@@ -530,8 +505,8 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')[''heatingOperationTimerTableDaySunday'']|e
-          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;:
-          &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
+          != "[{&#39;on&#39;: &#39;05:00&#39;, &#39;off&#39;: &#39;12:00&#39;}, {&#39;on&#39;:
+          &#39;12:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
           &#39;off&#39;: &#39;00:00&#39;}]" }}'
       then:
       - service: notify.administrator_rotseepark
@@ -544,8 +519,8 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')[''heatingOperationTimerTableDayMonday'']|e
-          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;:
-          &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
+          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;12:00&#39;}, {&#39;on&#39;:
+          &#39;12:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
           &#39;off&#39;: &#39;00:00&#39;}]" }}'
       then:
       - service: notify.administrator_rotseepark
@@ -558,8 +533,8 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')[''heatingOperationTimerTableDayTuesday'']|e
-          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;:
-          &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
+          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;12:00&#39;}, {&#39;on&#39;:
+          &#39;12:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
           &#39;off&#39;: &#39;00:00&#39;}]" }}'
       then:
       - service: notify.administrator_rotseepark
@@ -572,8 +547,8 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')[''heatingOperationTimerTableDayWednesday'']|e
-          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;:
-          &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
+          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;12:00&#39;}, {&#39;on&#39;:
+          &#39;12:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
           &#39;off&#39;: &#39;00:00&#39;}]" }}'
       then:
       - service: notify.administrator_rotseepark
@@ -586,8 +561,8 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')[''heatingOperationTimerTableDayThursday'']|e
-          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;:
-          &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
+          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;12:00&#39;}, {&#39;on&#39;:
+          &#39;12:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
           &#39;off&#39;: &#39;00:00&#39;}]" }}'
       then:
       - service: notify.administrator_rotseepark
@@ -600,8 +575,8 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')[''heatingOperationTimerTableDayFriday'']|e
-          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;:
-          &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
+          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;12:00&#39;}, {&#39;on&#39;:
+          &#39;12:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
           &#39;off&#39;: &#39;00:00&#39;}]" }}'
       then:
       - service: notify.administrator_rotseepark
@@ -614,8 +589,8 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')[''heatingOperationTimerTableDaySaturday'']|e
-          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;:
-          &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
+          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;12:00&#39;}, {&#39;on&#39;:
+          &#39;12:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
           &#39;off&#39;: &#39;00:00&#39;}]" }}'
       then:
       - service: notify.administrator_rotseepark
@@ -628,7 +603,7 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')[''hotWaterOperationTimerTableSelectedString'']
-          != "Tage (Mo, Di, ...)" }}'
+          != "Woche (Mo-So)" }}'
       then:
       - service: notify.administrator_rotseepark
         data:
@@ -640,8 +615,8 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')[''hotWaterOperationTimerTableWeek'']|e
-          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;:
-          &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
+          != "[{&#39;on&#39;: &#39;09:00&#39;, &#39;off&#39;: &#39;06:00&#39;}, {&#39;on&#39;:
+          &#39;22:00&#39;, &#39;off&#39;: &#39;16:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
           &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;:
           &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}]"
           }}'
@@ -944,6 +919,7 @@
           message: none
       alias: Heizphase ausschalten im Mai/Juni wenn 72h lang Heizgrenze überschritten
         (Rücklauf Soll = 15 °C)
+      enabled: false
     - if:
       - condition: and
         conditions:
@@ -967,6 +943,7 @@
           title: 'HA-Info Heatpump 21: Die Heizphase hat begonnen'
           message: none
       alias: Heizphase einschalten im Oktober/November wenn TA Mittel < Heizgrenze
+      enabled: false
     - if:
       - condition: and
         conditions:
@@ -989,6 +966,7 @@
           title: 'HA-Info Heatpump 21: Die Kühlphase hat begonnen'
           message: none
       alias: Kühlphase einschalten im Juni/Juli wenn TA Mittel über 20 °C
+      enabled: false
     - if:
       - condition: and
         conditions:
@@ -1011,6 +989,7 @@
           title: 'HA-Info Heatpump 21: Die Kühlphase ist beendet'
           message: Es ist September und TA-Mittel ist unterhalb 14 °C
       alias: Kühlphase ausschalten im September wenn TA Mittel unter 14 °C
+      enabled: false
   - if:
     - condition: template
       value_template: '{% if state_attr(''sensor.luxtronik_21_param_state'', ''parameters'')|safe
@@ -1071,33 +1050,10 @@
       then:
       - service: notify.administrator_rotseepark
         data:
-          title: 'HA-Alert Heatpump 21: Der Wert heating_operation_mode hat geändert
-            (ausserhalb TDI)'
+          title: 'HA-Alert Heatpump 21: Der Wert heating_operation_mode hat geändert'
           message: Der neue Wert für heating_operation_mode ist {{state_attr('sensor.luxtronik_21_param_state',
             'parameters')['heating_operation_mode']}}
-      alias: Prüfe den Parameter heating_operation_mode (ändert während der TDI)
-    - if:
-      - condition: and
-        conditions:
-        - condition: template
-          value_template: "{{ (((state_attr('sensor.luxtronik_21_param_state', 'parameters')['heating_operation_mode'])|int
-            != states('input_select.luxtronik_operation_mode_automatik')|int) \n and
-            states('input_boolean.luxtronik_heizphase_haus_21') == 'on') \n or\n (((state_attr('sensor.luxtronik_21_param_state',\n'parameters')['heating_operation_mode'])|int
-            != states('input_select.luxtronik_operation_mode_aus')|int) \n and states('input_boolean.luxtronik_heizphase_haus_21')
-            == 'off')}}"
-        - condition: state
-          entity_id: schedule.luxtronik_zeitplan_tdi_haus_21
-          state: 'off'
-          enabled: true
-      then:
-      - service: notify.administrator_rotseepark
-        data:
-          title: 'HA-Alert Heatpump 21: Der Wert heating_operation_mode hat geändert
-            (während TDI)'
-          message: Der neue Wert für heating_operation_mode ist {{state_attr('sensor.luxtronik_21_param_state',
-            'parameters')['heating_operation_mode']}}
-      alias: Prüfe den Parameter heating_operation_mode Normabweichung  (nicht während
-        der TDI)
+      alias: Prüfe den Parameter heating_operation_mode
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_21_param_state'', ''parameters'')[''warmwater_operation_mode_string'']
@@ -1113,7 +1069,7 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_21_param_state'', ''parameters'')[''heating_curve_end_point'']
-          != 31 }}'
+          != 30 }}'
       then:
       - service: notify.administrator_rotseepark
         data:
@@ -1161,7 +1117,7 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_21_param_state'', ''parameters'')[''returnTemperatureHysteresis'']
-          != 3 }}'
+          != 2 }}'
       then:
       - service: notify.administrator_rotseepark
         data:
@@ -1393,7 +1349,7 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_21_param_state'', ''parameters'')[''hotWaterOperationTimerTableSelectedString'']
-          != "Tage (Mo, Di, ...)" }}'
+          != "Woche (Mo-So)" }}'
       then:
       - service: notify.administrator_rotseepark
         data:
@@ -1405,8 +1361,8 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_21_param_state'', ''parameters'')[''hotWaterOperationTimerTableWeek'']|e
-          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;:
-          &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
+          != "[{&#39;on&#39;: &#39;09:00&#39;, &#39;off&#39;: &#39;06:00&#39;}, {&#39;on&#39;:
+          &#39;22:00&#39;, &#39;off&#39;: &#39;16:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
           &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;:
           &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}]"
           }}'
@@ -1709,6 +1665,7 @@
           message: none
       alias: Heizphase ausschalten im Mai/Juni wenn 72h lang Heizgrenze überschritten
         (Rücklauf Soll = 15 °C)
+      enabled: false
     - if:
       - condition: and
         conditions:
@@ -1727,17 +1684,12 @@
         data: {}
         target:
           entity_id: input_boolean.luxtronik_heizphase_haus_23
-      - service: input_select.set_options
-        data:
-          options: '{{ states(''input_select.luxtronik_operation_mode_automatik'')
-            }}'
-        target:
-          entity_id: input_select.luxtronik_23_hz_operation_mode
       - service: notify.administrator_rotseepark
         data:
           title: 'HA-Info Heatpump 23: Die Heizphase hat begonnen'
           message: none
       alias: Heizphase einschalten im Oktober/November wenn TA Mittel < Heizgrenze
+      enabled: false
     - if:
       - condition: and
         conditions:
@@ -1760,6 +1712,7 @@
           title: 'HA-Info Heatpump 23: Die Kühlphase hat begonnen'
           message: none
       alias: Kühlphase einschalten im Juni/Juli wenn TA Mittel über 22 °C
+      enabled: false
     - if:
       - condition: and
         conditions:
@@ -1782,6 +1735,7 @@
           title: 'HA-Info Heatpump 23: Die Kühlphase ist beendet'
           message: Es ist September und TA-Mittel ist unterhalb 16 °C
       alias: Kühlphase ausschalten im September wenn TA Mittel unter 16 °C
+      enabled: false
   - if:
     - condition: template
       value_template: '{% if state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')|safe
@@ -1791,7 +1745,7 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')[''heating_temperature'']
-          != -4 }}'
+          != 0 }}'
       then:
       - service: notify.administrator_rotseepark
         data:
@@ -1842,33 +1796,10 @@
       then:
       - service: notify.administrator_rotseepark
         data:
-          title: 'HA-Alert Heatpump 23: Der Wert heating_operation_mode hat geändert
-            (ausserhalb TDI)'
+          title: 'HA-Alert Heatpump 23: Der Wert heating_operation_mode hat geändert'
           message: Der neue Wert für heating_operation_mode ist {{state_attr('sensor.luxtronik_23_param_state',
             'parameters')['heating_operation_mode']}}
-      alias: Prüfe den Parameter heating_operation_mode (ändert während der TDI)
-    - if:
-      - condition: and
-        conditions:
-        - condition: template
-          value_template: "{{ (((state_attr('sensor.luxtronik_23_param_state', 'parameters')['heating_operation_mode'])|int
-            != states('input_select.luxtronik_operation_mode_automatik')|int) \n and
-            states('input_boolean.luxtronik_heizphase_haus_23') == 'on') \n or\n (((state_attr('sensor.luxtronik_23_param_state',\n'parameters')['heating_operation_mode'])|int
-            != states('input_select.luxtronik_operation_mode_aus')|int) \n and states('input_boolean.luxtronik_heizphase_haus_23')
-            == 'off')}}"
-        - condition: state
-          entity_id: schedule.luxtronik_zeitplan_tdi_haus_23
-          state: 'off'
-          enabled: true
-      then:
-      - service: notify.administrator_rotseepark
-        data:
-          title: 'HA-Alert Heatpump 23: Der Wert heating_operation_mode hat geändert
-            (während TDI)'
-          message: Der neue Wert für heating_operation_mode ist {{state_attr('sensor.luxtronik_23_param_state',
-            'parameters')['heating_operation_mode']}}
-      alias: Prüfe den Parameter heating_operation_mode Normabweichung  (nicht während
-        der TDI)
+      alias: Prüfe den Parameter heating_operation_mode
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')[''warmwater_operation_mode_string'']
@@ -1884,7 +1815,7 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')[''heating_curve_end_point'']
-          != 35 }}'
+          != 30 }}'
       then:
       - service: notify.administrator_rotseepark
         data:
@@ -1895,7 +1826,7 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')[''heating_curve_parallel_offset'']
-          != 22 }}'
+          != 20 }}'
       then:
       - service: notify.administrator_rotseepark
         data:
@@ -1907,7 +1838,7 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')[''deltaHeatingReduction'']
-          != 0 }}'
+          != -15 }}'
       then:
       - service: notify.administrator_rotseepark
         data:
@@ -1932,7 +1863,7 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')[''returnTemperatureHysteresis'']
-          != 3 }}'
+          != 2 }}'
       then:
       - service: notify.administrator_rotseepark
         data:
@@ -2066,8 +1997,8 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')[''heatingOperationTimerTableDaySunday'']|e
-          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;:
-          &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
+          != "[{&#39;on&#39;: &#39;05:00&#39;, &#39;off&#39;: &#39;12:00&#39;}, {&#39;on&#39;:
+          &#39;12:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
           &#39;off&#39;: &#39;00:00&#39;}]" }}'
       then:
       - service: notify.administrator_rotseepark
@@ -2080,8 +2011,8 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')[''heatingOperationTimerTableDayMonday'']|e
-          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;:
-          &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
+          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;12:00&#39;}, {&#39;on&#39;:
+          &#39;12:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
           &#39;off&#39;: &#39;00:00&#39;}]" }}'
       then:
       - service: notify.administrator_rotseepark
@@ -2094,8 +2025,8 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')[''heatingOperationTimerTableDayTuesday'']|e
-          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;:
-          &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
+          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;12:00&#39;}, {&#39;on&#39;:
+          &#39;12:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
           &#39;off&#39;: &#39;00:00&#39;}]" }}'
       then:
       - service: notify.administrator_rotseepark
@@ -2108,8 +2039,8 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')[''heatingOperationTimerTableDayWednesday'']|e
-          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;:
-          &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
+          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;12:00&#39;}, {&#39;on&#39;:
+          &#39;12:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
           &#39;off&#39;: &#39;00:00&#39;}]" }}'
       then:
       - service: notify.administrator_rotseepark
@@ -2122,8 +2053,8 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')[''heatingOperationTimerTableDayThursday'']|e
-          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;:
-          &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
+          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;12:00&#39;}, {&#39;on&#39;:
+          &#39;12:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
           &#39;off&#39;: &#39;00:00&#39;}]" }}'
       then:
       - service: notify.administrator_rotseepark
@@ -2136,8 +2067,8 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')[''heatingOperationTimerTableDayFriday'']|e
-          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;:
-          &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
+          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;12:00&#39;}, {&#39;on&#39;:
+          &#39;12:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
           &#39;off&#39;: &#39;00:00&#39;}]" }}'
       then:
       - service: notify.administrator_rotseepark
@@ -2150,8 +2081,8 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')[''heatingOperationTimerTableDaySaturday'']|e
-          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;:
-          &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
+          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;12:00&#39;}, {&#39;on&#39;:
+          &#39;12:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
           &#39;off&#39;: &#39;00:00&#39;}]" }}'
       then:
       - service: notify.administrator_rotseepark
@@ -2164,7 +2095,7 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')[''hotWaterOperationTimerTableSelectedString'']
-          != "Tage (Mo, Di, ...)" }}'
+          != "Woche (Mo-So)" }}'
       then:
       - service: notify.administrator_rotseepark
         data:
@@ -2176,8 +2107,8 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')[''hotWaterOperationTimerTableWeek'']|e
-          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;:
-          &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
+          != "[{&#39;on&#39;: &#39;09:00&#39;, &#39;off&#39;: &#39;06:00&#39;}, {&#39;on&#39;:
+          &#39;22:00&#39;, &#39;off&#39;: &#39;16:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
           &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;:
           &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}]"
           }}'
@@ -2480,6 +2411,7 @@
           message: none
       alias: Heizphase ausschalten im Mai/Juni wenn 72h lang Heizgrenze überschritten
         (Rücklauf Soll = 15 °C)
+      enabled: false
     - if:
       - condition: and
         conditions:
@@ -2498,17 +2430,12 @@
         data: {}
         target:
           entity_id: input_boolean.luxtronik_heizphase_haus_25
-      - service: input_select.set_options
-        data:
-          options: '{{ states(''input_select.luxtronik_operation_mode_automatik'')
-            }}'
-        target:
-          entity_id: input_select.luxtronik_25_hz_operation_mode
       - service: notify.administrator_rotseepark
         data:
           title: 'HA-Info Heatpump 25: Die Heizphase hat begonnen'
           message: none
       alias: Heizphase einschalten im Oktober/November wenn TA Mittel < Heizgrenze
+      enabled: false
     - if:
       - condition: and
         conditions:
@@ -2531,6 +2458,7 @@
           title: 'HA-Info Heatpump 25: Die Kühlphase hat begonnen'
           message: none
       alias: Kühlphase einschalten im Juni/Juli wenn TA Mittel über 20 °C
+      enabled: false
     - if:
       - condition: and
         conditions:
@@ -2553,6 +2481,7 @@
           title: 'HA-Info Heatpump 25: Die Kühlphase ist beendet'
           message: Es ist September und TA-Mittel ist unterhalb 14 °C
       alias: Kühlphase ausschalten im September wenn TA Mittel unter 14 °C
+      enabled: false
   - if:
     - condition: template
       value_template: '{% if state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')|safe
@@ -2562,7 +2491,7 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')[''heating_temperature'']
-          != -3 }}'
+          != 0 }}'
       then:
       - service: notify.administrator_rotseepark
         data:
@@ -2613,33 +2542,10 @@
       then:
       - service: notify.administrator_rotseepark
         data:
-          title: 'HA-Alert Heatpump 25: Der Wert heating_operation_mode hat geändert
-            (ausserhalb TDI)'
+          title: 'HA-Alert Heatpump 25: Der Wert heating_operation_mode hat geändert'
           message: Der neue Wert für heating_operation_mode ist {{state_attr('sensor.luxtronik_25_param_state',
             'parameters')['heating_operation_mode']}}
-      alias: Prüfe den Parameter heating_operation_mode (ändert während der TDI)
-    - if:
-      - condition: and
-        conditions:
-        - condition: template
-          value_template: "{{ (((state_attr('sensor.luxtronik_25_param_state', 'parameters')['heating_operation_mode'])|int
-            != states('input_select.luxtronik_operation_mode_automatik')|int) \n and
-            states('input_boolean.luxtronik_heizphase_haus_25') == 'on') \n or\n (((state_attr('sensor.luxtronik_25_param_state',\n'parameters')['heating_operation_mode'])|int
-            != states('input_select.luxtronik_operation_mode_aus')|int) \n and states('input_boolean.luxtronik_heizphase_haus_25')
-            == 'off')}}"
-        - condition: state
-          entity_id: schedule.luxtronik_zeitplan_tdi_haus_25
-          state: 'off'
-          enabled: true
-      then:
-      - service: notify.administrator_rotseepark
-        data:
-          title: 'HA-Alert Heatpump 25: Der Wert heating_operation_mode hat geändert
-            (während TDI)'
-          message: Der neue Wert für heating_operation_mode ist {{state_attr('sensor.luxtronik_25_param_state',
-            'parameters')['heating_operation_mode']}}
-      alias: Prüfe den Parameter heating_operation_mode Normabweichung  (nicht während
-        der TDI)
+      alias: Prüfe den Parameter heating_operation_mode
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')[''warmwater_operation_mode_string'']
@@ -2655,7 +2561,7 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')[''heating_curve_end_point'']
-          != 35 }}'
+          != 30 }}'
       then:
       - service: notify.administrator_rotseepark
         data:
@@ -2666,7 +2572,7 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')[''heating_curve_parallel_offset'']
-          != 22 }}'
+          != 20 }}'
       then:
       - service: notify.administrator_rotseepark
         data:
@@ -2678,7 +2584,7 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')[''deltaHeatingReduction'']
-          != 0 }}'
+          != -15 }}'
       then:
       - service: notify.administrator_rotseepark
         data:
@@ -2703,7 +2609,7 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')[''returnTemperatureHysteresis'']
-          != 3 }}'
+          != 2 }}'
       then:
       - service: notify.administrator_rotseepark
         data:
@@ -2837,8 +2743,8 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')[''heatingOperationTimerTableDaySunday'']|e
-          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;:
-          &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
+          != "[{&#39;on&#39;: &#39;05:00&#39;, &#39;off&#39;: &#39;12:00&#39;}, {&#39;on&#39;:
+          &#39;12:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
           &#39;off&#39;: &#39;00:00&#39;}]" }}'
       then:
       - service: notify.administrator_rotseepark
@@ -2851,8 +2757,8 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')[''heatingOperationTimerTableDayMonday'']|e
-          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;:
-          &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
+          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;12:00&#39;}, {&#39;on&#39;:
+          &#39;12:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
           &#39;off&#39;: &#39;00:00&#39;}]" }}'
       then:
       - service: notify.administrator_rotseepark
@@ -2865,8 +2771,8 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')[''heatingOperationTimerTableDayTuesday'']|e
-          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;:
-          &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
+          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;12:00&#39;}, {&#39;on&#39;:
+          &#39;12:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
           &#39;off&#39;: &#39;00:00&#39;}]" }}'
       then:
       - service: notify.administrator_rotseepark
@@ -2879,8 +2785,8 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')[''heatingOperationTimerTableDayWednesday'']|e
-          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;:
-          &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
+          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;12:00&#39;}, {&#39;on&#39;:
+          &#39;12:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
           &#39;off&#39;: &#39;00:00&#39;}]" }}'
       then:
       - service: notify.administrator_rotseepark
@@ -2893,8 +2799,8 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')[''heatingOperationTimerTableDayThursday'']|e
-          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;:
-          &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
+          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;12:00&#39;}, {&#39;on&#39;:
+          &#39;12:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
           &#39;off&#39;: &#39;00:00&#39;}]" }}'
       then:
       - service: notify.administrator_rotseepark
@@ -2907,8 +2813,8 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')[''heatingOperationTimerTableDayFriday'']|e
-          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;:
-          &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
+          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;12:00&#39;}, {&#39;on&#39;:
+          &#39;12:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
           &#39;off&#39;: &#39;00:00&#39;}]" }}'
       then:
       - service: notify.administrator_rotseepark
@@ -2921,8 +2827,8 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')[''heatingOperationTimerTableDaySaturday'']|e
-          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;:
-          &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
+          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;12:00&#39;}, {&#39;on&#39;:
+          &#39;12:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
           &#39;off&#39;: &#39;00:00&#39;}]" }}'
       then:
       - service: notify.administrator_rotseepark
@@ -2935,7 +2841,7 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')[''hotWaterOperationTimerTableSelectedString'']
-          != "Tage (Mo, Di, ...)" }}'
+          != "Woche (Mo-So)" }}'
       then:
       - service: notify.administrator_rotseepark
         data:
@@ -2947,8 +2853,8 @@
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')[''hotWaterOperationTimerTableWeek'']|e
-          != "[{&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;:
-          &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
+          != "[{&#39;on&#39;: &#39;09:00&#39;, &#39;off&#39;: &#39;06:00&#39;}, {&#39;on&#39;:
+          &#39;22:00&#39;, &#39;off&#39;: &#39;16:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;,
           &#39;off&#39;: &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;:
           &#39;00:00&#39;}, {&#39;on&#39;: &#39;00:00&#39;, &#39;off&#39;: &#39;00:00&#39;}]"
           }}'
@@ -3329,11 +3235,13 @@
       target:
         entity_id: input_select.luxtronik_19_hz_operation_mode
     alias: Heizung einschalten, sofern wir in der Heizphase sind
+    enabled: false
   - delay:
       hours: 0
       minutes: 5
       seconds: 0
       milliseconds: 0
+    enabled: false
   - if:
     - condition: numeric_state
       entity_id: sensor.luxtronik19_tbw
@@ -3456,11 +3364,13 @@
       target:
         entity_id: input_select.luxtronik_21_hz_operation_mode
     alias: Heizung einschalten, sofern wir in der Heizphase sind
+    enabled: false
   - delay:
       hours: 0
       minutes: 5
       seconds: 0
       milliseconds: 0
+    enabled: false
   - if:
     - condition: numeric_state
       entity_id: sensor.luxtronik21_tbw
@@ -3583,11 +3493,13 @@
       target:
         entity_id: input_select.luxtronik_23_hz_operation_mode
     alias: Heizung einschalten, sofern wir in der Heizphase sind
+    enabled: false
   - delay:
       hours: 0
       minutes: 5
       seconds: 0
       milliseconds: 0
+    enabled: false
   - if:
     - condition: numeric_state
       entity_id: sensor.luxtronik23_tbw
@@ -3710,11 +3622,13 @@
       target:
         entity_id: input_select.luxtronik_25_hz_operation_mode
     alias: Heizung einschalten, sofern wir in der Heizphase sind
+    enabled: false
   - delay:
       hours: 0
       minutes: 5
       seconds: 0
       milliseconds: 0
+    enabled: false
   - if:
     - condition: numeric_state
       entity_id: sensor.luxtronik25_tbw
@@ -3821,25 +3735,7 @@
         seconds: 0
         milliseconds: 0
     alias: Heizung ausschalten, sofern wir in der Heizphase sind
-  - service: shell_command.luxtronik19_to_ha
-    data: {}
-    response_variable: scriptanswer
-  - if:
-    - condition: template
-      value_template: '{{ scriptanswer[''stdout''] | regex_search(''Return:0-0-0-0-[0-9]*'')
-        }}'
-    then:
-    - service: notify.administrator_rotseepark
-      data:
-        message: '{{scriptanswer[''stdout'']}}'
-        title: HA-Info Heatpump 19 - Dateien gesichert mit {{ (scriptanswer['stdout']
-          | regex_findall('Return:[0]-[0]-[0]-[0]-[0-9]*'))[0] }}
-    else:
-    - service: notify.administrator_rotseepark
-      data:
-        message: '{{scriptanswer[''stdout'']}}'
-        title: HA-Alert Heatpump 19 - Dateien sichern FEHLGESCHLAGEN mit {{ (scriptanswer['stdout']
-          | regex_findall('Return:[0-9]*-[0-9]*-[0-9]*-[0-9]*-[0-9]*'))[0] }}
+    enabled: false
   mode: single
 - id: '1676445765532'
   alias: Schalte TDI - Starte TDI Haus 21 (Zeitplan TDI + 15 min)
@@ -3905,25 +3801,7 @@
         seconds: 0
         milliseconds: 0
     alias: Heizung ausschalten, sofern wir in der Heizphase sind
-  - service: shell_command.luxtronik21_to_ha
-    data: {}
-    response_variable: scriptanswer
-  - if:
-    - condition: template
-      value_template: '{{ scriptanswer[''stdout''] | regex_search(''Return:0-0-0-0-[0-9]*'')
-        }}'
-    then:
-    - service: notify.administrator_rotseepark
-      data:
-        message: '{{scriptanswer[''stdout'']}}'
-        title: HA-Info Heatpump 21 - Dateien gesichert mit {{ (scriptanswer['stdout']
-          | regex_findall('Return:[0]-[0]-[0]-[0]-[0-9]*'))[0] }}
-    else:
-    - service: notify.administrator_rotseepark
-      data:
-        message: '{{scriptanswer[''stdout'']}}'
-        title: HA-Alert Heatpump 21 - Dateien sichern FEHLGESCHLAGEN mit {{ (scriptanswer['stdout']
-          | regex_findall('Return:[0-9]*-[0-9]*-[0-9]*-[0-9]*-[0-9]*'))[0] }}
+    enabled: false
   mode: single
 - id: '1676445795620'
   alias: Schalte TDI - Starte TDI Haus 23 (Zeitplan TDI + 15 min)
@@ -3989,25 +3867,7 @@
         seconds: 0
         milliseconds: 0
     alias: Heizung ausschalten, sofern wir in der Heizphase sind
-  - service: shell_command.luxtronik23_to_ha
-    data: {}
-    response_variable: scriptanswer
-  - if:
-    - condition: template
-      value_template: '{{ scriptanswer[''stdout''] | regex_search(''Return:0-0-0-0-[0-9]*'')
-        }}'
-    then:
-    - service: notify.administrator_rotseepark
-      data:
-        message: '{{scriptanswer[''stdout'']}}'
-        title: HA-Info Heatpump 23 - Dateien gesichert mit {{ (scriptanswer['stdout']
-          | regex_findall('Return:[0]-[0]-[0]-[0]-[0-9]*'))[0] }}
-    else:
-    - service: notify.administrator_rotseepark
-      data:
-        message: '{{scriptanswer[''stdout'']}}'
-        title: HA-Alert Heatpump 23 - Dateien sichern FEHLGESCHLAGEN mit {{ (scriptanswer['stdout']
-          | regex_findall('Return:[0-9]*-[0-9]*-[0-9]*-[0-9]*-[0-9]*'))[0] }}
+    enabled: false
   mode: single
 - id: '1676445824173'
   alias: Schalte TDI - Starte TDI Haus 25 (Zeitplan TDI + 15 min)
@@ -4073,25 +3933,7 @@
         seconds: 0
         milliseconds: 0
     alias: Heizung ausschalten, sofern wir in der Heizphase sind
-  - service: shell_command.luxtronik25_to_ha
-    data: {}
-    response_variable: scriptanswer
-  - if:
-    - condition: template
-      value_template: '{{ scriptanswer[''stdout''] | regex_search(''Return:0-0-0-0-[0-9]*'')
-        }}'
-    then:
-    - service: notify.administrator_rotseepark
-      data:
-        message: '{{scriptanswer[''stdout'']}}'
-        title: HA-Info Heatpump 25 - Dateien gesichert mit {{ (scriptanswer['stdout']
-          | regex_findall('Return:[0]-[0]-[0]-[0]-[0-9]*'))[0] }}
-    else:
-    - service: notify.administrator_rotseepark
-      data:
-        message: '{{scriptanswer[''stdout'']}}'
-        title: HA-Alert Heatpump 25 - Dateien sichern FEHLGESCHLAGEN mit {{ (scriptanswer['stdout']
-          | regex_findall('Return:[0-9]*-[0-9]*-[0-9]*-[0-9]*-[0-9]*'))[0] }}
+    enabled: false
   mode: single
 - id: '1676530127632'
   alias: Schalte WW - Prüfe alle 10 Minuten und produziere WW im Haus mit der tiefsten
@@ -4102,6 +3944,7 @@
     hours: '8'
     minutes: /10
     alias: Time Pattern Trigger 8 Uhr alle 10 Minuten
+    enabled: false
   - platform: time_pattern
     hours: '9'
     minutes: /10
@@ -4134,14 +3977,17 @@
     hours: '16'
     minutes: /10
     alias: Time Pattern Trigger 16 Uhr alle 10 Minuten
+    enabled: false
   - platform: time_pattern
     hours: '17'
     minutes: /10
     alias: Time Pattern Trigger 17 Uhr alle 10 Minuten
+    enabled: false
   - platform: time_pattern
     hours: '18'
     minutes: /10
     alias: Time Pattern Trigger 18 Uhr alle 10 Minuten
+    enabled: false
   condition:
   - condition: sun
     before: sunset
@@ -4236,7 +4082,15 @@
               - (states('input_number.luxtronik_ww_normalhysterese')|int * 0.9 ))|int
               \n and now().hour >= 7 and now().hour <= 17)\n else false\n}}"
             alias: TBW tiefer als der 10% Hysterese Schwellwert von 07:00 bis 17:00
-          alias: TBW - Hysterese Schwellwerte prüfen (Zeit)
+          - condition: template
+            value_template: "{{ true if (states('sensor.gwf_19_all_ww_l_helper')|int
+              >= 1200 \n and now().hour >= 10 and now().hour <= 17)\n else false\n}}"
+            alias: GWF Verbrauch über 1200 Liter von 10:00 bis 17:00 Uhr
+          - condition: template
+            value_template: "{{ true if (states('sensor.gwf_19_all_ww_l_helper')|int
+              >= 800 \n and now().hour >= 12 and now().hour <= 17)\n else false\n}}"
+            alias: GWF Verbrauch über 800 Liter von 12:00 bis 17:00 Uhr
+          alias: TBW und GWF Schwellwerte prüfen
         alias: Vergleiche Haus 19 gegen die anderen Häuser
       sequence:
       - service: notify.administrator_rotseepark
@@ -4310,7 +4164,15 @@
               - (states('input_number.luxtronik_ww_normalhysterese')|int * 0.9 ))|int
               \n and now().hour >= 7 and now().hour <= 17)\n else false\n}}"
             alias: TBW tiefer als der 10% Hysterese Schwellwert von 07:00 bis 17:00
-          alias: TBW - Hysterese Schwellwerte prüfen (Zeit)
+          - condition: template
+            value_template: "{{ true if (states('sensor.gwf_21_all_ww_l_helper')|int
+              >= 1200 \n and now().hour >= 10 and now().hour <= 17)\n else false\n}}"
+            alias: GWF Verbrauch über 1200 Liter von 10:00 bis 17:00 Uhr
+          - condition: template
+            value_template: "{{ true if (states('sensor.gwf_21_all_ww_l_helper')|int
+              >= 800 \n and now().hour >= 12 and now().hour <= 17)\n else false\n}}"
+            alias: GWF Verbrauch über 800 Liter von 12:00 bis 17:00 Uhr
+          alias: TBW und GWF Schwellwerte prüfen
         alias: Vergleiche Haus 21 gegen die anderen Häuser
       sequence:
       - service: notify.administrator_rotseepark
@@ -4384,7 +4246,15 @@
               - (states('input_number.luxtronik_ww_normalhysterese')|int * 0.9 ))|int
               \n and now().hour >= 7 and now().hour <= 17)\n else false\n}}"
             alias: TBW tiefer als der 10% Hysterese Schwellwert von 07:00 bis 17:00
-          alias: TBW - Hysterese Schwellwerte prüfen (Zeit)
+          - condition: template
+            value_template: "{{ true if (states('sensor.gwf_23_all_ww_l_helper')|int
+              >= 1200 \n and now().hour >= 10 and now().hour <= 17)\n else false\n}}"
+            alias: GWF Verbrauch über 1200 Liter von 10:00 bis 17:00 Uhr
+          - condition: template
+            value_template: "{{ true if (states('sensor.gwf_23_all_ww_l_helper')|int
+              >= 800 \n and now().hour >= 12 and now().hour <= 17)\n else false\n}}"
+            alias: GWF Verbrauch über 800 Liter von 12:00 bis 17:00 Uhr
+          alias: TBW und GWF Schwellwerte prüfen
         alias: Vergleiche Haus 23 gegen die anderen Häuser
       sequence:
       - service: notify.administrator_rotseepark
@@ -4458,7 +4328,15 @@
               - (states('input_number.luxtronik_ww_normalhysterese')|int * 0.9 ))|int
               \n and now().hour >= 7 and now().hour <= 17)\n else false\n}}"
             alias: TBW tiefer als der 10% Hysterese Schwellwert von 07:00 bis 17:00
-          alias: TBW - Hysterese Schwellwerte prüfen (Zeit)
+          - condition: template
+            value_template: "{{ true if (states('sensor.gwf_25_all_ww_l_helper')|int
+              >= 1200 \n and now().hour >= 10 and now().hour <= 17)\n else false\n}}"
+            alias: GWF Verbrauch über 1200 Liter von 10:00 bis 17:00 Uhr
+          - condition: template
+            value_template: "{{ true if (states('sensor.gwf_25_all_ww_l_helper')|int
+              >= 800 \n and now().hour >= 12 and now().hour <= 17)\n else false\n}}"
+            alias: GWF Verbrauch über 800 Liter von 12:00 bis 17:00 Uhr
+          alias: TBW und GWF Schwellwerte prüfen
         alias: Vergleiche Haus 25 gegen die anderen Häuser
       sequence:
       - service: notify.administrator_rotseepark
@@ -6222,6 +6100,7 @@
   - condition: numeric_state
     entity_id: calendar.feiertag_luzern
     above: 0
+    alias: Prüfen, ob heute kein Feiertag ist
   action:
   - if:
     - condition: time
@@ -6387,16 +6266,16 @@
       seconds: 0
   - platform: numeric_state
     entity_id: sensor.shelly_h_and_t_haus_19_humidity
-    above: 50
+    above: 58
   - platform: numeric_state
     entity_id: sensor.shelly_h_and_t_haus_21_humidity
-    above: 50
+    above: 58
   - platform: numeric_state
     entity_id: sensor.shelly_h_and_t_haus_23_humidity
-    above: 50
+    above: 58
   - platform: numeric_state
     entity_id: sensor.shelly_h_and_t_haus_25_humidity
-    above: 50
+    above: 58
   - platform: numeric_state
     entity_id: sensor.shelly_h_and_t_haus_19_temperature
     above: 28
@@ -6411,16 +6290,16 @@
     above: 28
   - platform: numeric_state
     entity_id: sensor.shelly_h_and_t_haus_19_absolute_feuchte
-    above: 11
+    above: 14
   - platform: numeric_state
     entity_id: sensor.shelly_h_and_t_haus_21_absolute_feuchte
-    above: 11
+    above: 14
   - platform: numeric_state
     entity_id: sensor.shelly_h_and_t_haus_23_absolute_feuchte
-    above: 11
+    above: 14
   - platform: numeric_state
     entity_id: sensor.shelly_h_and_t_haus_25_absolute_feuchte
-    above: 11
+    above: 14
   condition:
   - condition: or
     conditions:
@@ -6438,16 +6317,16 @@
       below: 35
     - condition: numeric_state
       entity_id: sensor.shelly_h_and_t_haus_19_humidity
-      above: 50
+      above: 58
     - condition: numeric_state
       entity_id: sensor.shelly_h_and_t_haus_21_humidity
-      above: 50
+      above: 58
     - condition: numeric_state
       entity_id: sensor.shelly_h_and_t_haus_23_humidity
-      above: 50
+      above: 58
     - condition: numeric_state
       entity_id: sensor.shelly_h_and_t_haus_25_humidity
-      above: 50
+      above: 58
     - condition: numeric_state
       entity_id: sensor.shelly_h_and_t_haus_19_temperature
       below: 22
@@ -6486,16 +6365,16 @@
       below: 9
     - condition: numeric_state
       entity_id: sensor.shelly_h_and_t_haus_19_absolute_feuchte
-      above: 11
+      above: 14
     - condition: numeric_state
       entity_id: sensor.shelly_h_and_t_haus_21_absolute_feuchte
-      above: 11
+      above: 14
     - condition: numeric_state
       entity_id: sensor.shelly_h_and_t_haus_23_absolute_feuchte
-      above: 11
+      above: 14
     - condition: numeric_state
       entity_id: sensor.shelly_h_and_t_haus_25_absolute_feuchte
-      above: 11
+      above: 14
     - condition: numeric_state
       entity_id: sensor.shelly_h_and_t_haus_19_battery
       below: 10
@@ -6552,23 +6431,24 @@
   - service: notify.administrator_rotseepark
     data:
       title: 'HA-Alert Heizungsraum: Shelly H&T prüfen'
-      message: "IST-Werte sind ...\nRelative Feuchte ... (35 bis 50% rfH)\nHaus 19
-        - {{ states('sensor.shelly_h_and_t_haus_19_humidity') }} % rfH\nHaus 21 -
-        {{ states('sensor.shelly_h_and_t_haus_21_humidity') }} % rfH\nHaus 23 - {{
-        states('sensor.shelly_h_and_t_haus_23_humidity') }} % rfH\nHaus 25 - {{ states('sensor.shelly_h_and_t_haus_25_humidity')
-        }} % rfH\nTemperatur ... (22 bis 28 °C)\nHaus 19 - {{ states('sensor.shelly_h_and_t_haus_19_temperature')
+      message: "IST-Werte sind ...\nRelative Feuchte ... (OK = 35 bis 58% rfH)\nHaus
+        19 - {{ states('sensor.shelly_h_and_t_haus_19_humidity') }} % rfH\nHaus 21
+        - {{ states('sensor.shelly_h_and_t_haus_21_humidity') }} % rfH\nHaus 23 -
+        {{ states('sensor.shelly_h_and_t_haus_23_humidity') }} % rfH\nHaus 25 - {{
+        states('sensor.shelly_h_and_t_haus_25_humidity') }} % rfH\nTemperatur ...
+        (OK = 22 bis 28 °C)\nHaus 19 - {{ states('sensor.shelly_h_and_t_haus_19_temperature')
         }} °C\nHaus 21 - {{ states('sensor.shelly_h_and_t_haus_21_temperature') }}
         °C\nHaus 23 - {{ states('sensor.shelly_h_and_t_haus_23_temperature') }} °C\nHaus
         25 - {{ states('sensor.shelly_h_and_t_haus_25_temperature') }} °C\nAbsolute
-        Feuchte ... (9 bis 11 g/m³)\nHaus 19 - {{ states('sensor.shelly_h_and_t_haus_19_absolute_feuchte')
+        Feuchte ... (OK = 9 bis 14 g/m³)\nHaus 19 - {{ states('sensor.shelly_h_and_t_haus_19_absolute_feuchte')
         }} g/m³\nHaus 21 - {{ states('sensor.shelly_h_and_t_haus_21_absolute_feuchte')
         }} g/m³\nHaus 23 - {{ states('sensor.shelly_h_and_t_haus_23_absolute_feuchte')
         }} g/m³\nHaus 25 - {{ states('sensor.shelly_h_and_t_haus_25_absolute_feuchte')
-        }} g/m³\nBatteriezustand ... (10 - 90 %)\nHaus 19 - {{ states('sensor.shelly_h_and_t_haus_19_battery')
+        }} g/m³\nBatteriezustand ... (OK = 10 - 100 %)\nHaus 19 - {{ states('sensor.shelly_h_and_t_haus_19_battery')
         }}%\nHaus 21 - {{ states('sensor.shelly_h_and_t_haus_21_battery') }}%  \nHaus
         23 - {{ states('sensor.shelly_h_and_t_haus_23_battery') }}%  \nHaus 25 - {{
-        states('sensor.shelly_h_and_t_haus_25_battery') }}%  \nNetzwerk ... (normally
-        not_home - only check, when any other state are fine)\nHaus 19 - {{ states('device_tracker.shelly_h_and_t_haus_19')
+        states('sensor.shelly_h_and_t_haus_25_battery') }}%  \nNetzwerk ... (normalerweise
+        not_home, da nur alle 2h Online)\nHaus 19 - {{ states('device_tracker.shelly_h_and_t_haus_19')
         }}\nHaus 21 - {{ states('device_tracker.shelly_h_and_t_haus_21') }}\nHaus
         23 - {{ states('device_tracker.shelly_h_and_t_haus_23') }}\nHaus 25 - {{ states('device_tracker.shelly_h_and_t_haus_25')
         }}"
@@ -6757,6 +6637,11 @@
     target:
       entity_id: input_number.luxtronik_21_tbw_degc_helper
     alias: Speichere die aktuelle Brauchwasser Temperatur
+  - delay:
+      hours: 0
+      minutes: 2
+      seconds: 0
+      milliseconds: 0
   - repeat:
       while:
       - condition: template
@@ -6801,26 +6686,27 @@
       btw_lowtime: '{{ now() - strptime(bup_start, ''%Y-%m-%d %H:%M:%S.%f%z'') }}'
       btw_lowminute: '{{ ((now().timestamp() - strptime(bup_start, ''%Y-%m-%d %H:%M:%S.%f%z'').timestamp())/60)|round(0)
         }}'
-  - wait_for_trigger:
-    - platform: numeric_state
-      entity_id: sensor.luxtronik21_tvl
-      above: 49.9
+  - wait_template: '{{ states(''sensor.luxtronik21_tvl'')|int >= 50 or states(''binary_sensor.luxtronik21_bup'')
+      == ''off'' }}'
+    continue_on_timeout: true
     alias: Warten bis Vorlauf Temperatur 50°
   - variables:
-      tvl_50_watt: '{{ states(''sensor.solar_consumption_21_ww_wp'') }}'
-  - wait_for_trigger:
-    - platform: numeric_state
-      entity_id: sensor.luxtronik21_tvl
-      above: 54.9
+      tvl_50_watt: '{{ 0 if (states(''sensor.luxtronik21_tvl'')|float <= 49 or states(''sensor.luxtronik21_tvl'')|float
+        >= 51) else states(''sensor.solar_consumption_21_ww_wp'') }}'
+  - wait_template: '{{ states(''sensor.luxtronik21_tvl'')|int >= 55 or states(''binary_sensor.luxtronik21_bup'')
+      == ''off'' }}'
+    continue_on_timeout: true
     alias: Warten bis Vorlauf Temperatur 55°
   - variables:
-      tvl_55_watt: '{{ states(''sensor.solar_consumption_21_ww_wp'') }}'
+      tvl_55_watt: '{{ 0 if (states(''sensor.luxtronik21_tvl'')|float <= 54 or states(''sensor.luxtronik21_tvl'')|float
+        >= 56) else states(''sensor.solar_consumption_21_ww_wp'') }}'
   - wait_template: '{{ states(''sensor.luxtronik21_tvl'')|int >= 60 or states(''binary_sensor.luxtronik21_bup'')
       == ''off'' }}'
     continue_on_timeout: true
     alias: Warten bis Vorlauf Temperatur 60°
   - variables:
-      tvl_60_watt: '{{ states(''sensor.solar_consumption_21_ww_wp'') }}'
+      tvl_60_watt: '{{ 0 if (states(''sensor.luxtronik21_tvl'')|float <= 59 or states(''sensor.luxtronik21_tvl'')|float
+        >= 61) else states(''sensor.solar_consumption_21_ww_wp'') }}'
   - if:
     - condition: state
       entity_id: binary_sensor.luxtronik21_bup
@@ -6832,16 +6718,7 @@
         - binary_sensor.luxtronik21_bup
         from: 'on'
         to: 'off'
-      alias: Warten, bis die Brauchwasser Produktion endet
-    alias: Warten, bis die Brauchwasser Produktion endet, sofern sie noch läuft
-  - wait_for_trigger:
-    - platform: state
-      entity_id:
-      - binary_sensor.luxtronik21_bup
-      from: 'on'
-      to: 'off'
-    alias: Warten, bis die Brauchwasser Produktion endet
-    enabled: false
+    alias: Warten bis Brauchwasser Produktion endet
   - variables:
       bup_ende: '{{ now() }}'
   - variables:
@@ -6873,6 +6750,8 @@
       minutes: 0
       seconds: 0
       milliseconds: 0
+  - variables:
+      gwf_ende: '{{ now() }}'
   - service: input_number.set_value
     data:
       value: '{{ states(''sensor.gwf_21_all_ww_l_helper'')|float }}'
@@ -6922,8 +6801,6 @@
       value: '{{ tvl_60_watt|float }}'
     target:
       entity_id: input_number.bwm21_variable_tvl_60_watt
-  - variables:
-      gwf_ende: '{{ now() }}'
   - service: notify.administrator_rotseepark
     data:
       title: 'HA-Info Heatpump 21: Die Boiler Ladung ist beendet'
@@ -6991,6 +6868,11 @@
     target:
       entity_id: input_number.luxtronik_25_tbw_degc_helper
     alias: Speichere die aktuelle Brauchwasser Temperatur
+  - delay:
+      hours: 0
+      minutes: 2
+      seconds: 0
+      milliseconds: 0
   - repeat:
       while:
       - condition: template
@@ -7035,26 +6917,27 @@
       btw_lowtime: '{{ now() - strptime(bup_start, ''%Y-%m-%d %H:%M:%S.%f%z'') }}'
       btw_lowminute: '{{ ((now().timestamp() - strptime(bup_start, ''%Y-%m-%d %H:%M:%S.%f%z'').timestamp())/60)|round(0)
         }}'
-  - wait_for_trigger:
-    - platform: numeric_state
-      entity_id: sensor.luxtronik25_tvl
-      above: 49.9
+  - wait_template: '{{ states(''sensor.luxtronik25_tvl'')|int >= 50 or states(''binary_sensor.luxtronik25_bup'')
+      == ''off'' }}'
+    continue_on_timeout: true
     alias: Warten bis Vorlauf Temperatur 50°
   - variables:
-      tvl_50_watt: '{{ states(''sensor.solar_consumption_25_ww_wp'') }}'
-  - wait_for_trigger:
-    - platform: numeric_state
-      entity_id: sensor.luxtronik25_tvl
-      above: 54.9
+      tvl_50_watt: '{{ 0 if (states(''sensor.luxtronik25_tvl'')|float <= 49 or states(''sensor.luxtronik25_tvl'')|float
+        >= 51) else states(''sensor.solar_consumption_25_ww_wp'') }}'
+  - wait_template: '{{ states(''sensor.luxtronik25_tvl'')|int >= 55 or states(''binary_sensor.luxtronik25_bup'')
+      == ''off'' }}'
+    continue_on_timeout: true
     alias: Warten bis Vorlauf Temperatur 55°
   - variables:
-      tvl_55_watt: '{{ states(''sensor.solar_consumption_25_ww_wp'') }}'
+      tvl_55_watt: '{{ 0 if (states(''sensor.luxtronik25_tvl'')|float <= 54 or states(''sensor.luxtronik25_tvl'')|float
+        >= 56) else states(''sensor.solar_consumption_25_ww_wp'') }}'
   - wait_template: '{{ states(''sensor.luxtronik25_tvl'')|int >= 60 or states(''binary_sensor.luxtronik25_bup'')
       == ''off'' }}'
     continue_on_timeout: true
     alias: Warten bis Vorlauf Temperatur 60°
   - variables:
-      tvl_60_watt: '{{ states(''sensor.solar_consumption_25_ww_wp'') }}'
+      tvl_60_watt: '{{ 0 if (states(''sensor.luxtronik25_tvl'')|float <= 59 or states(''sensor.luxtronik25_tvl'')|float
+        >= 61) else states(''sensor.solar_consumption_25_ww_wp'') }}'
   - if:
     - condition: state
       entity_id: binary_sensor.luxtronik25_bup
@@ -7066,16 +6949,7 @@
         - binary_sensor.luxtronik25_bup
         from: 'on'
         to: 'off'
-      alias: Warten, bis die Brauchwasser Produktion endet
-    alias: Warten, bis die Brauchwasser Produktion endet, sofern sie noch läuft
-  - wait_for_trigger:
-    - platform: state
-      entity_id:
-      - binary_sensor.luxtronik25_bup
-      from: 'on'
-      to: 'off'
-    alias: Warten, bis die Brauchwasser Produktion endet
-    enabled: false
+    alias: Warten bis Brauchwasser Produktion endet
   - variables:
       bup_ende: '{{ now() }}'
   - variables:
@@ -7107,6 +6981,8 @@
       minutes: 0
       seconds: 0
       milliseconds: 0
+  - variables:
+      gwf_ende: '{{ now() }}'
   - service: input_number.set_value
     data:
       value: '{{ states(''sensor.gwf_25_all_ww_l_helper'')|float }}'
@@ -7156,8 +7032,6 @@
       value: '{{ tvl_60_watt|float }}'
     target:
       entity_id: input_number.bwm25_variable_tvl_60_watt
-  - variables:
-      gwf_ende: '{{ now() }}'
   - service: notify.administrator_rotseepark
     data:
       title: 'HA-Info Heatpump 25: Die Boiler Ladung ist beendet'
@@ -7214,6 +7088,11 @@
     target:
       entity_id: input_number.luxtronik_19_tbw_degc_helper
     alias: Speichere die aktuelle Brauchwasser Temperatur
+  - delay:
+      hours: 0
+      minutes: 2
+      seconds: 0
+      milliseconds: 0
   - repeat:
       while:
       - condition: template
@@ -7258,26 +7137,27 @@
       btw_lowtime: '{{ now() - strptime(bup_start, ''%Y-%m-%d %H:%M:%S.%f%z'') }}'
       btw_lowminute: '{{ ((now().timestamp() - strptime(bup_start, ''%Y-%m-%d %H:%M:%S.%f%z'').timestamp())/60)|round(0)
         }}'
-  - wait_for_trigger:
-    - platform: numeric_state
-      entity_id: sensor.luxtronik19_tvl
-      above: 49.9
+  - wait_template: '{{ states(''sensor.luxtronik19_tvl'')|int >= 50 or states(''binary_sensor.luxtronik19_bup'')
+      == ''off'' }}'
+    continue_on_timeout: true
     alias: Warten bis Vorlauf Temperatur 50°
   - variables:
-      tvl_50_watt: '{{ states(''sensor.solar_consumption_19_ww_wp'') }}'
-  - wait_for_trigger:
-    - platform: numeric_state
-      entity_id: sensor.luxtronik19_tvl
-      above: 54.9
+      tvl_50_watt: '{{ 0 if (states(''sensor.luxtronik19_tvl'')|float <= 49 or states(''sensor.luxtronik19_tvl'')|float
+        >= 51) else states(''sensor.solar_consumption_19_ww_wp'') }}'
+  - wait_template: '{{ states(''sensor.luxtronik19_tvl'')|int >= 55 or states(''binary_sensor.luxtronik19_bup'')
+      == ''off'' }}'
+    continue_on_timeout: true
     alias: Warten bis Vorlauf Temperatur 55°
   - variables:
-      tvl_55_watt: '{{ states(''sensor.solar_consumption_19_ww_wp'') }}'
+      tvl_55_watt: '{{ 0 if (states(''sensor.luxtronik19_tvl'')|float <= 54 or states(''sensor.luxtronik19_tvl'')|float
+        >= 56) else states(''sensor.solar_consumption_19_ww_wp'') }}'
   - wait_template: '{{ states(''sensor.luxtronik19_tvl'')|int >= 60 or states(''binary_sensor.luxtronik19_bup'')
       == ''off'' }}'
     continue_on_timeout: true
     alias: Warten bis Vorlauf Temperatur 60°
   - variables:
-      tvl_60_watt: '{{ states(''sensor.solar_consumption_19_ww_wp'') }}'
+      tvl_60_watt: '{{ 0 if (states(''sensor.luxtronik19_tvl'')|float <= 59 or states(''sensor.luxtronik19_tvl'')|float
+        >= 61) else states(''sensor.solar_consumption_19_ww_wp'') }}'
   - if:
     - condition: state
       entity_id: binary_sensor.luxtronik19_bup
@@ -7289,16 +7169,7 @@
         - binary_sensor.luxtronik19_bup
         from: 'on'
         to: 'off'
-      alias: Warten, bis die Brauchwasser Produktion endet
-    alias: Warten, bis die Brauchwasser Produktion endet, sofern sie noch läuft
-  - wait_for_trigger:
-    - platform: state
-      entity_id:
-      - binary_sensor.luxtronik19_bup
-      from: 'on'
-      to: 'off'
-    alias: Warten, bis die Brauchwasser Produktion endet
-    enabled: false
+    alias: Warten bis Brauchwasser Produktion endet
   - variables:
       bup_ende: '{{ now() }}'
   - variables:
@@ -7330,6 +7201,8 @@
       minutes: 0
       seconds: 0
       milliseconds: 0
+  - variables:
+      gwf_ende: '{{ now() }}'
   - service: input_number.set_value
     data:
       value: '{{ states(''sensor.gwf_19_all_ww_l_helper'')|float }}'
@@ -7337,7 +7210,8 @@
       entity_id: input_number.gwf_19_ww_l_helper
     alias: Speichere den Warmwasserverbrauch seit der letzten Ladung
   - variables:
-      esti_kw_a: '{{  ((states(''input_number.gwf_19_ww_l_helper'')|float)*1.16* (states(''input_number.luxtronik_19_ww_solltemperatur'')|float-15))|round(1)  }}'
+      esti_kw_a: '{{  ((states(''input_number.gwf_19_ww_l_helper'')|float)/1000*1.16*
+        (states(''input_number.luxtronik_19_ww_solltemperatur'')|float-15))|round(1)  }}'
     alias: Variablen esti_kw_a definieren (Hochrechnung kW Bedarf anhand l Verbrauch
       GWF)
   - service: utility_meter.calibrate
@@ -7378,8 +7252,6 @@
       value: '{{ tvl_60_watt|float }}'
     target:
       entity_id: input_number.bwm19_variable_tvl_60_watt
-  - variables:
-      gwf_ende: '{{ now() }}'
   - service: notify.administrator_rotseepark
     data:
       title: 'HA-Info Heatpump 19: Die Boiler Ladung ist beendet'
@@ -7436,6 +7308,11 @@
     target:
       entity_id: input_number.luxtronik_23_tbw_degc_helper
     alias: Speichere die aktuelle Brauchwasser Temperatur
+  - delay:
+      hours: 0
+      minutes: 2
+      seconds: 0
+      milliseconds: 0
   - repeat:
       while:
       - condition: template
@@ -7480,26 +7357,27 @@
       btw_lowtime: '{{ now() - strptime(bup_start, ''%Y-%m-%d %H:%M:%S.%f%z'') }}'
       btw_lowminute: '{{ ((now().timestamp() - strptime(bup_start, ''%Y-%m-%d %H:%M:%S.%f%z'').timestamp())/60)|round(0)
         }}'
-  - wait_for_trigger:
-    - platform: numeric_state
-      entity_id: sensor.luxtronik23_tvl
-      above: 49.9
+  - wait_template: '{{ states(''sensor.luxtronik23_tvl'')|int >= 50 or states(''binary_sensor.luxtronik23_bup'')
+      == ''off'' }}'
+    continue_on_timeout: true
     alias: Warten bis Vorlauf Temperatur 50°
   - variables:
-      tvl_50_watt: '{{ states(''sensor.solar_consumption_23_ww_wp'') }}'
-  - wait_for_trigger:
-    - platform: numeric_state
-      entity_id: sensor.luxtronik23_tvl
-      above: 54.9
+      tvl_50_watt: '{{ 0 if (states(''sensor.luxtronik23_tvl'')|float <= 49 or states(''sensor.luxtronik23_tvl'')|float
+        >= 51) else states(''sensor.solar_consumption_23_ww_wp'') }}'
+  - wait_template: '{{ states(''sensor.luxtronik23_tvl'')|int >= 55 or states(''binary_sensor.luxtronik23_bup'')
+      == ''off'' }}'
+    continue_on_timeout: true
     alias: Warten bis Vorlauf Temperatur 55°
   - variables:
-      tvl_55_watt: '{{ states(''sensor.solar_consumption_23_ww_wp'') }}'
+      tvl_55_watt: '{{ 0 if (states(''sensor.luxtronik23_tvl'')|float <= 54 or states(''sensor.luxtronik23_tvl'')|float
+        >= 56) else states(''sensor.solar_consumption_23_ww_wp'') }}'
   - wait_template: '{{ states(''sensor.luxtronik23_tvl'')|int >= 60 or states(''binary_sensor.luxtronik23_bup'')
       == ''off'' }}'
     continue_on_timeout: true
     alias: Warten bis Vorlauf Temperatur 60°
   - variables:
-      tvl_60_watt: '{{ states(''sensor.solar_consumption_23_ww_wp'') }}'
+      tvl_60_watt: '{{ 0 if (states(''sensor.luxtronik23_tvl'')|float <= 59 or states(''sensor.luxtronik23_tvl'')|float
+        >= 61) else states(''sensor.solar_consumption_23_ww_wp'') }}'
   - if:
     - condition: state
       entity_id: binary_sensor.luxtronik23_bup
@@ -7511,16 +7389,7 @@
         - binary_sensor.luxtronik23_bup
         from: 'on'
         to: 'off'
-      alias: Warten, bis die Brauchwasser Produktion endet
-    alias: Warten, bis die Brauchwasser Produktion endet, sofern sie noch läuft
-  - wait_for_trigger:
-    - platform: state
-      entity_id:
-      - binary_sensor.luxtronik23_bup
-      from: 'on'
-      to: 'off'
-    alias: Warten, bis die Brauchwasser Produktion endet
-    enabled: false
+    alias: Warten bis Brauchwasser Produktion endet
   - variables:
       bup_ende: '{{ now() }}'
   - variables:
@@ -7552,6 +7421,8 @@
       minutes: 0
       seconds: 0
       milliseconds: 0
+  - variables:
+      gwf_ende: '{{ now() }}'
   - service: input_number.set_value
     data:
       value: '{{ states(''sensor.gwf_23_all_ww_l_helper'')|float }}'
@@ -7559,7 +7430,8 @@
       entity_id: input_number.gwf_23_ww_l_helper
     alias: Speichere den Warmwasserverbrauch seit der letzten Ladung
   - variables:
-      esti_kw_a: '{{  ((states(''input_number.gwf_23_ww_l_helper'')|float)*1.16* (states(''input_number.luxtronik_23_ww_solltemperatur'')|float-15))|round(1)  }}'
+      esti_kw_a: '{{  ((states(''input_number.gwf_23_ww_l_helper'')|float)/1000*1.16*
+        (states(''input_number.luxtronik_23_ww_solltemperatur'')|float-15))|round(1)  }}'
     alias: Variablen esti_kw_a definieren (Hochrechnung kW Bedarf anhand l Verbrauch
       GWF)
   - service: utility_meter.calibrate
@@ -7600,8 +7472,6 @@
       value: '{{ tvl_60_watt|float }}'
     target:
       entity_id: input_number.bwm23_variable_tvl_60_watt
-  - variables:
-      gwf_ende: '{{ now() }}'
   - service: notify.administrator_rotseepark
     data:
       title: 'HA-Info Heatpump 23: Die Boiler Ladung ist beendet'
@@ -7625,4 +7495,500 @@
         }}% Wirkungsgrad Plattentauscher\nWG Faktor   - {{ ((states('input_number.gwf_23_hz_ug_kw_helper')|float)
         /(states('input_number.heatpump_23_ww_power_consumption_helper')|float  -
         pumpen_kw))|round(1) }} Faktor Wärme VL/RL versus kW Verdichter"
+  mode: single
+- id: '1696261583380'
+  alias: Monitoring TA Mittel und Schalten der Heizphase und Kühlphase
+  description: ''
+  trigger:
+  - platform: time_pattern
+    hours: '8'
+    minutes: '0'
+    seconds: '0'
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: and
+        conditions:
+        - condition: numeric_state
+          entity_id: sensor.luxtronik19_ta_mittel
+          below: sensor.luxtronik19_heizgrenze
+        - condition: numeric_state
+          entity_id: sensor.luxtronik21_ta_mittel
+          below: sensor.luxtronik21_heizgrenze
+        - condition: numeric_state
+          entity_id: sensor.luxtronik23_ta_mittel
+          below: sensor.luxtronik23_heizgrenze
+        - condition: numeric_state
+          entity_id: sensor.luxtronik25_ta_mittel
+          below: sensor.luxtronik25_heizgrenze
+        alias: Testen ob TA-Mittel die Heizgrenze bei allen 4 Häusern unterschreitet
+          (heizen)
+      sequence:
+      - service: input_boolean.turn_on
+        data: {}
+        target:
+          entity_id:
+          - input_boolean.luxtronik_heizphase_haus_19
+          - input_boolean.luxtronik_heizphase_haus_21
+          - input_boolean.luxtronik_heizphase_haus_23
+          - input_boolean.luxtronik_heizphase_haus_25
+      - service: input_boolean.turn_off
+        data: {}
+        target:
+          entity_id:
+          - input_boolean.luxtronik_kuhlphase_haus_19
+          - input_boolean.luxtronik_kuhlphase_haus_21
+          - input_boolean.luxtronik_kuhlphase_haus_23
+          - input_boolean.luxtronik_kuhlphase_haus_25
+      - condition: and
+        conditions:
+        - condition: state
+          entity_id: input_boolean.luxtronik_heizphase_haus_19
+          state: 'on'
+          for:
+            hours: 120
+            minutes: 0
+            seconds: 0
+        - condition: state
+          entity_id: input_boolean.luxtronik_heizphase_haus_21
+          state: 'on'
+          for:
+            hours: 120
+            minutes: 0
+            seconds: 0
+        - condition: state
+          entity_id: input_boolean.luxtronik_heizphase_haus_23
+          state: 'on'
+          for:
+            hours: 120
+            minutes: 0
+            seconds: 0
+        - condition: state
+          entity_id: input_boolean.luxtronik_heizphase_haus_25
+          state: 'on'
+          for:
+            hours: 120
+            minutes: 0
+            seconds: 0
+      - service: input_select.set_options
+        data:
+          options: '{{ states(''input_select.luxtronik_operation_mode_automatik'')
+            }}'
+        target:
+          entity_id:
+          - input_select.luxtronik_19_hz_operation_mode
+          - input_select.luxtronik_21_hz_operation_mode
+          - input_select.luxtronik_23_hz_operation_mode
+          - input_select.luxtronik_25_hz_operation_mode
+    - conditions:
+      - condition: and
+        conditions:
+        - condition: numeric_state
+          entity_id: sensor.luxtronik19_ta_mittel
+          above: sensor.luxtronik19_heizgrenze
+        - condition: numeric_state
+          entity_id: sensor.luxtronik21_ta_mittel
+          above: sensor.luxtronik21_heizgrenze
+        - condition: numeric_state
+          entity_id: sensor.luxtronik23_ta_mittel
+          above: sensor.luxtronik23_heizgrenze
+        - condition: numeric_state
+          entity_id: sensor.luxtronik25_ta_mittel
+          above: sensor.luxtronik25_heizgrenze
+        alias: Testen ob TA-Mittel die Heizgrenze bei allen 4 Häusern überschreitet
+          (kühlen)
+      sequence:
+      - service: input_boolean.turn_off
+        data: {}
+        target:
+          entity_id:
+          - input_boolean.luxtronik_heizphase_haus_19
+          - input_boolean.luxtronik_heizphase_haus_21
+          - input_boolean.luxtronik_heizphase_haus_23
+          - input_boolean.luxtronik_heizphase_haus_25
+      - service: input_boolean.turn_on
+        data: {}
+        target:
+          entity_id:
+          - input_boolean.luxtronik_kuhlphase_haus_19
+          - input_boolean.luxtronik_kuhlphase_haus_21
+          - input_boolean.luxtronik_kuhlphase_haus_23
+          - input_boolean.luxtronik_kuhlphase_haus_25
+      - condition: and
+        conditions:
+        - condition: state
+          entity_id: input_boolean.luxtronik_kuhlphase_haus_19
+          state: 'on'
+          for:
+            hours: 120
+            minutes: 0
+            seconds: 0
+        - condition: state
+          entity_id: input_boolean.luxtronik_kuhlphase_haus_21
+          state: 'on'
+          for:
+            hours: 120
+            minutes: 0
+            seconds: 0
+        - condition: state
+          entity_id: input_boolean.luxtronik_kuhlphase_haus_23
+          state: 'on'
+          for:
+            hours: 120
+            minutes: 0
+            seconds: 0
+        - condition: state
+          entity_id: input_boolean.luxtronik_kuhlphase_haus_25
+          state: 'on'
+          for:
+            hours: 120
+            minutes: 0
+            seconds: 0
+      - service: input_select.set_options
+        data:
+          options: '{{ states(''input_select.luxtronik_operation_mode_aus'') }}'
+        target:
+          entity_id:
+          - input_select.luxtronik_19_hz_operation_mode
+          - input_select.luxtronik_21_hz_operation_mode
+          - input_select.luxtronik_23_hz_operation_mode
+          - input_select.luxtronik_25_hz_operation_mode
+  mode: single
+- id: '1696282173640'
+  alias: Zähle Secomat Trocknungen
+  description: "Diese Automatisation zählt die Secomat Trocknungsvorgänge (Counter
+    des Secomaten inkrementieren) und erstellt ein E-Mail an den Administrator. \nAuslöser
+    ist, wenn irgend einer der Secomaten anschaltet. Zusätzlich wird dann überprüft,
+    ob der Secomat weniger als 2 Minuten läuft, da wir nicht wollen, dass bestehende
+    laufenden Secomat Vorgänge, welche wir schon einmal gezählt haben, noch ein zweites
+    mal gezählt werden. "
+  trigger:
+  - platform: state
+    entity_id:
+    - switch.secomat_191_switch_0
+    - switch.secomat_192_switch_0
+    - switch.secomat_211_switch_0
+    - switch.secomat_212_switch_0
+    - switch.secomat_231_switch_0
+    - switch.secomat_232_switch_0
+    - switch.secomat_251_switch_0
+    - switch.secomat_252_switch_0
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - alias: Secomat 19.1 prüfen
+    if:
+    - condition: state
+      entity_id: switch.secomat_191_switch_0
+      state: 'on'
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 0
+    then:
+    - if:
+      - condition: state
+        entity_id: switch.secomat_191_switch_0
+        state: 'on'
+        for:
+          hours: 0
+          minutes: 2
+          seconds: 0
+      then: []
+      else:
+      - service: notify.administrator_rotseepark
+        data:
+          title: 'HA-Info Haus 19: Secomat 19.1 gestartet'
+          message: Secomat 19.1 gestartet
+      - service: counter.increment
+        data: {}
+        target:
+          entity_id: counter.secomat_191_usage_counter
+  - if:
+    - condition: state
+      entity_id: switch.secomat_192_switch_0
+      state: 'on'
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 0
+    then:
+    - if:
+      - condition: state
+        entity_id: switch.secomat_192_switch_0
+        state: 'on'
+        for:
+          hours: 0
+          minutes: 2
+          seconds: 0
+      then: []
+      else:
+      - service: notify.administrator_rotseepark
+        data:
+          title: 'HA-Info Haus 19: Secomat 19.2 gestartet'
+          message: Secomat 19.2 gestartet
+      - service: counter.increment
+        data: {}
+        target:
+          entity_id: counter.secomat_192_usage_counter
+    alias: Secomat 19.2 prüfen
+  - if:
+    - condition: state
+      entity_id: switch.secomat_211_switch_0
+      state: 'on'
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 0
+    then:
+    - if:
+      - condition: state
+        entity_id: switch.secomat_211_switch_0
+        state: 'on'
+        for:
+          hours: 0
+          minutes: 2
+          seconds: 0
+      then: []
+      else:
+      - service: notify.administrator_rotseepark
+        data:
+          title: 'HA-Info Haus 21: Secomat 21.1 gestartet'
+          message: Secomat 21.1 gestartet
+      - service: counter.increment
+        data: {}
+        target:
+          entity_id: counter.secomat_211_usage_counter
+    alias: Secomat 21.1 prüfen
+  - if:
+    - condition: state
+      entity_id: switch.secomat_212_switch_0
+      state: 'on'
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 0
+    then:
+    - if:
+      - condition: state
+        entity_id: switch.secomat_212_switch_0
+        state: 'on'
+        for:
+          hours: 0
+          minutes: 2
+          seconds: 0
+      then: []
+      else:
+      - service: notify.administrator_rotseepark
+        data:
+          title: 'HA-Info Haus 21: Secomat 21.2 gestartet'
+          message: Secomat 21.2 gestartet
+      - service: counter.increment
+        data: {}
+        target:
+          entity_id: counter.secomat_212_usage_counter
+    alias: Secomat 21.2 prüfen
+  - if:
+    - condition: state
+      entity_id: switch.secomat_231_switch_0
+      state: 'on'
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 0
+    then:
+    - if:
+      - condition: state
+        entity_id: switch.secomat_231_switch_0
+        state: 'on'
+        for:
+          hours: 0
+          minutes: 2
+          seconds: 0
+      then: []
+      else:
+      - service: notify.administrator_rotseepark
+        data:
+          title: 'HA-Info Haus 23: Secomat 23.1 gestartet'
+          message: Secomat 23.1 gestartet
+      - service: counter.increment
+        data: {}
+        target:
+          entity_id: counter.secomat_231_usage_counter
+    alias: Secomat 23.1 prüfen
+  - if:
+    - condition: state
+      entity_id: switch.secomat_232_switch_0
+      state: 'on'
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 0
+    then:
+    - if:
+      - condition: state
+        entity_id: switch.secomat_232_switch_0
+        state: 'on'
+        for:
+          hours: 0
+          minutes: 2
+          seconds: 0
+      then: []
+      else:
+      - service: notify.administrator_rotseepark
+        data:
+          title: 'HA-Info Haus 23: Secomat 23.2 gestartet'
+          message: Secomat 23.2 gestartet
+      - service: counter.increment
+        data: {}
+        target:
+          entity_id: counter.secomat_232_usage_counter
+    alias: Secomat 23.2 prüfen
+  - if:
+    - condition: state
+      entity_id: switch.secomat_251_switch_0
+      state: 'on'
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 0
+    then:
+    - if:
+      - condition: state
+        entity_id: switch.secomat_251_switch_0
+        state: 'on'
+        for:
+          hours: 0
+          minutes: 2
+          seconds: 0
+      then: []
+      else:
+      - service: notify.administrator_rotseepark
+        data:
+          title: 'HA-Info Haus 25: Secomat 25.1 gestartet'
+          message: Secomat 25.1 gestartet
+      - service: counter.increment
+        data: {}
+        target:
+          entity_id: counter.secomat_251_usage_counter
+    alias: Secomat 25.1 prüfen
+  - if:
+    - condition: state
+      entity_id: switch.secomat_252_switch_0
+      state: 'on'
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 0
+    then:
+    - if:
+      - condition: state
+        entity_id: switch.secomat_252_switch_0
+        state: 'on'
+        for:
+          hours: 0
+          minutes: 2
+          seconds: 0
+      then: []
+      else:
+      - service: notify.administrator_rotseepark
+        data:
+          title: 'HA-Info Haus 25: Secomat 25.2 gestartet'
+          message: Secomat 25.2 gestartet
+      - service: counter.increment
+        data: {}
+        target:
+          entity_id: counter.secomat_252_usage_counter
+    alias: Secomat 25.2 prüfen
+  mode: queued
+  max: 3
+- id: '1696751469026'
+  alias: Transferiere Luxtronik DTA Dateien
+  description: ''
+  trigger:
+  - platform: time_pattern
+    hours: '6'
+  condition:
+  - condition: time
+    weekday:
+    - sun
+  action:
+  - service: shell_command.luxtronik19_to_ha
+    data: {}
+    response_variable: scriptanswer
+  - if:
+    - condition: template
+      value_template: '{{ scriptanswer[''stdout''] | regex_search(''Return:0-0-0-0-[0-9]*'')
+        }}'
+    then:
+    - service: notify.administrator_rotseepark
+      data:
+        message: '{{scriptanswer[''stdout'']}}'
+        title: HA-Info Heatpump 19 - Dateien gesichert mit {{ (scriptanswer['stdout']
+          | regex_findall('Return:[0]-[0]-[0]-[0]-[0-9]*'))[0] }}
+    else:
+    - service: notify.administrator_rotseepark
+      data:
+        message: '{{scriptanswer[''stdout'']}}'
+        title: HA-Alert Heatpump 19 - Dateien sichern FEHLGESCHLAGEN mit {{ (scriptanswer['stdout']
+          | regex_findall('Return:[0-9]*-[0-9]*-[0-9]*-[0-9]*-[0-9]*'))[0] }}
+  - service: shell_command.luxtronik21_to_ha
+    data: {}
+    response_variable: scriptanswer
+  - if:
+    - condition: template
+      value_template: '{{ scriptanswer[''stdout''] | regex_search(''Return:0-0-0-0-[0-9]*'')
+        }}'
+    then:
+    - service: notify.administrator_rotseepark
+      data:
+        message: '{{scriptanswer[''stdout'']}}'
+        title: HA-Info Heatpump 21 - Dateien gesichert mit {{ (scriptanswer['stdout']
+          | regex_findall('Return:[0]-[0]-[0]-[0]-[0-9]*'))[0] }}
+    else:
+    - service: notify.administrator_rotseepark
+      data:
+        message: '{{scriptanswer[''stdout'']}}'
+        title: HA-Alert Heatpump 21 - Dateien sichern FEHLGESCHLAGEN mit {{ (scriptanswer['stdout']
+          | regex_findall('Return:[0-9]*-[0-9]*-[0-9]*-[0-9]*-[0-9]*'))[0] }}
+  - service: shell_command.luxtronik23_to_ha
+    data: {}
+    response_variable: scriptanswer
+  - if:
+    - condition: template
+      value_template: '{{ scriptanswer[''stdout''] | regex_search(''Return:0-0-0-0-[0-9]*'')
+        }}'
+    then:
+    - service: notify.administrator_rotseepark
+      data:
+        message: '{{scriptanswer[''stdout'']}}'
+        title: HA-Info Heatpump 23 - Dateien gesichert mit {{ (scriptanswer['stdout']
+          | regex_findall('Return:[0]-[0]-[0]-[0]-[0-9]*'))[0] }}
+    else:
+    - service: notify.administrator_rotseepark
+      data:
+        message: '{{scriptanswer[''stdout'']}}'
+        title: HA-Alert Heatpump 23 - Dateien sichern FEHLGESCHLAGEN mit {{ (scriptanswer['stdout']
+          | regex_findall('Return:[0-9]*-[0-9]*-[0-9]*-[0-9]*-[0-9]*'))[0] }}
+  - service: shell_command.luxtronik25_to_ha
+    data: {}
+    response_variable: scriptanswer
+  - if:
+    - condition: template
+      value_template: '{{ scriptanswer[''stdout''] | regex_search(''Return:0-0-0-0-[0-9]*'')
+        }}'
+    then:
+    - service: notify.administrator_rotseepark
+      data:
+        message: '{{scriptanswer[''stdout'']}}'
+        title: HA-Info Heatpump 25 - Dateien gesichert mit {{ (scriptanswer['stdout']
+          | regex_findall('Return:[0]-[0]-[0]-[0]-[0-9]*'))[0] }}
+    else:
+    - service: notify.administrator_rotseepark
+      data:
+        message: '{{scriptanswer[''stdout'']}}'
+        title: HA-Alert Heatpump 25 - Dateien sichern FEHLGESCHLAGEN mit {{ (scriptanswer['stdout']
+          | regex_findall('Return:[0-9]*-[0-9]*-[0-9]*-[0-9]*-[0-9]*'))[0] }}
   mode: single

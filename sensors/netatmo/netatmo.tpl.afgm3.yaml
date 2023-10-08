@@ -10,7 +10,7 @@ sensors:
 
 # Heizung Keller Bühler
   netatmo_keller_buhler_absolute_feuchte:
-    friendly_name: "Netatmo Keller Bühler absolute Feuchte g/m³"
+    friendly_name: "Netatmo Keller Bühler absolute Feuchte g/m3"
     value_template: "{{(10**5 * 
                         18.016 / 
                         8314.3 * 
@@ -39,7 +39,7 @@ sensors:
 
 # Heizung Keller Gang
   netatmo_keller_gang_absolute_feuchte:
-    friendly_name: "Netatmo Keller Gang absolute Feuchte g/m³"
+    friendly_name: "Netatmo Keller Gang absolute Feuchte g/m3"
     value_template: "{{(10**5 * 
                         18.016 / 
                         8314.3 * 
@@ -68,7 +68,7 @@ sensors:
 
 # Heizung Outdoor
   netatmo_outdoor_absolute_feuchte:
-    friendly_name: "Netatmo Outdoor absolute Feuchte g/m³"
+    friendly_name: "Netatmo Outdoor absolute Feuchte g/m3"
     value_template: "{{(10**5 * 
                         18.016 / 
                         8314.3 * 

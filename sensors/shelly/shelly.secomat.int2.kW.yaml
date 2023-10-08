@@ -1,0 +1,9 @@
+# ####### ################################# #######
+# ####### Integration Sensor Shelly Secomat #######
+# ####### ################################# #######
+
+platform: integration
+source: sensor.shelly_secomat_power
+name: "Shelly Secomat Power Consumption2"
+unit_prefix: k
+round: 3

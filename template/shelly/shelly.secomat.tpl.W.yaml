@@ -1,0 +1,21 @@
+# ####### ############################### #######
+# ####### Wattage Sensoren Shelly Secomat #######
+# ####### ############################### #######
+
+- sensor:
+    - name: "Shelly Secomat Power"
+      state: "{{ (0
+        +(0 if states('sensor.secomat_191_switch_0_power') == ('unknown' or 'unavailable') else states('sensor.secomat_191_switch_0_power')|float)
+        +(0 if states('sensor.secomat_192_switch_0_power') == ('unknown' or 'unavailable') else states('sensor.secomat_192_switch_0_power')|float)
+        +(0 if states('sensor.secomat_211_switch_0_power') == ('unknown' or 'unavailable') else states('sensor.secomat_211_switch_0_power')|float)
+        +(0 if states('sensor.secomat_212_switch_0_power') == ('unknown' or 'unavailable') else states('sensor.secomat_212_switch_0_power')|float)
+        +(0 if states('sensor.secomat_231_switch_0_power') == ('unknown' or 'unavailable') else states('sensor.secomat_231_switch_0_power')|float)
+        +(0 if states('sensor.secomat_232_switch_0_power') == ('unknown' or 'unavailable') else states('sensor.secomat_232_switch_0_power')|float)
+        +(0 if states('sensor.secomat_251_switch_0_power') == ('unknown' or 'unavailable') else states('sensor.secomat_251_switch_0_power')|float)
+        +(0 if states('sensor.secomat_252_switch_0_power') == ('unknown' or 'unavailable') else states('sensor.secomat_252_switch_0_power')|float)
+      )|round(0) }}"
+      device_class: power
+      unit_of_measurement: "W"
+      attributes:
+        last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
+      unique_id: template.sensor_shelly_secomat_power

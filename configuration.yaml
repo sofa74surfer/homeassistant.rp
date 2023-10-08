@@ -58,6 +58,7 @@ recorder:
       - sensor.zaptec_circute*           # Zaptec Stromkreis Daten
       - sensor.zaptec_installation*      # Zaptec Installation Daten
       - sensor.shelly_emobility_power    # Shelly History (Energy Statistik genügt)
+      - sensor.shelly_secomat_power      # Shelly History (Energy Statistik genügt)
       - sensor.forecast*_1               # Forecast Sensoren "Unavailable" Schutz
       - sensor.forecast*_2               # Forecast Sensoren "Unavailable" Schutz
       - sensor.forecast*_3               # Forecast Sensoren "Unavailable" Schutz
