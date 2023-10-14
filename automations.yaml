@@ -3989,13 +3989,13 @@
     alias: Time Pattern Trigger 18 Uhr alle 10 Minuten
     enabled: false
   condition:
-  - condition: sun
-    before: sunset
-    before_offset: -02:00:00
-    after: sunrise
-    after_offset: 02:00:00
-    alias: Nur wenn die Sonne schon 2 Stunden oben ist und noch mindestens 2 Stunden
+  - alias: Nur wenn die Sonne schon 2 Stunden oben ist und noch mindestens 2 Stunden
       scheint
+    condition: sun
+    before: sunset
+    before_offset: -04:00:00
+    after: sunrise
+    after_offset: 03:00:00
   - condition: numeric_state
     entity_id: sensor.janitza_umg604_power
     below: -15000
@@ -6083,6 +6083,12 @@
   - platform: sun
     event: sunset
     offset: 00:30:00
+    enabled: false
+  - platform: state
+    entity_id:
+    - sensor.sun_next_dusk
+    from:
+    to:
   - platform: time
     at: 07:00:00
   - platform: time
@@ -7581,6 +7587,7 @@
           - input_select.luxtronik_21_hz_operation_mode
           - input_select.luxtronik_23_hz_operation_mode
           - input_select.luxtronik_25_hz_operation_mode
+        enabled: false
     - conditions:
       - condition: and
         conditions:
@@ -7654,6 +7661,7 @@
           - input_select.luxtronik_21_hz_operation_mode
           - input_select.luxtronik_23_hz_operation_mode
           - input_select.luxtronik_25_hz_operation_mode
+        enabled: false
   mode: single
 - id: '1696282173640'
   alias: Zähle Secomat Trocknungen

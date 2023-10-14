@@ -517,3 +517,235 @@
   column: 'state'
   unit_of_measurement: "°C"
   unique_id: template.sensor_sql_netatmo_outside_120h_average_temperature
+
+# ####### ################################### #######
+# ####### Integration SQL Sondentemperatur °C #######
+# ####### ################################### #######
+
+# Haus 19 Erdsonde Minimale Temperaturen in den letzten 72 Stunden (3 Tage)
+- name: SQL Erdsonde Haus 19 Temperature
+  query: >
+    select min(cast(s.state as float)) as state 
+    FROM states_meta sm
+    inner join states s on s.metadata_id = sm.metadata_id
+    and not s.state in ('unavailable','unknown')
+    where sm.entity_id = 'sensor.luxtronik19_twq_aus_korr' and s.last_updated_ts > (strftime('%s', 'now') - (1*60*60*72));
+  column: 'state'
+  unit_of_measurement: "°C"
+  unique_id: template.sensor_sql_erdsonde_haus_19_temperature
+
+# Haus 21 Erdsonde Minimale Temperaturen in den letzten 72 Stunden (3 Tage)
+- name: SQL Erdsonde Haus 21 Temperature
+  query: >
+    select min(cast(s.state as float)) as state 
+    FROM states_meta sm
+    inner join states s on s.metadata_id = sm.metadata_id
+    and not s.state in ('unavailable','unknown')
+    where sm.entity_id = 'sensor.luxtronik21_twq_aus_korr' and s.last_updated_ts > (strftime('%s', 'now') - (1*60*60*72));
+  column: 'state'
+  unit_of_measurement: "°C"
+  unique_id: template.sensor_sql_erdsonde_haus_21_temperature
+
+# Haus 23 Erdsonde Minimale Temperaturen in den letzten 72 Stunden (3 Tage)
+- name: SQL Erdsonde Haus 23 Temperature
+  query: >
+    select min(cast(s.state as float)) as state 
+    FROM states_meta sm
+    inner join states s on s.metadata_id = sm.metadata_id
+    and not s.state in ('unavailable','unknown')
+    where sm.entity_id = 'sensor.luxtronik23_twq_aus_korr' and s.last_updated_ts > (strftime('%s', 'now') - (1*60*60*72));
+  column: 'state'
+  unit_of_measurement: "°C"
+  unique_id: template.sensor_sql_erdsonde_haus_23_temperature
+
+# Haus 25 Erdsonde Minimale Temperaturen in den letzten 72 Stunden (3 Tage)
+- name: SQL Erdsonde Haus 25 Temperature
+  query: >
+    select min(cast(s.state as float)) as state 
+    FROM states_meta sm
+    inner join states s on s.metadata_id = sm.metadata_id
+    and not s.state in ('unavailable','unknown')
+    where sm.entity_id = 'sensor.luxtronik25_twq_aus_korr' and s.last_updated_ts > (strftime('%s', 'now') - (1*60*60*72));
+  column: 'state'
+  unit_of_measurement: "°C"
+  unique_id: template.sensor_sql_erdsonde_haus_25_temperature
+
+# ####### ################################## #######
+# ####### Integration SQL Brauchwasser Start #######
+# ####### ################################## #######
+
+# Haus 19 Brauchwasser Start in den letzten 168 Stunden (7 Tage)
+- name: SQL Brauchwasser Haus 19 Starts
+  query: >
+    SELECT round(cast(count(*) as float) / 7,1) as state
+    FROM states_meta sm
+    inner join states s on s.metadata_id = sm.metadata_id
+    where sm.entity_id = 'binary_sensor.luxtronik19_bup'
+    and s.state = 'on' 
+    and not s.old_state_id is null
+    and not (select s2.state from states s2 where s2.state_id = s.old_state_id) in ('unavailable','unknown')
+    and s.last_updated_ts > (strftime('%s', 'now') - (1*60*60*168));
+  column: 'state'
+  unique_id: template.sensor_sql_brauchwasser_haus_19_starts
+
+# Haus 21 Brauchwasser Start in den letzten 168 Stunden (7 Tage)
+- name: SQL Brauchwasser Haus 21 Starts
+  query: >
+    SELECT round(cast(count(*) as float) / 7,1) as state
+    FROM states_meta sm
+    inner join states s on s.metadata_id = sm.metadata_id
+    where sm.entity_id = 'binary_sensor.luxtronik21_bup'
+    and s.state = 'on' 
+    and not s.old_state_id is null
+    and not (select s2.state from states s2 where s2.state_id = s.old_state_id) in ('unavailable','unknown')
+    and s.last_updated_ts > (strftime('%s', 'now') - (1*60*60*168));
+  column: 'state'
+  unique_id: template.sensor_sql_brauchwasser_haus_21_starts
+
+# Haus 23 Brauchwasser Start in den letzten 168 Stunden (7 Tage)
+- name: SQL Brauchwasser Haus 23 Starts
+  query: >
+    SELECT round(cast(count(*) as float) / 7,1) as state
+    FROM states_meta sm
+    inner join states s on s.metadata_id = sm.metadata_id
+    where sm.entity_id = 'binary_sensor.luxtronik23_bup'
+    and s.state = 'on' 
+    and not s.old_state_id is null
+    and not (select s2.state from states s2 where s2.state_id = s.old_state_id) in ('unavailable','unknown')
+    and s.last_updated_ts > (strftime('%s', 'now') - (1*60*60*168));
+  column: 'state'
+  unique_id: template.sensor_sql_brauchwasser_haus_23_starts
+
+# Haus 25 Brauchwasser Start in den letzten 168 Stunden (7 Tage)
+- name: SQL Brauchwasser Haus 25 Starts
+  query: >
+    SELECT round(cast(count(*) as float) / 7,1) as state
+    FROM states_meta sm
+    inner join states s on s.metadata_id = sm.metadata_id
+    where sm.entity_id = 'binary_sensor.luxtronik25_bup'
+    and s.state = 'on' 
+    and not s.old_state_id is null
+    and not (select s2.state from states s2 where s2.state_id = s.old_state_id) in ('unavailable','unknown')
+    and s.last_updated_ts > (strftime('%s', 'now') - (1*60*60*168));
+  column: 'state'
+  unique_id: template.sensor_sql_brauchwasser_haus_25_starts
+
+# ####### ############################# #######
+# ####### Integration SQL Heizung Start #######
+# ####### ############################# #######
+
+# Haus 19 Heizung Start in den letzten 168 Stunden (7 Tage)
+- name: SQL Heizung Haus 19 Starts
+  query: >
+    SELECT round(cast(count(*) as float) / 7,1) as state
+    FROM states_meta sm
+    inner join states s on s.metadata_id = sm.metadata_id
+    where sm.entity_id = 'binary_sensor.luxtronik19_hup'
+    and s.state = 'on' 
+    and not s.old_state_id is null
+    and not (select s2.state from states s2 where s2.state_id = s.old_state_id) in ('unavailable','unknown')
+    and s.last_updated_ts > (strftime('%s', 'now') - (1*60*60*168));
+  column: 'state'
+  unique_id: template.sensor_sql_heizung_haus_19_starts
+
+# Haus 21 Heizung Start in den letzten 168 Stunden (7 Tage)
+- name: SQL Heizung Haus 21 Starts
+  query: >
+    SELECT round(cast(count(*) as float) / 7,1) as state
+    FROM states_meta sm
+    inner join states s on s.metadata_id = sm.metadata_id
+    where sm.entity_id = 'binary_sensor.luxtronik21_hup'
+    and s.state = 'on' 
+    and not s.old_state_id is null
+    and not (select s2.state from states s2 where s2.state_id = s.old_state_id) in ('unavailable','unknown')
+    and s.last_updated_ts > (strftime('%s', 'now') - (1*60*60*168));
+  column: 'state'
+  unique_id: template.sensor_sql_heizung_haus_21_starts
+
+# Haus 23 Heizung Start in den letzten 168 Stunden (7 Tage)
+- name: SQL Heizung Haus 23 Starts
+  query: >
+    SELECT round(cast(count(*) as float) / 7,1) as state
+    FROM states_meta sm
+    inner join states s on s.metadata_id = sm.metadata_id
+    where sm.entity_id = 'binary_sensor.luxtronik23_hup'
+    and s.state = 'on' 
+    and not s.old_state_id is null
+    and not (select s2.state from states s2 where s2.state_id = s.old_state_id) in ('unavailable','unknown')
+    and s.last_updated_ts > (strftime('%s', 'now') - (1*60*60*168));
+  column: 'state'
+  unique_id: template.sensor_sql_heizung_haus_23_starts
+
+# Haus 25 Heizung Start in den letzten 168 Stunden (7 Tage)
+- name: SQL Heizung Haus 25 Starts
+  query: >
+    SELECT round(cast(count(*) as float) / 7,1) as state
+    FROM states_meta sm
+    inner join states s on s.metadata_id = sm.metadata_id
+    where sm.entity_id = 'binary_sensor.luxtronik25_hup'
+    and s.state = 'on' 
+    and not s.old_state_id is null
+    and not (select s2.state from states s2 where s2.state_id = s.old_state_id) in ('unavailable','unknown')
+    and s.last_updated_ts > (strftime('%s', 'now') - (1*60*60*168));
+  column: 'state'
+  unique_id: template.sensor_sql_heizung_haus_25_starts
+
+# ####### ################################ #######
+# ####### Integration SQL Verdichter Start #######
+# ####### ################################ #######
+
+# Haus 19 Verdichter Start in den letzten 168 Stunden (7 Tage)
+- name: SQL Verdichter Haus 19 Starts
+  query: >
+    SELECT round(cast(count(*) as float) / 7,1) as state
+    FROM states_meta sm
+    inner join states s on s.metadata_id = sm.metadata_id
+    where sm.entity_id in ('binary_sensor.luxtronik19_vd1', 'binary_sensor.luxtronik19_vd2')
+    and s.state = 'on' 
+    and not s.old_state_id is null
+    and not (select s2.state from states s2 where s2.state_id = s.old_state_id) in ('unavailable','unknown')
+    and s.last_updated_ts > (strftime('%s', 'now') - (1*60*60*168));
+  column: 'state'
+  unique_id: template.sensor_sql_verdichter_haus_19_starts
+
+# Haus 21 Verdichter Start in den letzten 168 Stunden (7 Tage)
+- name: SQL Verdichter Haus 21 Starts
+  query: >
+    SELECT round(cast(count(*) as float) / 7,1) as state
+    FROM states_meta sm
+    inner join states s on s.metadata_id = sm.metadata_id
+    where sm.entity_id in ('binary_sensor.luxtronik21_vd1', 'binary_sensor.luxtronik21_vd2')
+    and s.state = 'on' 
+    and not s.old_state_id is null
+    and not (select s2.state from states s2 where s2.state_id = s.old_state_id) in ('unavailable','unknown')
+    and s.last_updated_ts > (strftime('%s', 'now') - (1*60*60*168));
+  column: 'state'
+  unique_id: template.sensor_sql_verdichter_haus_21_starts
+
+# Haus 23 Verdichter Start in den letzten 168 Stunden (7 Tage)
+- name: SQL Verdichter Haus 23 Starts
+  query: >
+    SELECT round(cast(count(*) as float) / 7,1) as state
+    FROM states_meta sm
+    inner join states s on s.metadata_id = sm.metadata_id
+    where sm.entity_id in ('binary_sensor.luxtronik23_vd1', 'binary_sensor.luxtronik23_vd2')
+    and s.state = 'on' 
+    and not s.old_state_id is null
+    and not (select s2.state from states s2 where s2.state_id = s.old_state_id) in ('unavailable','unknown')
+    and s.last_updated_ts > (strftime('%s', 'now') - (1*60*60*168));
+  column: 'state'
+  unique_id: template.sensor_sql_verdichter_haus_23_starts
+
+# Haus 25 Verdichter Start in den letzten 168 Stunden (7 Tage)
+- name: SQL Verdichter Haus 25 Starts
+  query: >
+    SELECT round(cast(count(*) as float) / 7,1) as state
+    FROM states_meta sm
+    inner join states s on s.metadata_id = sm.metadata_id
+    where sm.entity_id in ('binary_sensor.luxtronik25_vd1', 'binary_sensor.luxtronik25_vd2')
+    and s.state = 'on' 
+    and not s.old_state_id is null
+    and not (select s2.state from states s2 where s2.state_id = s.old_state_id) in ('unavailable','unknown')
+    and s.last_updated_ts > (strftime('%s', 'now') - (1*60*60*168));
+  column: 'state'
+  unique_id: template.sensor_sql_verdichter_haus_25_starts

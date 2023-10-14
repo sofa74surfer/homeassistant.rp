@@ -197,17 +197,17 @@ sensors:
     unit_of_measurement: "°C"
     unique_id: template.sensor_luxtronik25_twq_aus_korr
 
-  # Temperatur Wärmequelle Austritt (aus der Maschine heraus) (korrigiert) AVG min
-  luxtronik25_twq_aus_korr_avg_min:
-    friendly_name: "Luxtronik 25 TWQ aus °C korrigiert AVG min"
-    value_template: "{% if states('sensor.average_luxtronik_25_twq_aus_korr_degc') != ('unknown' or 'unavailable') -%}
-      {{ state_attr('sensor.average_luxtronik_25_twq_aus_korr_degc','min_value') }}
-    {%- else -%}
-      {{ states('sensor.luxtronik25_twq_aus_korr_avg_min') }}
-    {%- endif %}"
-    device_class: temperature
-    unit_of_measurement: "°C"
-    unique_id: template.sensor_luxtronik25_twq_aus_korr_avg_min
+  # # Temperatur Wärmequelle Austritt (aus der Maschine heraus) (korrigiert) AVG min
+  # luxtronik25_twq_aus_korr_avg_min:
+  #   friendly_name: "Luxtronik 25 TWQ aus °C korrigiert AVG min"
+  #   value_template: "{% if states('sensor.average_luxtronik_25_twq_aus_korr_degc') != ('unknown' or 'unavailable') -%}
+  #     {{ state_attr('sensor.average_luxtronik_25_twq_aus_korr_degc','min_value') }}
+  #   {%- else -%}
+  #     {{ states('sensor.luxtronik25_twq_aus_korr_avg_min') }}
+  #   {%- endif %}"
+  #   device_class: temperature
+  #   unit_of_measurement: "°C"
+  #   unique_id: template.sensor_luxtronik25_twq_aus_korr_avg_min
 
   # Temperatur Spreizung Wärmequelle Eintritt & Austritt (korrigiert)
   luxtronik25_spz_twq_ein_aus_korr:

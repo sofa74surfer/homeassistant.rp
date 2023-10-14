@@ -49,14 +49,15 @@ recorder:
       - sensor.solar_power_21            # Solar 21 History (Energy Statistik genügt)
       - sensor.solar_power_23            # Solar 23 History (Energy Statistik genügt)
       - sensor.solar_power_25            # Solar 25 History (Energy Statistik genügt)
-      - sensor.sql*                      # SQL Sensoren (Statistik genügt)
+      - sensor.sql_heatpump              # SQL Sensoren (Statistik genügt)
+      - sensor.sql_solarlog              # SQL Sensoren (Statistik genügt)
       - sensor.heatpump_power            # Heatpump History (Energy Statistik genügt)
       - sensor.heatpump_power_ww	       # Heatpump WW History (Energy Statistik genügt)
       - sensor.heatpump_power_hz	       # Heatpump HZ History (Energy Statistik genügt)
       - sensor.zaptec_power              # Zaptec History (Energy Statistik genügt)
-      - sensor.zaptec_charger*           # Zaptec Charger Daten
-      - sensor.zaptec_circute*           # Zaptec Stromkreis Daten
-      - sensor.zaptec_installation*      # Zaptec Installation Daten
+      - sensor.zaptec_charger            # Zaptec Charger Daten
+      - sensor.zaptec_circute            # Zaptec Stromkreis Daten
+      - sensor.zaptec_installation       # Zaptec Installation Daten
       - sensor.shelly_emobility_power    # Shelly History (Energy Statistik genügt)
       - sensor.shelly_secomat_power      # Shelly History (Energy Statistik genügt)
       - sensor.forecast*_1               # Forecast Sensoren "Unavailable" Schutz
@@ -77,10 +78,6 @@ recorder:
 #      trusted_users:
 #        192.168.5.4: Viewer
 #      allow_bypass_login: true
-
-# Text to speech
-#tts:
-#  - platform: google_translate
 
 ########### INCLUDES #####
 group: !include groups.yaml

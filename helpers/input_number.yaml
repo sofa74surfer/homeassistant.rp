@@ -151,33 +151,33 @@ luxtronik_heizkurve_offset:
   unit_of_measurement: °C
   mode: box
 
-heatpump_19_kompressor_start_pro_tag:
-  min: 0.0
-  max: 100.0
-  name: Heatpump 19 Kompressor Start pro Tag
-  step: 1.0
-  mode: box
+# heatpump_19_kompressor_start_pro_tag:
+#   min: 0.0
+#   max: 100.0
+#   name: Heatpump 19 Kompressor Start pro Tag
+#   step: 1.0
+#   mode: box
 
-heatpump_21_kompressor_start_pro_tag:
-  min: 0.0
-  max: 100.0
-  name: Heatpump 21 Kompressor Start pro Tag
-  step: 1.0
-  mode: box
+# heatpump_21_kompressor_start_pro_tag:
+#   min: 0.0
+#   max: 100.0
+#   name: Heatpump 21 Kompressor Start pro Tag
+#   step: 1.0
+#   mode: box
 
-heatpump_23_kompressor_start_pro_tag:
-  min: 0.0
-  max: 100.0
-  name: Heatpump 23 Kompressor Start pro Tag
-  step: 1.0
-  mode: box
+# heatpump_23_kompressor_start_pro_tag:
+#   min: 0.0
+#   max: 100.0
+#   name: Heatpump 23 Kompressor Start pro Tag
+#   step: 1.0
+#   mode: box
 
-heatpump_25_kompressor_start_pro_tag:
-  min: 0.0
-  max: 100.0
-  name: Heatpump 25 Kompressor Start pro Tag
-  step: 1.0
-  mode: box
+# heatpump_25_kompressor_start_pro_tag:
+#   min: 0.0
+#   max: 100.0
+#   name: Heatpump 25 Kompressor Start pro Tag
+#   step: 1.0
+#   mode: box
 
 luxtronik_19_ww_solltemperatur:
   min: 30.0
