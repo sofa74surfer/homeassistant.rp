@@ -8,14 +8,14 @@
       state: "{{
   (
     (
-      states('sensor.sql_solarlog_power_19_kwh_30day')|float 
+      states('sensor.sql_solarlog_power_19_kwh_14day')|float 
     ) /
       (
         (
-          states('sensor.sql_solarlog_power_19_kwh_30day')|float
-          +states('sensor.sql_solarlog_power_21_kwh_30day')|float
-          +states('sensor.sql_solarlog_power_23_kwh_30day')|float
-          +states('sensor.sql_solarlog_power_25_kwh_30day')|float
+          states('sensor.sql_solarlog_power_19_kwh_14day')|float
+          +states('sensor.sql_solarlog_power_21_kwh_14day')|float
+          +states('sensor.sql_solarlog_power_23_kwh_14day')|float
+          +states('sensor.sql_solarlog_power_25_kwh_14day')|float
         ) / 4 + 0.01
       ) * 100
   )|round(0)
@@ -31,14 +31,14 @@
       state: "{{
   (
     (
-      states('sensor.sql_solarlog_power_21_kwh_30day')|float 
+      states('sensor.sql_solarlog_power_21_kwh_14day')|float 
     ) /
       (
         (
-          states('sensor.sql_solarlog_power_19_kwh_30day')|float
-          +states('sensor.sql_solarlog_power_21_kwh_30day')|float
-          +states('sensor.sql_solarlog_power_23_kwh_30day')|float
-          +states('sensor.sql_solarlog_power_25_kwh_30day')|float
+          states('sensor.sql_solarlog_power_19_kwh_14day')|float
+          +states('sensor.sql_solarlog_power_21_kwh_14day')|float
+          +states('sensor.sql_solarlog_power_23_kwh_14day')|float
+          +states('sensor.sql_solarlog_power_25_kwh_14day')|float
         ) / 4 + 0.01
       ) * 100
   )|round(0)
@@ -54,14 +54,14 @@
       state: "{{
   (
     (
-      states('sensor.sql_solarlog_power_23_kwh_30day')|float 
+      states('sensor.sql_solarlog_power_23_kwh_14day')|float 
     ) /
       (
         (
-          states('sensor.sql_solarlog_power_19_kwh_30day')|float
-          +states('sensor.sql_solarlog_power_21_kwh_30day')|float
-          +states('sensor.sql_solarlog_power_23_kwh_30day')|float
-          +states('sensor.sql_solarlog_power_25_kwh_30day')|float
+          states('sensor.sql_solarlog_power_19_kwh_14day')|float
+          +states('sensor.sql_solarlog_power_21_kwh_14day')|float
+          +states('sensor.sql_solarlog_power_23_kwh_14day')|float
+          +states('sensor.sql_solarlog_power_25_kwh_14day')|float
         ) / 4 + 0.01
       ) * 100
   )|round(0)
@@ -77,14 +77,14 @@
       state: "{{
   (
     (
-      states('sensor.sql_solarlog_power_25_kwh_30day')|float 
+      states('sensor.sql_solarlog_power_25_kwh_14day')|float 
     ) /
       (
         (
-          states('sensor.sql_solarlog_power_19_kwh_30day')|float
-          +states('sensor.sql_solarlog_power_21_kwh_30day')|float
-          +states('sensor.sql_solarlog_power_23_kwh_30day')|float
-          +states('sensor.sql_solarlog_power_25_kwh_30day')|float
+          states('sensor.sql_solarlog_power_19_kwh_14day')|float
+          +states('sensor.sql_solarlog_power_21_kwh_14day')|float
+          +states('sensor.sql_solarlog_power_23_kwh_14day')|float
+          +states('sensor.sql_solarlog_power_25_kwh_14day')|float
         ) / 4 + 0.01
       ) * 100
   )|round(0)

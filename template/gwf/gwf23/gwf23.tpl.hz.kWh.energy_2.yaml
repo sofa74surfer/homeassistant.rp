@@ -1,0 +1,269 @@
+# ####### #################### #######
+# ####### GWF Zählerdaten 23nn #######
+# ####### #################### #######
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2301 HZ kW"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2301']['energy_2']['wert']|float 
+-state_attr('sensor.gwf_23_state','old')['WG2301']['energy_2']['wert']|float 
+)|round(0)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2301_hz_kw') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: power
+      state_class: measurement
+      unit_of_measurement: "kW"
+      unique_id: template.sensor_gwf_2301_hz_kw
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2302 HZ kW"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2302']['energy_2']['wert']|float 
+-state_attr('sensor.gwf_23_state','old')['WG2302']['energy_2']['wert']|float 
+)|round(0)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2302_hz_kw') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: power
+      state_class: measurement
+      unit_of_measurement: "kW"
+      unique_id: template.sensor_gwf_2302_hz_kw
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2311 HZ kW"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2311']['energy_2']['wert']|float 
+-state_attr('sensor.gwf_23_state','old')['WG2311']['energy_2']['wert']|float 
+)|round(0)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2311_hz_kw') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: power
+      state_class: measurement
+      unit_of_measurement: "kW"
+      unique_id: template.sensor_gwf_2311_hz_kw
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2312 HZ kW"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2312']['energy_2']['wert']|float 
+-state_attr('sensor.gwf_23_state','old')['WG2312']['energy_2']['wert']|float 
+)|round(0)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2312_hz_kw') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: power
+      state_class: measurement
+      unit_of_measurement: "kW"
+      unique_id: template.sensor_gwf_2312_hz_kw
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2321 HZ kW"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2321']['energy_2']['wert']|float 
+-state_attr('sensor.gwf_23_state','old')['WG2321']['energy_2']['wert']|float 
+)|round(0)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2321_hz_kw') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: power
+      state_class: measurement
+      unit_of_measurement: "kW"
+      unique_id: template.sensor_gwf_2321_hz_kw
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2322 HZ kW"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2322']['energy_2']['wert']|float 
+-state_attr('sensor.gwf_23_state','old')['WG2322']['energy_2']['wert']|float 
+)|round(0)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2322_hz_kw') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: power
+      state_class: measurement
+      unit_of_measurement: "kW"
+      unique_id: template.sensor_gwf_2322_hz_kw
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2331 HZ kW"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2331']['energy_2']['wert']|float 
+-state_attr('sensor.gwf_23_state','old')['WG2331']['energy_2']['wert']|float 
+)|round(0)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2331_hz_kw') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: power
+      state_class: measurement
+      unit_of_measurement: "kW"
+      unique_id: template.sensor_gwf_2331_hz_kw
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2332 HZ kW"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2332']['energy_2']['wert']|float 
+-state_attr('sensor.gwf_23_state','old')['WG2332']['energy_2']['wert']|float 
+)|round(0)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2332_hz_kw') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: power
+      state_class: measurement
+      unit_of_measurement: "kW"
+      unique_id: template.sensor_gwf_2332_hz_kw
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2341 HZ kW"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2341']['energy_2']['wert']|float 
+-state_attr('sensor.gwf_23_state','old')['WG2341']['energy_2']['wert']|float 
+)|round(0)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2341_hz_kw') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: power
+      state_class: measurement
+      unit_of_measurement: "kW"
+      unique_id: template.sensor_gwf_2341_hz_kw
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2342 HZ kW"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2342']['energy_2']['wert']|float 
+-state_attr('sensor.gwf_23_state','old')['WG2342']['energy_2']['wert']|float 
+)|round(0)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2342_hz_kw') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: power
+      state_class: measurement
+      unit_of_measurement: "kW"
+      unique_id: template.sensor_gwf_2342_hz_kw
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2351 HZ kW"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2351']['energy_2']['wert']|float 
+-state_attr('sensor.gwf_23_state','old')['WG2351']['energy_2']['wert']|float 
+)|round(0)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2351_hz_kw') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: power
+      state_class: measurement
+      unit_of_measurement: "kW"
+      unique_id: template.sensor_gwf_2351_hz_kw
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2352 HZ kW"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2352']['energy_2']['wert']|float 
+-state_attr('sensor.gwf_23_state','old')['WG2352']['energy_2']['wert']|float 
+)|round(0)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2352_hz_kw') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: power
+      state_class: measurement
+      unit_of_measurement: "kW"
+      unique_id: template.sensor_gwf_2352_hz_kw
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2361 HZ kW"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2361']['energy_2']['wert']|float 
+-state_attr('sensor.gwf_23_state','old')['WG2361']['energy_2']['wert']|float 
+)|round(0)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2361_hz_kw') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: power
+      state_class: measurement
+      unit_of_measurement: "kW"
+      unique_id: template.sensor_gwf_2361_hz_kw
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2362 HZ kW"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2362']['energy_2']['wert']|float 
+-state_attr('sensor.gwf_23_state','old')['WG2362']['energy_2']['wert']|float 
+)|round(0)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2362_hz_kw') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: power
+      state_class: measurement
+      unit_of_measurement: "kW"
+      unique_id: template.sensor_gwf_2362_hz_kw

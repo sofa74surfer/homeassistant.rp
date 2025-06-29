@@ -7,6 +7,16 @@ luxtronik_operation_mode_automatik:
   options:
     - "0"
 
+luxtronik_operation_mode_automatik_cooling:
+  name: Luxtronik Operation Mode Automatik Cooling
+  options:
+    - "1"
+
+luxtronik_operation_mode_party:
+  name: Luxtronik Operation Mode Party
+  options:
+    - "2"
+
 luxtronik_operation_mode_aus:
   name: Luxtronik Operation Mode Aus
   options:
@@ -24,14 +34,77 @@ luxtronik_21_hz_operation_mode:
     - "0"
     - "4"
 
+luxtronik_23_hz_operation_mode:
+  name: Luxtronik 23 HZ Operation Mode
+  options:
+    - "0"
+    - "4"
+
 luxtronik_25_hz_operation_mode:
   name: Luxtronik 25 HZ Operation Mode
   options:
     - "0"
     - "4"
 
-luxtronik_23_hz_operation_mode:
-  name: Luxtronik 23 HZ Operation Mode
+luxtronik_19_ww_operation_mode:
+  name: Luxtronik 19 WW Operation Mode
   options:
     - "0"
+    - "2"
     - "4"
+
+luxtronik_21_ww_operation_mode:
+  name: Luxtronik 21 WW Operation Mode
+  options:
+    - "0"
+    - "2"
+    - "4"
+
+luxtronik_23_ww_operation_mode:
+  name: Luxtronik 23 WW Operation Mode
+  options:
+    - "0"
+    - "2"
+    - "4"
+
+luxtronik_25_ww_operation_mode:
+  name: Luxtronik 25 WW Operation Mode
+  options:
+    - "0"
+    - "2"
+    - "4"
+
+luxtronik_19_cl_operation_mode:
+  name: Luxtronik 19 CL Operation Mode
+  options:
+    - "1"
+    - "4"
+
+luxtronik_21_cl_operation_mode:
+  name: Luxtronik 21 CL Operation Mode
+  options:
+    - "1"
+    - "4"
+
+luxtronik_23_cl_operation_mode:
+  name: Luxtronik 23 CL Operation Mode
+  options:
+    - "1"
+    - "4"
+
+luxtronik_25_cl_operation_mode:
+  name: Luxtronik 25 CL Operation Mode
+  options:
+    - "1"
+    - "4"
+
+shelly_light_bulb_status:
+  name: Schelly Light Bulb Status
+  options:
+    - "aus"
+    - "blau"
+    - "rot"
+    - "grün"
+    - "orange"
+    - "gelb"
+    - "violett"

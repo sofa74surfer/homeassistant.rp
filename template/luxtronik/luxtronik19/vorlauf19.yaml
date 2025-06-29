@@ -1,0 +1,28 @@
+# ####### ############################## #######
+# ####### Luxtronik Sensoren 19 Vorlauf  #######
+# ####### ############################## #######
+
+- sensor:
+
+# Temperatur Vorlauf (with LTS)
+    - name: "Luxtronik19 TVL"
+      state: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}
+        {{ state_attr('sensor.luxtronik_19_value_state', 'values')['temperature_supply'] }}
+      {%- else -%}
+        {{ states('sensor.luxtronik19_tvl') }}
+      {%- endif %}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_luxtronik19_tvl
+
+# Temperatur Spreizung Vorlauf und Rücklauf
+    - name: "Luxtronik19 Spz TVL TRL"
+      state: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}
+        {{ ((state_attr('sensor.luxtronik_19_value_state', 'values')['temperature_supply']) - (state_attr('sensor.luxtronik_19_value_state', 'values')['temperature_return']))|round(1) }}
+      {%- else -%}
+        {{ states('sensor.luxtronik19_spz_tvl_trl') }}
+      {%- endif %}"
+      device_class: temperature
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_luxtronik19_spz_tvl_trl

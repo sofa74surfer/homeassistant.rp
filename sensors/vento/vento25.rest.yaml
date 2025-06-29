@@ -1,0 +1,9 @@
+platform: rest
+method: GET
+resource: !secret url_sensor_vento_25
+name: Vento 25 State
+unique_id: rest.sensor_vento_25_state
+value_template: "OK"
+scan_interval: 300
+json_attributes:
+  - "vento"

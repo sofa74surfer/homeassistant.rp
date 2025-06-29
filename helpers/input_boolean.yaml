@@ -41,3 +41,19 @@ luxtronik_kuhlphase_haus_23:
 luxtronik_kuhlphase_haus_25:
   name: Luxtronik Kühlphase Haus 25
   icon: mdi:snowflake
+
+luxtronik_brauchwasser_haus_19:
+  name: Luxtronik Brauchwasser Haus 19
+  icon: mdi:water-boiler
+
+luxtronik_brauchwasser_haus_21:
+  name: Luxtronik Brauchwasser Haus 21
+  icon: mdi:water-boiler
+
+luxtronik_brauchwasser_haus_23:
+  name: Luxtronik Brauchwasser Haus 23
+  icon: mdi:water-boiler
+
+luxtronik_brauchwasser_haus_25:
+  name: Luxtronik Brauchwasser Haus 25
+  icon: mdi:water-boiler

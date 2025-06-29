@@ -8,7 +8,7 @@
       state: "{{
             (
               ( states.device_tracker
-                |selectattr('entity_id', 'search', 'device_tracker.z')
+                |selectattr('entity_id', 'search', 'device_tracker.zaptec_pp')
                 |selectattr('attributes.essid', 'search', 'eRotseepark')
                 |map(attribute='state'
               )

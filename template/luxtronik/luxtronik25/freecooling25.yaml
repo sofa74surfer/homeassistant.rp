@@ -1,0 +1,54 @@
+# ####### ################################## #######
+# ####### Luxtronik Sensoren 25 Free Cooling #######
+# ####### ################################## #######
+
+# Free Cooling Operation Mode
+# param_state/cooling_operation_mode: 1
+
+- sensor:
+    - name: "Luxtronik 25 Cooling Operation Mode"
+      state: "{% if states('sensor.luxtronik_25_param_state') == 'OK' -%}
+                {{ state_attr('sensor.luxtronik_25_param_state', 'parameters')['cooling_operation_mode'] }}
+              {%- else -%}
+                {{ states('sensor.luxtronik25_cooling_operation_mode') }}
+              {%- endif %}"
+      unique_id: template.sensor_luxtronik_25_cooling_operation_mode
+
+# Free Cooling Freigabe Temperatur
+# param_state/cooling_release_temperature: 20
+
+# -> Kein Sensor erstellen, kommt nur in das Monitoring
+
+# Free Cooling Inlet Temperatur ???
+# param_state/cooling_inlet_temp: 20
+
+# -> Kein Sensor erstellen, kommt nur in das Monitoring
+
+# Free Cooling Start Verzögerung
+# param_state/cooling_start_after_hours: 40
+
+# -> Kein Sensor erstellen, kommt nur in das Monitoring
+
+# Free Cooling Stopp Verzögerung
+# param_state/cooling_stop_after_hours: 120
+
+# -> Kein Sensor erstellen, kommt nur in das Monitoring
+
+# Free Cooling Mixer2 Temperatur
+# param_state/temperature_mixer2_flow: 21
+- sensor:
+    - name: "Luxtronik 25 M2F °C"
+      state: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+                {{ state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_mixer2_flow'] }}
+              {%- else -%}
+                {{ states('sensor.luxtronik25_m2f_c') }}
+              {%- endif %}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_luxtronik_25_m2f_c
+
+# Free Cooling Mixer2 Zieltemperatur
+# param_state/temperature_mixer2_target: 20
+
+# -> Kein Sensor erstellen, kommt nur in das Monitoring

@@ -1,0 +1,255 @@
+# ####### #################### #######
+# ####### GWF Zählerdaten 19nn #######
+# ####### #################### #######
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 1901 HZ °C Return"
+      state: "{% if states('sensor.gwf_19_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_19_state','gwf')['WG1901']['return_temperature_7']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_1901_hz_c_return') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_19_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_19_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_1901_hz_c_return
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 1902 HZ °C Return"
+      state: "{% if states('sensor.gwf_19_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_19_state','gwf')['WG1902']['return_temperature_7']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_1902_hz_c_return') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_19_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_19_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_1902_hz_c_return
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 1911 HZ °C Return"
+      state: "{% if states('sensor.gwf_19_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_19_state','gwf')['WG1911']['return_temperature_7']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_1911_hz_c_return') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_19_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_19_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_1911_hz_c_return
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 1912 HZ °C Return"
+      state: "{% if states('sensor.gwf_19_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_19_state','gwf')['WG1912']['return_temperature_7']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_1912_hz_c_return') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_19_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_19_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_1912_hz_c_return
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 1921 HZ °C Return"
+      state: "{% if states('sensor.gwf_19_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_19_state','gwf')['WG1921']['return_temperature_7']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_1921_hz_c_return') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_19_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_19_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_1921_hz_c_return
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 1922 HZ °C Return"
+      state: "{% if states('sensor.gwf_19_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_19_state','gwf')['WG1922']['return_temperature_7']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_1922_hz_c_return') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_19_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_19_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_1922_hz_c_return
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 1931 HZ °C Return"
+      state: "{% if states('sensor.gwf_19_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_19_state','gwf')['WG1931']['return_temperature_7']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_1931_hz_c_return') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_19_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_19_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_1931_hz_c_return
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 1932 HZ °C Return"
+      state: "{% if states('sensor.gwf_19_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_19_state','gwf')['WG1932']['return_temperature_7']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_1932_hz_c_return') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_19_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_19_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_1932_hz_c_return
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 1941 HZ °C Return"
+      state: "{% if states('sensor.gwf_19_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_19_state','gwf')['WG1941']['return_temperature_7']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_1941_hz_c_return') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_19_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_19_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_1941_hz_c_return
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 1942 HZ °C Return"
+      state: "{% if states('sensor.gwf_19_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_19_state','gwf')['WG1942']['return_temperature_7']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_1942_hz_c_return') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_19_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_19_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_1942_hz_c_return
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 1951 HZ °C Return"
+      state: "{% if states('sensor.gwf_19_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_19_state','gwf')['WG1951']['return_temperature_7']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_1951_hz_c_return') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_19_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_19_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_1951_hz_c_return
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 1952 HZ °C Return"
+      state: "{% if states('sensor.gwf_19_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_19_state','gwf')['WG1952']['return_temperature_7']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_1952_hz_c_return') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_19_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_19_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_1952_hz_c_return
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 1961 HZ °C Return"
+      state: "{% if states('sensor.gwf_19_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_19_state','gwf')['WG1961']['return_temperature_7']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_1961_hz_c_return') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_19_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_19_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_1961_hz_c_return
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 1962 HZ °C Return"
+      state: "{% if states('sensor.gwf_19_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_19_state','gwf')['WG1962']['return_temperature_7']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_1962_hz_c_return') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_19_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_19_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_1962_hz_c_return

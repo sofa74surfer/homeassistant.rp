@@ -1,69 +1,306 @@
 schalte_warmwasser_zieltemperatur:
   alias: Schalte Warmwasser Zieltemperatur
   sequence:
-  - service: rest_command.luxtronik_set_parameter
-    data:
+  - data:
       heatpump: '{{ heatpump }}'
       parameter: warmwater_target_temperature
       value: '{{ value }}'
+    action: rest_command.luxtronik_set_parameter
   mode: parallel
 schalte_heizung_operation_mode:
   alias: Schalte Heizung Operation Mode
   sequence:
-  - service: rest_command.luxtronik_set_parameter
-    data:
+  - data:
       heatpump: '{{ heatpump }}'
       parameter: heating_operation_mode
       value: '{{ value }}'
+    action: rest_command.luxtronik_set_parameter
   mode: parallel
 schalte_warmwasser_hysterese:
   alias: Schalte Warmwasser Hysterese
   sequence:
-  - service: rest_command.luxtronik_set_parameter
-    data:
+  - data:
       heatpump: '{{ heatpump }}'
       parameter: hotwater_temperature_hysteresis
       value: '{{ value }}'
+    action: rest_command.luxtronik_set_parameter
   mode: parallel
   max: 10
 schalte_warmwasser_operation_mode:
   alias: Schalte Warmwasser Operation Mode
   sequence:
-  - service: rest_command.luxtronik_set_parameter
-    data:
+  - data:
       heatpump: '{{ heatpump }}'
       parameter: warmwater_operation_mode
       value: '{{ value }}'
+    action: rest_command.luxtronik_set_parameter
   mode: parallel
   max: 10
 schalte_heizung_hysterese:
   alias: Schalte Heizung Hysterese
   sequence:
-  - service: rest_command.luxtronik_set_parameter
-    data:
+  - data:
       heatpump: '{{ heatpump }}'
       parameter: return_temperature_hysteresis
       value: '{{ value }}'
-  mode: parallel
-  max: 10
-schalte_warmwasser_zieltemperatur_wunschwert:
-  alias: Schalte Warmwasser Zieltemperatur Wunschwert
-  sequence:
-  - service: rest_command.luxtronik_set_parameter
-    data:
-      heatpump: '{{ heatpump }}'
-      parameter: temperature_hot_water_target
-      value: '{{ value }}'
+    action: rest_command.luxtronik_set_parameter
   mode: parallel
   max: 10
 schalte_warmwasser_temperatur_vorlauf_vd2:
   alias: Schalte Warmwasser Temperatur Vorlauf VD2
   sequence:
-  - service: rest_command.luxtronik_set_parameter
-    data:
+  - data:
       heatpump: '{{ heatpump }}'
       parameter: hotwater_temperature_forerun_2nd_compressor
       value: '{{ value }}'
+    action: rest_command.luxtronik_set_parameter
   mode: parallel
   icon: mdi:water-thermometer
   max: 10
+schalte_ww_starte_warmwasser_durch_hysterese:
+  alias: Schalte WW - Starte Warmwasser Haus 25 durch Hysterese
+  sequence:
+  - data:
+      value: '{{ (states(''sensor.luxtronik25_tbw_soll'')|int - states(''sensor.luxtronik25_tbw'')|int
+        - 1 )|int }}'
+    target:
+      entity_id: input_number.luxtronik_25_ww_hysterese
+    action: input_number.set_value
+  - delay:
+      hours: 0
+      minutes: 8
+      seconds: 0
+      milliseconds: 0
+  - data:
+      value: '{{ states(''input_number.luxtronik_ww_normalhysterese'')|int }}'
+    target:
+      entity_id: input_number.luxtronik_25_ww_hysterese
+    action: input_number.set_value
+  mode: single
+  icon: mdi:thermometer-water
+schalte_kuhlung_operation_mode:
+  alias: Schalte Kühlung Operation Mode
+  sequence:
+  - data:
+      heatpump: '{{ heatpump }}'
+      parameter: cooling_operation_mode
+      value: '{{ value }}'
+    action: rest_command.luxtronik_set_parameter
+  mode: parallel
+  max: 10
+heizen_an_kuhlen_aus:
+  alias: Heizen AN - Kühlen AUS
+  sequence:
+  - data: {}
+    target:
+      entity_id:
+      - input_boolean.luxtronik_kuhlphase_haus_19
+      - input_boolean.luxtronik_kuhlphase_haus_21
+      - input_boolean.luxtronik_kuhlphase_haus_23
+      - input_boolean.luxtronik_kuhlphase_haus_25
+    action: input_boolean.turn_off
+  - data:
+      options: '{{ states(''input_select.luxtronik_operation_mode_aus'') }}'
+    target:
+      entity_id:
+      - input_select.luxtronik_19_cl_operation_mode
+      - input_select.luxtronik_21_cl_operation_mode
+      - input_select.luxtronik_23_cl_operation_mode
+      - input_select.luxtronik_25_cl_operation_mode
+    action: input_select.set_options
+  - data: {}
+    target:
+      entity_id:
+      - input_boolean.luxtronik_heizphase_haus_19
+      - input_boolean.luxtronik_heizphase_haus_21
+      - input_boolean.luxtronik_heizphase_haus_23
+      - input_boolean.luxtronik_heizphase_haus_25
+    action: input_boolean.turn_on
+  - data:
+      options: '{{ states(''input_select.luxtronik_operation_mode_automatik'') }}'
+    target:
+      entity_id:
+      - input_select.luxtronik_19_hz_operation_mode
+      - input_select.luxtronik_21_hz_operation_mode
+      - input_select.luxtronik_23_hz_operation_mode
+      - input_select.luxtronik_25_hz_operation_mode
+    action: input_select.set_options
+  description: ''
+heizen_aus_kuhlen_an:
+  alias: Heizen AUS - Kühlen AN
+  sequence:
+  - target:
+      entity_id:
+      - input_boolean.luxtronik_heizphase_haus_19
+      - input_boolean.luxtronik_heizphase_haus_21
+      - input_boolean.luxtronik_heizphase_haus_23
+      - input_boolean.luxtronik_heizphase_haus_25
+    data: {}
+    action: input_boolean.turn_off
+  - data:
+      options: '{{ states(''input_select.luxtronik_operation_mode_aus'') }}'
+    target:
+      entity_id:
+      - input_select.luxtronik_19_hz_operation_mode
+      - input_select.luxtronik_21_hz_operation_mode
+      - input_select.luxtronik_23_hz_operation_mode
+      - input_select.luxtronik_25_hz_operation_mode
+    action: input_select.set_options
+  - target:
+      entity_id:
+      - input_boolean.luxtronik_kuhlphase_haus_19
+      - input_boolean.luxtronik_kuhlphase_haus_21
+      - input_boolean.luxtronik_kuhlphase_haus_23
+      - input_boolean.luxtronik_kuhlphase_haus_25
+    data: {}
+    action: input_boolean.turn_on
+  - data:
+      options: '{{ states(''input_select.luxtronik_operation_mode_automatik'') }}'
+    target:
+      entity_id:
+      - input_select.luxtronik_19_cl_operation_mode
+      - input_select.luxtronik_21_cl_operation_mode
+      - input_select.luxtronik_23_cl_operation_mode
+      - input_select.luxtronik_25_cl_operation_mode
+    action: input_select.set_options
+  description: ''
+schalte_warmwasser_zieltemperatur_wunschwert_2:
+  sequence:
+  - data:
+      heatpump: '{{ heatpump }}'
+      parameter: temperature_hot_water_target
+      value: '{{ value }}'
+    action: rest_command.luxtronik_set_parameter
+  alias: Schalte Warmwasser Zieltemperatur Wunschwert
+  mode: parallel
+  max: 10
+  description: ''
+schalte_warmwasser_zieltemperatur_wunschwert:
+  sequence:
+  - data:
+      heatpump: '{{ heatpump }}'
+      parameter: temperature_hot_water_target
+      value: '{{ value }}'
+    action: rest_command.luxtronik_set_parameter
+  alias: Schalte Warmwasser Zieltemperatur Wunschwert
+  mode: parallel
+  max: 10
+uberschuss_shelly_light_red:
+  sequence:
+  - action: rest_command.shelly_light_bulb_set
+    data:
+      id: 08f9e06a8c78
+      boolean: 'true'
+      brightness: 1
+      red: 255
+      green: 0
+      blue: 0
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  alias: Überschuss Shelly Light RED
+  description: ''
+uberschuss_shelly_light_green:
+  sequence:
+  - action: rest_command.shelly_light_bulb_set
+    data:
+      id: 08f9e06a8c78
+      boolean: 'true'
+      brightness: 1
+      red: 0
+      green: 255
+      blue: 0
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  alias: Überschuss Shelly Light GREEN
+  description: ''
+uberschuss_shelly_light_blue:
+  sequence:
+  - action: rest_command.shelly_light_bulb_set
+    data:
+      id: 08f9e06a8c78
+      boolean: 'true'
+      brightness: 1
+      red: 0
+      green: 0
+      blue: 255
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  alias: Überschuss Shelly Light BLUE
+  description: ''
+uberschuss_shelly_light_off:
+  sequence:
+  - action: rest_command.shelly_light_bulb_set
+    data:
+      id: 08f9e06a8c78
+      boolean: 'false'
+      brightness: 1
+      red: 0
+      green: 0
+      blue: 0
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  alias: Überschuss Shelly Light OFF
+  description: ''
+uberschuss_shelly_light_orange:
+  sequence:
+  - action: rest_command.shelly_light_bulb_set
+    data:
+      id: 08f9e06a8c78
+      boolean: 'true'
+      brightness: 1
+      red: 209
+      green: 63
+      blue: 0
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  alias: Überschuss Shelly Light ORANGE
+  description: ''
+uberschuss_shelly_light_violet:
+  sequence:
+  - action: rest_command.shelly_light_bulb_set
+    data:
+      id: 08f9e06a8c78
+      boolean: 'true'
+      brightness: 1
+      red: 136
+      green: 0
+      blue: 255
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  alias: Überschuss Shelly Light VIOLET
+  description: ''
+uberschuss_shelly_light_yellow:
+  sequence:
+  - action: rest_command.shelly_light_bulb_set
+    data:
+      id: 08f9e06a8c78
+      boolean: 'true'
+      brightness: 1
+      red: 255
+      green: 190
+      blue: 0
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  alias: Überschuss Shelly Light YELLOW
+  description: ''

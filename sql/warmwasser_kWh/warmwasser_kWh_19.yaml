@@ -1,0 +1,34 @@
+# ####### ############################## #######
+# ####### Integration SQL Warmwasser kWh #######
+# ####### ############################## #######
+
+# Haus 19 1day
+- name: SQL Heatpump Power 19 ww kWh 1day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_19_ww_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24));
+  column: "state"
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_19_ww_kwh_1day
+# Haus 19 7day
+- name: SQL Heatpump Power 19 ww kWh 7day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_19_ww_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*7));
+  column: "state"
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_19_ww_kwh_7day
+# Haus 19 14day
+- name: SQL Heatpump Power 19 ww kWh 14day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.heatpump_19_ww_power_consumption' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*14));
+  column: "state"
+  unit_of_measurement: "kWh"
+  unique_id: template.sensor_sql_heatpump_power_19_ww_kwh_14day

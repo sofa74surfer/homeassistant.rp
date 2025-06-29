@@ -1,0 +1,51 @@
+# ####### ################################### #######
+# ####### Integration SQL Sondentemperatur °C #######
+# ####### ################################### #######
+
+# Haus 19 Erdsonde Minimale Temperaturen in den letzten 36 Stunden (1.5 Tage)
+- name: SQL Erdsonde Haus 19 Temperature
+  query: >
+    select min(cast(s.state as float)) as state 
+    FROM states_meta sm
+    inner join states s on s.metadata_id = sm.metadata_id
+    and not s.state in ('unavailable','unknown')
+    where sm.entity_id = 'sensor.luxtronik19_twq_aus_korr' and s.last_updated_ts > (strftime('%s', 'now') - (1*60*60*36));
+  column: 'state'
+  unit_of_measurement: "°C"
+  unique_id: template.sensor_sql_erdsonde_haus_19_temperature
+
+# Haus 21 Erdsonde Minimale Temperaturen in den letzten 36 Stunden (1.5 Tage)
+- name: SQL Erdsonde Haus 21 Temperature
+  query: >
+    select min(cast(s.state as float)) as state 
+    FROM states_meta sm
+    inner join states s on s.metadata_id = sm.metadata_id
+    and not s.state in ('unavailable','unknown')
+    where sm.entity_id = 'sensor.luxtronik21_twq_aus_korr' and s.last_updated_ts > (strftime('%s', 'now') - (1*60*60*36));
+  column: 'state'
+  unit_of_measurement: "°C"
+  unique_id: template.sensor_sql_erdsonde_haus_21_temperature
+
+# Haus 23 Erdsonde Minimale Temperaturen in den letzten 36 Stunden (1.5 Tage)
+- name: SQL Erdsonde Haus 23 Temperature
+  query: >
+    select min(cast(s.state as float)) as state 
+    FROM states_meta sm
+    inner join states s on s.metadata_id = sm.metadata_id
+    and not s.state in ('unavailable','unknown')
+    where sm.entity_id = 'sensor.luxtronik23_twq_aus_korr' and s.last_updated_ts > (strftime('%s', 'now') - (1*60*60*36));
+  column: 'state'
+  unit_of_measurement: "°C"
+  unique_id: template.sensor_sql_erdsonde_haus_23_temperature
+
+# Haus 25 Erdsonde Minimale Temperaturen in den letzten 36 Stunden (1.5 Tage)
+- name: SQL Erdsonde Haus 25 Temperature
+  query: >
+    select min(cast(s.state as float)) as state 
+    FROM states_meta sm
+    inner join states s on s.metadata_id = sm.metadata_id
+    and not s.state in ('unavailable','unknown')
+    where sm.entity_id = 'sensor.luxtronik25_twq_aus_korr' and s.last_updated_ts > (strftime('%s', 'now') - (1*60*60*36));
+  column: 'state'
+  unit_of_measurement: "°C"
+  unique_id: template.sensor_sql_erdsonde_haus_25_temperature

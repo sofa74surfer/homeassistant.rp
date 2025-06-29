@@ -1,0 +1,50 @@
+# ####### ################################### #######
+# ####### Luxtronik Sensoren 25  Brauchwasser #######
+# ####### ################################### #######
+
+- sensor:
+
+# Temperatur Brauchwasser
+    - name: "Luxtronik25 TBW"
+      state: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+        {{ state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_hot_water'] }}
+      {%- else -%}
+        {{ states('sensor.luxtronik25_tbw') }}
+      {%- endif %}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_luxtronik25_tbw
+
+# Temperatur Brauchwasser Ziel
+    - name: "Luxtronik25 TBW soll"
+      state: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+        {{ state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_hot_water_target'] }}
+      {%- else -%}
+        {{ states('sensor.luxtronik25_tbw_soll') }}
+      {%- endif %}"
+      device_class: temperature
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_luxtronik25_tbw_soll
+
+# Temperatur Brauchwasser Minimal
+    - name: "Luxtronik25 TBW min"
+      state: "{% if states('sensor.luxtronik_25_value_state') == 'OK' and states('sensor.luxtronik_25_param_state') == 'OK' -%}
+        {{ state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_hot_water_target'] - state_attr('sensor.luxtronik_25_param_state', 'parameters')['hotWaterTemperatureHysteresis'] }}
+      {%- else -%}
+        {{ states('sensor.luxtronik25_tbw_min') }}
+      {%- endif %}"
+      device_class: temperature
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_luxtronik25_tbw_min
+
+# Hysterese Brauchwasser 
+    - name: "Luxtronik25 Hyst WW"
+      state: "{% if states('sensor.luxtronik_25_param_state') == 'OK' -%}
+        {{ state_attr('sensor.luxtronik_25_param_state', 'parameters')['hotWaterTemperatureHysteresis'] }}
+      {%- else -%}
+        {{ states('sensor.luxtronik25_hyst_ww') }}
+      {%- endif %}"
+      device_class: temperature
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_luxtronik25_hyst_ww

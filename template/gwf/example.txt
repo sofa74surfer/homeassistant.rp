@@ -1,0 +1,12 @@
+  # ,"WG1901": {"idnr": "19171032"
+  #   ,"energy_2": {"einheit": "kWh","art": "instant.","wert": "43126"}
+  #   ,"volume_3": {"einheit": "m3","art": "instant.","wert": "007915.45"}
+  #   ,"temperature_4": {"einheit": "kW","art": "instant.","wert": "00000.2"}
+  #   ,"volume_flow_5": {"einheit": "lh","art": "instant.","wert": "000422"}
+  #   ,"flow_temperature_6": {"einheit": "C","art": "instant.","wert": "021.9"}
+  #   ,"return_temperature_7": {"einheit": "C","art": "instant.","wert": "021.4"}
+  #   ,"temperature_difference_8": {"einheit": "K","art": "instant.","wert": "0000.49"}
+  #   ,"volume_13": {"einheit": "m3","art": "instant.","wert": "001509.18"}
+  #   ,"volume_14": {"einheit": "m3","art": "instant.","wert": "000773.54"}
+  #   ,"M-Bus_state_15": {"einheit": "0","art": "0","wert": "$00"}
+  # }

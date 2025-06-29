@@ -7,12 +7,21 @@ sensors:
 
   solar_power:
     friendly_name: "Solar W"
-    value_template: "{{ (
-      (0 if states('sensor.solar_power_19') == ('unknown' or 'unavailable') else states('sensor.solar_power_19')|float) +
-      (0 if states('sensor.solar_power_21') == ('unknown' or 'unavailable') else states('sensor.solar_power_21')|float) +
-      (0 if states('sensor.solar_power_23') == ('unknown' or 'unavailable') else states('sensor.solar_power_23')|float) +
-      (0 if states('sensor.solar_power_25') == ('unknown' or 'unavailable') else states('sensor.solar_power_25')|float) 
-    )|round(0) }}"
+    value_template: "{{
+    ((
+      (0 if states('sensor.solar_power_19') == 'unknown' 
+         or states('sensor.solar_power_19') == 'unavailable'
+         else states('sensor.solar_power_19')|float) +
+      (0 if states('sensor.solar_power_21') == 'unknown' 
+         or states('sensor.solar_power_21') == 'unavailable'
+         else states('sensor.solar_power_21')|float) +
+      (0 if states('sensor.solar_power_23') == 'unknown' 
+         or states('sensor.solar_power_23') == 'unavailable'
+         else states('sensor.solar_power_23')|float) +
+      (0 if states('sensor.solar_power_25') == 'unknown' 
+         or states('sensor.solar_power_25') == 'unavailable'
+         else states('sensor.solar_power_25')|float) 
+    ))|round(0) }}"
     device_class: power
     unit_of_measurement: "W"
     attribute_templates:

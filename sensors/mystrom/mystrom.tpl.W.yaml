@@ -7,20 +7,22 @@ sensors:
 
   mystrom_power:
     friendly_name: "MyStrom W"
-    value_template: "{{ (
-(((state_attr('sensor.mystrom_201_report', 'power')|replace('None', 0) if state_attr('sensor.mystrom_201_report', 'Ws')|safe == 'None' else state_attr('sensor.mystrom_201_report', 'Ws')|replace('None', 0)))|float) +
-(((state_attr('sensor.mystrom_202_report', 'power')|replace('None', 0) if state_attr('sensor.mystrom_202_report', 'Ws')|safe == 'None' else state_attr('sensor.mystrom_202_report', 'Ws')|replace('None', 0)))|float) +
-(((state_attr('sensor.mystrom_203_report', 'power')|replace('None', 0) if state_attr('sensor.mystrom_203_report', 'Ws')|safe == 'None' else state_attr('sensor.mystrom_203_report', 'Ws')|replace('None', 0)))|float) +
-(((state_attr('sensor.mystrom_204_report', 'power')|replace('None', 0) if state_attr('sensor.mystrom_204_report', 'Ws')|safe == 'None' else state_attr('sensor.mystrom_204_report', 'Ws')|replace('None', 0)))|float) +
-(((state_attr('sensor.mystrom_205_report', 'power')|replace('None', 0) if state_attr('sensor.mystrom_205_report', 'Ws')|safe == 'None' else state_attr('sensor.mystrom_205_report', 'Ws')|replace('None', 0)))|float) +
-(((state_attr('sensor.mystrom_206_report', 'power')|replace('None', 0) if state_attr('sensor.mystrom_206_report', 'Ws')|safe == 'None' else state_attr('sensor.mystrom_206_report', 'Ws')|replace('None', 0)))|float) +
-(((state_attr('sensor.mystrom_207_report', 'power')|replace('None', 0) if state_attr('sensor.mystrom_207_report', 'Ws')|safe == 'None' else state_attr('sensor.mystrom_207_report', 'Ws')|replace('None', 0)))|float) +
-(((state_attr('sensor.mystrom_208_report', 'power')|replace('None', 0) if state_attr('sensor.mystrom_208_report', 'Ws')|safe == 'None' else state_attr('sensor.mystrom_208_report', 'Ws')|replace('None', 0)))|float) +
-(((state_attr('sensor.mystrom_209_report', 'power')|replace('None', 0) if state_attr('sensor.mystrom_209_report', 'Ws')|safe == 'None' else state_attr('sensor.mystrom_209_report', 'Ws')|replace('None', 0)))|float) +
-(((state_attr('sensor.mystrom_210_report', 'power')|replace('None', 0) if state_attr('sensor.mystrom_210_report', 'Ws')|safe == 'None' else state_attr('sensor.mystrom_210_report', 'Ws')|replace('None', 0)))|float) +
-(((state_attr('sensor.mystrom_211_report', 'power')|replace('None', 0) if state_attr('sensor.mystrom_211_report', 'Ws')|safe == 'None' else state_attr('sensor.mystrom_211_report', 'Ws')|replace('None', 0)))|float) +
-(((state_attr('sensor.mystrom_212_report', 'power')|replace('None', 0) if state_attr('sensor.mystrom_212_report', 'Ws')|safe == 'None' else state_attr('sensor.mystrom_212_report', 'Ws')|replace('None', 0)))|float)
-)|round(0) }}"
+    value_template: "{{ 
+      (
+        state_attr('sensor.mystrom_201_report', 'power')|regex_replace('.*[a-z]', '0')|float + 
+        state_attr('sensor.mystrom_202_report', 'power')|regex_replace('.*[a-z]', '0')|float + 
+        state_attr('sensor.mystrom_203_report', 'power')|regex_replace('.*[a-z]', '0')|float + 
+        state_attr('sensor.mystrom_204_report', 'power')|regex_replace('.*[a-z]', '0')|float + 
+        state_attr('sensor.mystrom_205_report', 'power')|regex_replace('.*[a-z]', '0')|float + 
+        state_attr('sensor.mystrom_206_report', 'power')|regex_replace('.*[a-z]', '0')|float + 
+        state_attr('sensor.mystrom_207_report', 'power')|regex_replace('.*[a-z]', '0')|float + 
+        state_attr('sensor.mystrom_208_report', 'power')|regex_replace('.*[a-z]', '0')|float + 
+        state_attr('sensor.mystrom_209_report', 'power')|regex_replace('.*[a-z]', '0')|float + 
+        state_attr('sensor.mystrom_210_report', 'power')|regex_replace('.*[a-z]', '0')|float + 
+        state_attr('sensor.mystrom_211_report', 'power')|regex_replace('.*[a-z]', '0')|float + 
+        state_attr('sensor.mystrom_212_report', 'power')|regex_replace('.*[a-z]', '0')|float
+      )|round(0)
+    }}"
     device_class: power
     unit_of_measurement: "W"
     attribute_templates:

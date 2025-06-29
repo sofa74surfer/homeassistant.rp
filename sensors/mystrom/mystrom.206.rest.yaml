@@ -7,5 +7,4 @@ scan_interval: 20
 force_update: true
 json_attributes:
   - "power"
-  - "Ws"
   - "relay"

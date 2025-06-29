@@ -1,0 +1,120 @@
+# ####### ################################# #######
+# ####### Luxtronik Sensoren 21  Wärmepumpe #######
+# ####### ################################# #######
+
+- sensor:
+
+# Hyst Heizungsregler 
+    - name: "Luxtronik21 Hyst HR"
+      state: "{% if states('sensor.luxtronik_21_param_state') == 'OK' -%}
+        {{ state_attr('sensor.luxtronik_21_param_state', 'parameters')['returnTemperatureHysteresis'] }}
+      {%- else -%}
+        {{ states('sensor.luxtronik21_hyst_hr') }}
+      {%- endif %}"
+      device_class: temperature
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_luxtronik21_hyst_hr
+
+# Heizgrenze 
+    - name: "Luxtronik21 Heizgrenze"
+      state: "{% if states('sensor.luxtronik_21_param_state') == 'OK' -%}
+        {{ state_attr('sensor.luxtronik_21_param_state', 'parameters')['thresholdHeatingLimit'] }}
+      {%- else -%}
+        {{ states('sensor.luxtronik21_heizgrenze') }}
+      {%- endif %}"
+      device_class: temperature
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_luxtronik21_heizgrenze
+
+# Temperatur Heissgas
+    - name: "Luxtronik21 HG"
+      state: "{% if states('sensor.luxtronik_21_value_state') == 'OK' -%}
+        {{ state_attr('sensor.luxtronik_21_value_state', 'values')['temperature_hot_gas'] }}
+      {%- else -%}
+        {{ states('sensor.luxtronik21_hg') }}
+      {%- endif %}"
+      device_class: temperature
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_luxtronik21_hg
+
+# Bivalenz Level
+    - name: "Luxtronik21 BIV"
+      state: "{% if states('sensor.luxtronik_21_value_state') == 'OK' -%}
+        {{ state_attr('sensor.luxtronik_21_value_state', 'values')['bivalentLevel'] }}
+      {%- else -%}
+        {{ states('sensor.luxtronik21_biv') }}
+      {%- endif %}"
+      unique_id: template.sensor_luxtronik21_biv
+
+# Betriebszustand aktuell
+    - name: "Luxtronik21 BZ"
+      state: "{% if states('sensor.luxtronik_21_value_state') == 'OK' -%}
+        {{ state_attr('sensor.luxtronik_21_value_state', 'values')['WP_BZ_akt'] }}
+      {%- else -%}
+        {{ states('sensor.luxtronik21_bz') }}
+      {%- endif %}"
+      unique_id: template.sensor_luxtronik21_bz
+
+# hs1 heatpump_state1 Haus 21
+    - name: "Luxtronik21 hs1"
+      state: "{% if states('sensor.luxtronik_21_value_state') == 'OK' -%}
+        {{ state_attr('sensor.luxtronik_21_value_state', 'values')['heatpump_state1'] }}
+      {%- else -%}
+        {{ states('sensor.luxtronik21_hs1') }}
+      {%- endif %}"
+      unique_id: template.sensor_luxtronik21_hs1
+
+# hs2 heatpump_state2 Haus 21
+    - name: "Luxtronik21 hs2"
+      state: "{% if states('sensor.luxtronik_21_value_state') == 'OK' -%}
+        {{ state_attr('sensor.luxtronik_21_value_state', 'values')['heatpump_state2'] }}
+      {%- else -%}
+        {{ states('sensor.luxtronik21_hs2') }}
+      {%- endif %}"
+      unique_id: template.sensor_luxtronik21_hs2
+
+# hs3 heatpump_state3 Haus 21
+    - name: "Luxtronik21 hs3"
+      state: "{% if states('sensor.luxtronik_21_value_state') == 'OK' -%}
+        {{ state_attr('sensor.luxtronik_21_value_state', 'values')['heatpump_state3'] }}
+      {%- else -%}
+        {{ states('sensor.luxtronik21_hs3') }}
+      {%- endif %}"
+      unique_id: template.sensor_luxtronik21_hs3
+
+# osh opStateHeating Haus 21
+    - name: "Luxtronik21 osh"
+      state: "{% if states('sensor.luxtronik_21_value_state') == 'OK' -%}
+        {{ state_attr('sensor.luxtronik_21_value_state', 'values')['opStateHeating'] }}
+      {%- else -%}
+        {{ states('sensor.luxtronik21_osh') }}
+      {%- endif %}"
+      unique_id: template.sensor_luxtronik21_osh
+
+# osm1 opStateMixer1 Haus 21
+    - name: "Luxtronik21 osm1"
+      state: "{% if states('sensor.luxtronik_21_value_state') == 'OK' -%}
+        {{ state_attr('sensor.luxtronik_21_value_state', 'values')['opStateMixer1'] }}
+      {%- else -%}
+        {{ states('sensor.luxtronik21_osm1') }}
+      {%- endif %}"
+      unique_id: template.sensor_luxtronik21_osm1
+
+# osm2 opStateMixer2 Haus 21
+    - name: "Luxtronik21 osm2"
+      state: "{% if states('sensor.luxtronik_21_value_state') == 'OK' -%}
+        {{ state_attr('sensor.luxtronik_21_value_state', 'values')['opStateMixer2'] }}
+      {%- else -%}
+        {{ states('sensor.luxtronik21_osm2') }}
+      {%- endif %}"
+      unique_id: template.sensor_luxtronik21_osm2
+
+# osm3 opStateMixer3 Haus 21
+    - name: "Luxtronik21 osm3"
+      state: "{% if states('sensor.luxtronik_21_value_state') == 'OK' -%}
+        {{ state_attr('sensor.luxtronik_21_value_state', 'values')['opStateMixer3'] }}
+      {%- else -%}
+        {{ states('sensor.luxtronik21_osm3') }}
+      {%- endif %}"
+      unique_id: template.sensor_luxtronik21_osm3
+

@@ -8,14 +8,16 @@ sensors:
   forecast_solar_production_now:
     friendly_name: "Forecast Solar Production Now kW"
     value_template: "{{ 
-    ((states('sensor.forecast_solar_production_now_1')|replace('unavailable', 0)|float +
-    states('sensor.forecast_solar_production_now_2')|replace('unavailable', 0)|float +
-    states('sensor.forecast_solar_production_now_3')|replace('unavailable', 0)|float +
-    states('sensor.forecast_solar_production_now_4')|replace('unavailable', 0)|float +
-    states('sensor.forecast_solar_production_now_5')|replace('unavailable', 0)|float +
-    states('sensor.forecast_solar_production_now_6')|replace('unavailable', 0)|float +
-    states('sensor.forecast_solar_production_now_7')|replace('unavailable', 0)|float +
-    states('sensor.forecast_solar_production_now_8')|replace('unavailable', 0)|float)/1000)|round(0)
+      (
+        states('sensor.power_production_now_3')|regex_replace('.*[a-z]', '0')|float +
+        states('sensor.power_production_now_4')|regex_replace('.*[a-z]', '0')|float +
+        states('sensor.power_production_now_5')|regex_replace('.*[a-z]', '0')|float +
+        states('sensor.power_production_now_6')|regex_replace('.*[a-z]', '0')|float +
+        states('sensor.power_production_now_7')|regex_replace('.*[a-z]', '0')|float +
+        states('sensor.power_production_now_8')|regex_replace('.*[a-z]', '0')|float +
+        states('sensor.power_production_now_9')|regex_replace('.*[a-z]', '0')|float +
+        states('sensor.power_production_now_10')|regex_replace('.*[a-z]', '0')|float
+      )|round(0)
     }}"
     device_class: power
     unit_of_measurement: "kW"

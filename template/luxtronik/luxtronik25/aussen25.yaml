@@ -1,0 +1,29 @@
+# ####### ############################# #######
+# ####### Luxtronik Sensoren 25  Aussen #######
+# ####### ############################# #######
+
+- sensor:
+
+# Temperatur Aussen
+    - name: "Luxtronik25 TA"
+      state: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+        {{ state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_outside'] }}
+      {%- else -%}
+        {{ states('sensor.luxtronik25_ta') }}
+      {%- endif %}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_luxtronik25_ta
+
+# Temperatur Aussen Mittelwert
+    - name: "Luxtronik25 TA mittel"
+      state: "{% if states('sensor.luxtronik_25_value_state') == 'OK' -%}
+        {{ state_attr('sensor.luxtronik_25_value_state', 'values')['temperature_outside_avg'] }}
+      {%- else -%}
+        {{ states('sensor.luxtronik25_ta_mittel') }}
+      {%- endif %}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_luxtronik25_ta_mittel

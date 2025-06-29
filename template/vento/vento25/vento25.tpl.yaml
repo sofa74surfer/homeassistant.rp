@@ -1,0 +1,57 @@
+# ####### ################################## #######
+# ####### Ventor Sensoren Druck alle Haus 25 #######
+# ####### ################################## #######
+
+# Vento Druck in Bar Haus 25
+# {{ (state_attr('sensor.vento_25_state', 'vento')[4]|int)/100 }}
+- sensor:
+    - name: "Vento 25 Druck bar"
+      state: "{{ (state_attr('sensor.vento_25_state', 'vento')[4]|int)/100 }}"
+      device_class: pressure
+      state_class: measurement
+      unit_of_measurement: "bar"
+      unique_id: template.sensor_vento_25_druck_bar
+
+- sensor:
+    - name: "Vento 25 Druck bar min"
+      state: "{{ (state_attr('sensor.vento_25_state', 'vento')[9]|int)/100 }}"
+      device_class: pressure
+      state_class: measurement
+      unit_of_measurement: "bar"
+      unique_id: template.sensor_vento_25_druck_bar_min
+
+- sensor:
+    - name: "Vento 25 Druck bar max"
+      state: "{{ (state_attr('sensor.vento_25_state', 'vento')[15]|int)/100 }}"
+      device_class: pressure
+      state_class: measurement
+      unit_of_measurement: "bar"
+      unique_id: template.sensor_vento_25_druck_bar_max
+
+# Vento M01-M16 Haus 25
+# {{ state_attr('sensor.vento_25_state', 'vento')[8] }}
+- sensor:
+    - name: "Vento 25 M01-M16"
+      state: "{{ state_attr('sensor.vento_25_state', 'vento')[8]|int }}"
+      unique_id: template.sensor_vento_25_m01_m16
+
+# Vento M17-M32 Haus 25
+# {{ state_attr('sensor.vento_25_state', 'vento')[7] }}
+- sensor:
+    - name: "Vento 25 M17-M32"
+      state: "{{ state_attr('sensor.vento_25_state', 'vento')[7]|int }}"
+      unique_id: template.sensor_vento_25_m17_m32
+
+# Vento M33-M48 Haus 25
+# {{ state_attr('sensor.vento_25_state', 'vento')[22] }}
+- sensor:
+    - name: "Vento 25 M33-M48"
+      state: "{{ state_attr('sensor.vento_25_state', 'vento')[22]|int }}"
+      unique_id: template.sensor_vento_25_m33_m48
+
+# Vento M49-M64 Haus 25
+# {{ state_attr('sensor.vento_25_state', 'vento')[21] }}
+- sensor:
+    - name: "Vento 25 M49-M64"
+      state: "{{ state_attr('sensor.vento_25_state', 'vento')[21]|int }}"
+      unique_id: template.sensor_vento_25_m49_m64

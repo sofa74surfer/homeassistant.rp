@@ -1,0 +1,24 @@
+# ####### ############################ #######
+# ####### Integration SQL Warmwasser l #######
+# ####### ############################ #######
+
+# Haus 23 1day
+- name: SQL GWF 23 ww l 1day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.gwf_23_ww_l' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24));
+  column: "state"
+  unit_of_measurement: "l"
+  unique_id: template.sensor_sql_gwf_23_ww_l_1day
+# Haus 23 7day
+- name: SQL GWF 23 ww l 7day
+  query: >
+    select cast(round((max(s.state) - min(s.state)),0) as int) as state 
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.gwf_23_ww_l' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24*7));
+  column: "state"
+  unit_of_measurement: "l"
+  unique_id: template.sensor_sql_gwf_23_ww_l_7day

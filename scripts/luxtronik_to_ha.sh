@@ -6,6 +6,7 @@ luxtronik_password=$3
 ha_ip=$4
 ha_user=$5
 ha_password=$6
+datum=`date +%T`
 
 expect <<END
 spawn telnet ${luxtronik_ip}
@@ -13,6 +14,8 @@ expect "(none) login:"
 send "${luxtronik_user}\r"
 expect "Password:"
 send "${luxtronik_password}\r"
+expect
+send "date +%T -s \"${datum}\"\r"
 expect
 send "/mnt/usb/transfer2ha.sh ${ha_ip} ${ha_user} ${ha_password}\r"
 expect

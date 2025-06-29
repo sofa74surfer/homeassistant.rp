@@ -1,0 +1,54 @@
+# ####### ################################### #######
+# ####### Integration SQL Aussentemperatur °C #######
+# ####### ################################### #######
+
+# 24h Mittelwert der Aussentemperatur
+- name: SQL Netatmo Outside 24h Average Temperature
+  query: >
+    select round(avg(s.mean),1) as state
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.netatmo_outdoor_temperature' and s.created_ts > (strftime('%s', 'now') - (1*60*60*24));
+  column: 'state'
+  unit_of_measurement: "°C"
+  unique_id: template.sensor_sql_netatmo_outside_24h_average_temperature
+# 48h Mittelwert der Aussentemperatur
+- name: SQL Netatmo Outside 48h Average Temperature
+  query: >
+    select round(avg(s.mean),1) as state
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.netatmo_outdoor_temperature' and s.created_ts > (strftime('%s', 'now') - (1*60*60*48));
+  column: 'state'
+  unit_of_measurement: "°C"
+  unique_id: template.sensor_sql_netatmo_outside_48h_average_temperature
+# 72h Mittelwert der Aussentemperatur
+- name: SQL Netatmo Outside 72h Average Temperature
+  query: >
+    select round(avg(s.mean),1) as state
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.netatmo_outdoor_temperature' and s.created_ts > (strftime('%s', 'now') - (1*60*60*72));
+  column: 'state'
+  unit_of_measurement: "°C"
+  unique_id: template.sensor_sql_netatmo_outside_72h_average_temperature
+# 96h Mittelwert der Aussentemperatur
+- name: SQL Netatmo Outside 96h Average Temperature
+  query: >
+    select round(avg(s.mean),1) as state
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.netatmo_outdoor_temperature' and s.created_ts > (strftime('%s', 'now') - (1*60*60*96));
+  column: 'state'
+  unit_of_measurement: "°C"
+  unique_id: template.sensor_sql_netatmo_outside_96h_average_temperature
+# 120h Mittelwert der Aussentemperatur
+- name: SQL Netatmo Outside 120h Average Temperature
+  query: >
+    select round(avg(s.mean),1) as state
+    FROM statistics_meta sm
+    inner join statistics s on s.metadata_id = sm.id
+    where sm.statistic_id = 'sensor.netatmo_outdoor_temperature' and s.created_ts > (strftime('%s', 'now') - (1*60*60*120));
+  column: 'state'
+  unit_of_measurement: "°C"
+  unique_id: template.sensor_sql_netatmo_outside_120h_average_temperature

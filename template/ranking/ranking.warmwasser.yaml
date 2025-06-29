@@ -8,14 +8,14 @@
       state: "{{
   (
     (
-      states('sensor.sql_heatpump_power_19_ww_kwh_30day')|float 
+      states('sensor.sql_heatpump_power_19_ww_kwh_14day')|float 
     ) /
       (
         (
-          states('sensor.sql_heatpump_power_19_ww_kwh_30day')|float
-          +states('sensor.sql_heatpump_power_21_ww_kwh_30day')|float
-          +states('sensor.sql_heatpump_power_23_ww_kwh_30day')|float
-          +states('sensor.sql_heatpump_power_25_ww_kwh_30day')|float
+          states('sensor.sql_heatpump_power_19_ww_kwh_14day')|float
+          +states('sensor.sql_heatpump_power_21_ww_kwh_14day')|float
+          +states('sensor.sql_heatpump_power_23_ww_kwh_14day')|float
+          +states('sensor.sql_heatpump_power_25_ww_kwh_14day')|float
         ) / 4 + 0.01
       ) * 100
   )|round(0)
@@ -31,14 +31,14 @@
       state: "{{
   (
     (
-      states('sensor.sql_heatpump_power_21_ww_kwh_30day')|float 
+      states('sensor.sql_heatpump_power_21_ww_kwh_14day')|float 
     ) /
       (
         (
-          states('sensor.sql_heatpump_power_19_ww_kwh_30day')|float
-          +states('sensor.sql_heatpump_power_21_ww_kwh_30day')|float
-          +states('sensor.sql_heatpump_power_23_ww_kwh_30day')|float
-          +states('sensor.sql_heatpump_power_25_ww_kwh_30day')|float
+          states('sensor.sql_heatpump_power_19_ww_kwh_14day')|float
+          +states('sensor.sql_heatpump_power_21_ww_kwh_14day')|float
+          +states('sensor.sql_heatpump_power_23_ww_kwh_14day')|float
+          +states('sensor.sql_heatpump_power_25_ww_kwh_14day')|float
         ) / 4 + 0.01
       ) * 100
   )|round(0)
@@ -54,14 +54,14 @@
       state: "{{
   (
     (
-      states('sensor.sql_heatpump_power_23_ww_kwh_30day')|float 
+      states('sensor.sql_heatpump_power_23_ww_kwh_14day')|float 
     ) /
       (
         (
-          states('sensor.sql_heatpump_power_19_ww_kwh_30day')|float
-          +states('sensor.sql_heatpump_power_21_ww_kwh_30day')|float
-          +states('sensor.sql_heatpump_power_23_ww_kwh_30day')|float
-          +states('sensor.sql_heatpump_power_25_ww_kwh_30day')|float
+          states('sensor.sql_heatpump_power_19_ww_kwh_14day')|float
+          +states('sensor.sql_heatpump_power_21_ww_kwh_14day')|float
+          +states('sensor.sql_heatpump_power_23_ww_kwh_14day')|float
+          +states('sensor.sql_heatpump_power_25_ww_kwh_14day')|float
         ) / 4 + 0.01
       ) * 100
   )|round(0)
@@ -77,14 +77,14 @@
       state: "{{
   (
     (
-      states('sensor.sql_heatpump_power_25_ww_kwh_30day')|float 
+      states('sensor.sql_heatpump_power_25_ww_kwh_14day')|float 
     ) /
       (
         (
-          states('sensor.sql_heatpump_power_19_ww_kwh_30day')|float
-          +states('sensor.sql_heatpump_power_21_ww_kwh_30day')|float
-          +states('sensor.sql_heatpump_power_23_ww_kwh_30day')|float
-          +states('sensor.sql_heatpump_power_25_ww_kwh_30day')|float
+          states('sensor.sql_heatpump_power_19_ww_kwh_14day')|float
+          +states('sensor.sql_heatpump_power_21_ww_kwh_14day')|float
+          +states('sensor.sql_heatpump_power_23_ww_kwh_14day')|float
+          +states('sensor.sql_heatpump_power_25_ww_kwh_14day')|float
         ) / 4 + 0.01
       ) * 100
   )|round(0)

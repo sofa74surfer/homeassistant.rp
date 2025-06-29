@@ -1,0 +1,14 @@
+# ####### ####################### #######
+# ####### Counter Sensoren Zaptec #######
+# ####### ####################### #######
+
+# Ableitung von Uniquity Integration 
+- sensor:
+    - name: "Zaptec Counter Cloud"
+      state: "{{ 
+    (0 if states('binary_sensor.zaptec_installation_libellenrain_19_25_luzern_rotseepark_installation') == ('unknown' or 'unavailable') else state_attr('binary_sensor.zaptec_installation_libellenrain_19_25_luzern_rotseepark_installation', 'active_charger_count'))
+    }}"
+      attributes:
+        last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
+      unique_id: template.sensor_zaptec_counter_cloud
+

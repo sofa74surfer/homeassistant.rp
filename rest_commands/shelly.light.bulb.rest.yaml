@@ -1,0 +1,6 @@
+  shelly_light_bulb_set:
+    url: !secret url_shelly_light_bulb_set
+    method: POST
+    payload: '{"id":"{{ id }}","on":{{ boolean }},"brightness":{{ brightness }},"red":{{ red }},"green":{{ green }},"blue":{{ blue }}}'
+    content_type:  'application/json'
+

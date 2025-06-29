@@ -312,3 +312,7 @@ Z: {{ (states('counter.heatpump_25_kompressor_start')|float) / ((((now().timesta
       ((state_attr('sensor.mystrom_211_report', 'power')|replace('None', 0) if state_attr('sensor.mystrom_211_report', 'Ws')|safe == 'None' else state_attr('sensor.mystrom_211_report', 'Ws')|replace('None', 0))|float)
       )) 
       )|round(0) }}
+
+
+    
+{{ states('sensor.energy_current_hour_3')|safe|regex_replace('.*[a-z]', '0')|float }}

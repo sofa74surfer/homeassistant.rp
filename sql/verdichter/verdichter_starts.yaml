@@ -1,0 +1,59 @@
+# ####### ################################ #######
+# ####### Integration SQL Verdichter Start #######
+# ####### ################################ #######
+
+# Haus 19 Verdichter Start in den letzten 168 Stunden (7 Tage)
+- name: SQL Verdichter Haus 19 Starts
+  query: >
+    SELECT round(cast(count(*) as float) / 7,1) as state
+    FROM states_meta sm
+    inner join states s on s.metadata_id = sm.metadata_id
+    where sm.entity_id in ('binary_sensor.luxtronik19_vd1', 'binary_sensor.luxtronik19_vd2')
+    and s.state = 'on' 
+    and not s.old_state_id is null
+    and not (select s2.state from states s2 where s2.state_id = s.old_state_id) in ('unavailable','unknown')
+    and s.last_updated_ts > (strftime('%s', 'now') - (1*60*60*168));
+  column: 'state'
+  unique_id: template.sensor_sql_verdichter_haus_19_starts
+
+# Haus 21 Verdichter Start in den letzten 168 Stunden (7 Tage)
+- name: SQL Verdichter Haus 21 Starts
+  query: >
+    SELECT round(cast(count(*) as float) / 7,1) as state
+    FROM states_meta sm
+    inner join states s on s.metadata_id = sm.metadata_id
+    where sm.entity_id in ('binary_sensor.luxtronik21_vd1', 'binary_sensor.luxtronik21_vd2')
+    and s.state = 'on' 
+    and not s.old_state_id is null
+    and not (select s2.state from states s2 where s2.state_id = s.old_state_id) in ('unavailable','unknown')
+    and s.last_updated_ts > (strftime('%s', 'now') - (1*60*60*168));
+  column: 'state'
+  unique_id: template.sensor_sql_verdichter_haus_21_starts
+
+# Haus 23 Verdichter Start in den letzten 168 Stunden (7 Tage)
+- name: SQL Verdichter Haus 23 Starts
+  query: >
+    SELECT round(cast(count(*) as float) / 7,1) as state
+    FROM states_meta sm
+    inner join states s on s.metadata_id = sm.metadata_id
+    where sm.entity_id in ('binary_sensor.luxtronik23_vd1', 'binary_sensor.luxtronik23_vd2')
+    and s.state = 'on' 
+    and not s.old_state_id is null
+    and not (select s2.state from states s2 where s2.state_id = s.old_state_id) in ('unavailable','unknown')
+    and s.last_updated_ts > (strftime('%s', 'now') - (1*60*60*168));
+  column: 'state'
+  unique_id: template.sensor_sql_verdichter_haus_23_starts
+
+# Haus 25 Verdichter Start in den letzten 168 Stunden (7 Tage)
+- name: SQL Verdichter Haus 25 Starts
+  query: >
+    SELECT round(cast(count(*) as float) / 7,1) as state
+    FROM states_meta sm
+    inner join states s on s.metadata_id = sm.metadata_id
+    where sm.entity_id in ('binary_sensor.luxtronik25_vd1', 'binary_sensor.luxtronik25_vd2')
+    and s.state = 'on' 
+    and not s.old_state_id is null
+    and not (select s2.state from states s2 where s2.state_id = s.old_state_id) in ('unavailable','unknown')
+    and s.last_updated_ts > (strftime('%s', 'now') - (1*60*60*168));
+  column: 'state'
+  unique_id: template.sensor_sql_verdichter_haus_25_starts

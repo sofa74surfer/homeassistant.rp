@@ -1,0 +1,73 @@
+# ####### ################################## #######
+# ####### Luxtronik Sensoren 23  Wärmequelle #######
+# ####### ################################## #######
+
+- sensor:
+
+ # Temperatur Wärmequelle Eintritt (in die Maschine hinein)
+    - name: "Luxtronik23 TWQ ein"
+      state: "{% if states('sensor.luxtronik_23_value_state') == 'OK' -%}
+        {{ ((state_attr('sensor.luxtronik_23_value_state', 'values')['temperature_heat_source_in'])|round(1)) }}
+      {%- else -%}
+        {{ states('sensor.luxtronik23_twq_ein') }}
+      {%- endif %}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_luxtronik23_twq_ein
+
+# Temperatur Wärmequelle Austritt (aus der Maschine heraus)
+    - name: "Luxtronik23 TWQ aus"
+      state: "{% if states('sensor.luxtronik_23_value_state') == 'OK' -%}
+        {{ ((state_attr('sensor.luxtronik_23_value_state', 'values')['temperature_heat_source_out'])|round(1)) }}
+      {%- else -%}
+        {{ states('sensor.luxtronik23_twq_aus') }}
+      {%- endif %}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_luxtronik23_twq_aus
+
+# Temperatur Spz Wärmequelle Austritt Eintritt
+    - name: "Luxtronik23 Spz TWQ ein aus"
+      state: "{% if states('sensor.luxtronik_23_value_state') == 'OK' -%}
+        {{ (state_attr('sensor.luxtronik_23_value_state', 'values')['temperature_heat_source_in'] - state_attr('sensor.luxtronik_23_value_state', 'values')['temperature_heat_source_out'])|round(1) }}
+      {%- else -%}
+        {{ states('sensor.luxtronik23_spz_twq_ein_aus') }}
+      {%- endif %}"
+      device_class: temperature
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_luxtronik23_spz_twq_ein_aus
+
+# Temperatur Wärmequelle Eintritt (in die Maschine hinein) (korr)
+    - name: "Luxtronik23 TWQ ein korr"
+      state: "{% if states('sensor.luxtronik_23_value_state') == 'OK' -%}
+        {{ ((state_attr('sensor.luxtronik_23_value_state', 'values')['temperature_heat_source_in'])+states('input_number.luxtronik_23_twq_ein_offset')|round(1)) }}
+      {%- else -%}
+        {{ states('sensor.luxtronik23_twq_ein_korr') }}
+      {%- endif %}"
+      device_class: temperature
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_luxtronik23_twq_ein_korr
+
+# Temperatur Wärmequelle Austritt (aus der Maschine heraus) (korr)
+    - name: "Luxtronik23 TWQ aus korr"
+      state: "{% if states('sensor.luxtronik_23_value_state') == 'OK' -%}
+        {{ ((state_attr('sensor.luxtronik_23_value_state', 'values')['temperature_heat_source_out'])+states('input_number.luxtronik_23_twq_aus_offset')|round(1)) }}
+      {%- else -%}
+        {{ states('sensor.luxtronik23_twq_aus_korr') }}
+      {%- endif %}"
+      device_class: temperature
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_luxtronik23_twq_aus_korr
+
+# Temperatur Spz Wärmequelle Eintritt Austritt (korr)
+    - name: "Luxtronik23 Spz TWQ ein aus korr"
+      state: "{% if states('sensor.luxtronik_23_value_state') == 'OK' -%}
+        {{ ((state_attr('sensor.luxtronik_23_value_state', 'values')['temperature_heat_source_in']+states('input_number.luxtronik_23_twq_ein_offset')|float)-(state_attr('sensor.luxtronik_23_value_state', 'values')['temperature_heat_source_out']+states('input_number.luxtronik_23_twq_aus_offset')|float))|round(1) }}
+      {%- else -%}
+        {{ states('sensor.luxtronik23_spz_twq_ein_aus_korr') }}
+      {%- endif %}"
+      device_class: temperature
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_luxtronik23_spz_twq_ein_aus_korr

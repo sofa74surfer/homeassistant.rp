@@ -31,6 +31,7 @@ shell_command:
   luxtronik21_to_ha: !secret shell_luxtronik21_to_ha
   luxtronik23_to_ha: !secret shell_luxtronik23_to_ha
   luxtronik25_to_ha: !secret shell_luxtronik25_to_ha
+  ha_to_rotseepark: !secret shell_ha_to_rotseepark
 
 recorder:
   purge_keep_days: 17                    # Ich behalte 2 Wochen und 3 Tage
@@ -38,7 +39,7 @@ recorder:
     entity_globs:
       - sensor.*_tx                      # Ubiquity tx Sensoren 
       - sensor.*_rx                      # Ubiquity rx Sensoren
-      - sensor.*_state                   # Rest Ergebnis von UMG, Luxtronik und GWF
+      - sensor.*_state                   # Rest Ergebnis von UMG, Luxtronik, GWF und Vento
       - sensor.*_report                  # Rest Ergebnis von MyStrom
       - sensor.mystrom_*_power           # Einzelne MyStrom Adapter
       - sensor.mystrom_power             # MyStrom History (Energy Statistik genügt)
@@ -84,8 +85,8 @@ group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
-sql: !include sql.yaml
-command_line: !include command_line.yaml
+sql: !include_dir_merge_list sql/
+#command_line: !include command_line.yaml
 
 ########### INCLUDES ##### Additional Dir List
 sensor: !include_dir_list sensors/
@@ -101,11 +102,11 @@ input_select: !include helpers/input_select.yaml
 
 # Influx DB mit Daten füllen
 influxdb:
-  host: a0d7b954-influxdb
-  port: 8086
-  database: rotseepark
-  username: rotseepark
-  password: "-9FYmYVFW_sKkoxZeuTTjt"
+  host: !secret influx_db_host
+  port: !secret influx_db_port
+  database: !secret influx_db_database
+  username: !secret influx_db_username
+  password: !secret influx_db_password
   max_retries: 3
   default_measurement: state
   include:
@@ -115,13 +116,13 @@ influxdb:
       - input_boolean.luxtronik_*_haus_*
       - sensor.heatpump*power_consumption
       - sensor.solar_power_production*
-      - input_number.heatpump_*_kompressor_start_pro_tag
       - sensor.shelly_emobility_power_consumption
       - sensor.janitza_umg604_power_consumption
       - sensor.luxtronik*_bz
       - sensor.luxtronik*_hs3
       - sensor.luxtronik*_vd*
       - sensor.luxtronik*_tbw
+      - sensor.sql_*
   exclude:
     entity_globs:
       - sensor.heatpump*power_consumption_*

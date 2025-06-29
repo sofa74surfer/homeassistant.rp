@@ -1,0 +1,255 @@
+# ####### #################### #######
+# ####### GWF Zählerdaten 23nn #######
+# ####### #################### #######
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2301 HZ °C"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2301']['flow_temperature_6']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2301_hz_c') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_2301_hz_c
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2302 HZ °C"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2302']['flow_temperature_6']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2302_hz_c') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_2302_hz_c
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2311 HZ °C"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2311']['flow_temperature_6']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2311_hz_c') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_2311_hz_c
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2312 HZ °C"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2312']['flow_temperature_6']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2312_hz_c') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_2312_hz_c
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2321 HZ °C"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2321']['flow_temperature_6']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2321_hz_c') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_2321_hz_c
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2322 HZ °C"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2322']['flow_temperature_6']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2322_hz_c') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_2322_hz_c
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2331 HZ °C"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2331']['flow_temperature_6']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2331_hz_c') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_2331_hz_c
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2332 HZ °C"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2332']['flow_temperature_6']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2332_hz_c') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_2332_hz_c
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2341 HZ °C"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2341']['flow_temperature_6']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2341_hz_c') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_2341_hz_c
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2342 HZ °C"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2342']['flow_temperature_6']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2342_hz_c') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_2342_hz_c
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2351 HZ °C"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2351']['flow_temperature_6']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2351_hz_c') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_2351_hz_c
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2352 HZ °C"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2352']['flow_temperature_6']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2352_hz_c') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_2352_hz_c
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2361 HZ °C"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2361']['flow_temperature_6']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2361_hz_c') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_2361_hz_c
+
+# Heizung Energie kW
+- sensor:
+    - name: "GWF 2362 HZ °C"
+      state: "{% if states('sensor.gwf_23_state') == 'OK' -%}
+      {{ 
+(0
++state_attr('sensor.gwf_23_state','gwf')['WG2362']['flow_temperature_6']['wert']|float 
+)|round(1)}}
+    {%- else -%}
+      {{ states('sensor.gwf_2362_hz_c') }}
+    {%- endif %}"
+      attributes:
+        last_updated:  "{{ state_attr('sensor.gwf_23_state','gwf')['datum'] + ' ' + state_attr('sensor.gwf_23_state','gwf')['zeit'] }}"
+      device_class: temperature
+      state_class: measurement
+      unit_of_measurement: "°C"
+      unique_id: template.sensor_gwf_2362_hz_c

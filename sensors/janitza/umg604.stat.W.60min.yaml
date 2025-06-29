@@ -1,0 +1,12 @@
+# ####### ######################## #######
+# ####### Statistik Sensor Janitza #######
+# ####### ######################## #######
+
+# Ableitung von Template Sensor umg604.tpl.yaml
+platform: statistics
+unique_id: energy_statistic_janitza_umg604_power_60min
+entity_id: sensor.janitza_umg604_power
+name: "Energy Statistic Janitza UMG604 W 60 min"
+state_characteristic: mean
+sampling_size: 180
+precision: 0

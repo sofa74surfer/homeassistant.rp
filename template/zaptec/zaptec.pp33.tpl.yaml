@@ -1,0 +1,39 @@
+# ####### ##################### #######
+# ####### Zaptec Sensoren PP 33 #######
+# ####### ##################### #######
+
+# Zaptec PP 33 Is Online
+- binary_sensor:
+    - name: "Zaptec PP 33 Is Online"
+      state: "
+        {% if states('binary_sensor.zaptec_charger_pp_33_charger') != 'unavailable' -%}
+          {% if ((state_attr('binary_sensor.zaptec_charger_pp_33_charger','is_online'))|float == 1) -%}
+            on
+          {%- else -%}
+            off
+          {%- endif %}
+        {%- else -%}
+          {{ states('sensor.zaptec_pp_33_is_online') }}
+        {%- endif %}"
+      attributes:
+        last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
+      device_class: connectivity
+      unique_id: template.binary_sensor_zaptec_pp_33_is_online
+
+# Zaptec PP 33 Offline Mode
+- binary_sensor:
+    - name: "Zaptec PP 33 Offline Mode"
+      state: "
+        {% if states('binary_sensor.zaptec_charger_pp_33_charger') != 'unavailable' -%}
+          {% if ((state_attr('binary_sensor.zaptec_charger_pp_33_charger','offline_mode'))|float == 1) -%}
+            on
+          {%- else -%}
+            off
+          {%- endif %}
+        {%- else -%}
+          {{ states('sensor.zaptec_pp_33_offline_mode') }}
+        {%- endif %}"
+      attributes:
+        last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
+      device_class: connectivity
+      unique_id: template.binary_sensor_zaptec_pp_33_offline_mode
