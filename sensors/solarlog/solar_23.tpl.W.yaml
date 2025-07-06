@@ -140,17 +140,15 @@ sensors:
   # Warmwasserbetrieb
   solar_consumption_23_ww: 
     friendly_name: "Solar Consumption 23 WW W"
-    value_template: "{{(0
-  if states('sensor.luxtronik23_bz') == 'unknown' 
-  or states('sensor.luxtronik23_bz') == 'unavailable'
-  or states('sensor.solarlog_23_consumption_ac') == 'unknown' 
-  or states('sensor.solarlog_23_consumption_ac') == 'unavailable'
-  else (states('sensor.solarlog_23_consumption_ac')
-        if states('sensor.luxtronik23_bz')|int == 1 
-        or (states('sensor.luxtronik23_bz')|int == 5 
-        and states('sensor.luxtronik23_hs3')|int == 9)
-        else 0)
-  )|float|round(0)}}"
+    value_template: "{{
+    ((
+      (0 if states('sensor.solar_consumption_23_ww_wp') == 'unknown' 
+         or states('sensor.solar_consumption_23_ww_wp') == 'unavailable'
+         else states('sensor.solar_consumption_23_ww_wp')|float) +
+      (0 if states('sensor.solar_consumption_23_ww_el') == 'unknown' 
+         or states('sensor.solar_consumption_23_ww_el') == 'unavailable'
+         else states('sensor.solar_consumption_23_ww_el')|float) 
+    ))|round(0) }}"
     device_class: power
     unit_of_measurement: "W"
     attribute_templates:
@@ -167,7 +165,9 @@ sensors:
   or states('sensor.solarlog_23_consumption_ac') == 'unavailable'
   else (states('sensor.solarlog_23_consumption_ac') 
         if states('sensor.luxtronik23_bz')|int == 1 
-        and (states('sensor.luxtronik23_hs3')|int == 5 or states('sensor.luxtronik23_hs3')|int == 9)
+        and (   states('sensor.luxtronik23_hs3')|int == 5 
+             or states('sensor.luxtronik23_hs3')|int == 9
+            )
         else 0)
   )|float|round(0)}}"
     device_class: power
@@ -185,9 +185,13 @@ sensors:
   or states('sensor.solarlog_23_consumption_ac') == 'unknown' 
   or states('sensor.solarlog_23_consumption_ac') == 'unavailable'
   else (states('sensor.solarlog_23_consumption_ac') 
-        if states('sensor.luxtronik23_bz')|int == 5 
-        and (states('sensor.luxtronik23_hs3')|int == 9 or
-        (states('sensor.luxtronik23_hs3')|int == 10 and states('binary_sensor.luxtronik23_zw2sst') == 'on'))
+        if   states('sensor.luxtronik23_bz')|int == 5 
+        and (        states('sensor.luxtronik23_hs3')|int == 9 
+             or (    states('sensor.luxtronik23_hs3')|int == 10 
+                 and states('binary_sensor.luxtronik23_zw2sst') == 'on'
+                )
+            )
+        and states('sensor.solarlog_23_consumption_ac')|int >= 15000
         else 0)
   )|float|round(0)}}"
     device_class: power
@@ -245,10 +249,14 @@ sensors:
   or states('sensor.solarlog_23_consumption_ac') == 'unknown' 
   or states('sensor.solarlog_23_consumption_ac') == 'unavailable'
   else (states('sensor.solarlog_23_consumption_ac') 
-        if states('sensor.luxtronik23_bz')|int == 5 
+        if  states('sensor.luxtronik23_bz')|int == 5 
         and states('input_boolean.luxtronik_kuhlphase_haus_23')
         and states('sensor.luxtronik23_hs3')|int == 10 
-        and states('binary_sensor.luxtronik23_zw2sst') == 'off'
+        and (    states('binary_sensor.luxtronik23_zw2sst') == 'off'
+             or (    states('binary_sensor.luxtronik23_zw2sst') == 'on'
+                 and states('sensor.solarlog_23_consumption_ac')|int <= 1000
+                )
+            )
         else 0)
   )|float|round(0)}}"
     device_class: power
