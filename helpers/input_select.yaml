@@ -7,11 +7,6 @@ luxtronik_operation_mode_automatik:
   options:
     - "0"
 
-luxtronik_operation_mode_automatik_cooling:
-  name: Luxtronik Operation Mode Automatik Cooling
-  options:
-    - "1"
-
 luxtronik_operation_mode_party:
   name: Luxtronik Operation Mode Party
   options:
@@ -74,29 +69,43 @@ luxtronik_25_ww_operation_mode:
     - "2"
     - "4"
 
+# Cooling Operation Mode
+# 0 = Aus
+# 1 = Automatik
+
+luxtronik_operation_mode_aus_cooling:
+  name: Luxtronik Operation Mode Aus Cooling
+  options:
+    - "0"
+
+luxtronik_operation_mode_automatik_cooling:
+  name: Luxtronik Operation Mode Automatik Cooling
+  options:
+    - "1"
+
 luxtronik_19_cl_operation_mode:
   name: Luxtronik 19 CL Operation Mode
   options:
+    - "0"
     - "1"
-    - "4"
 
 luxtronik_21_cl_operation_mode:
   name: Luxtronik 21 CL Operation Mode
   options:
+    - "0"
     - "1"
-    - "4"
 
 luxtronik_23_cl_operation_mode:
   name: Luxtronik 23 CL Operation Mode
   options:
+    - "0"
     - "1"
-    - "4"
 
 luxtronik_25_cl_operation_mode:
   name: Luxtronik 25 CL Operation Mode
   options:
+    - "0"
     - "1"
-    - "4"
 
 shelly_light_bulb_status:
   name: Schelly Light Bulb Status

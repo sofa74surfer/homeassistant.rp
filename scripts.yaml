@@ -100,7 +100,7 @@ heizen_an_kuhlen_aus:
       - input_boolean.luxtronik_kuhlphase_haus_25
     action: input_boolean.turn_off
   - data:
-      options: '{{ states(''input_select.luxtronik_operation_mode_aus'') }}'
+      options: '{{ states(''input_select.luxtronik_operation_mode_aus_cooling'') }}'
     target:
       entity_id:
       - input_select.luxtronik_19_cl_operation_mode
@@ -155,7 +155,8 @@ heizen_aus_kuhlen_an:
     data: {}
     action: input_boolean.turn_on
   - data:
-      options: '{{ states(''input_select.luxtronik_operation_mode_automatik'') }}'
+      options: '{{ states(''input_select.luxtronik_operation_mode_automatik_cooling'')
+        }}'
     target:
       entity_id:
       - input_select.luxtronik_19_cl_operation_mode
@@ -303,4 +304,75 @@ uberschuss_shelly_light_yellow:
       seconds: 2
       milliseconds: 0
   alias: Überschuss Shelly Light YELLOW
+  description: ''
+kuhlen_aus:
+  sequence:
+  - data:
+      options: '{{ states(''input_select.luxtronik_operation_mode_aus_cooling'') }}'
+    target:
+      entity_id:
+      - input_select.luxtronik_19_cl_operation_mode
+      - input_select.luxtronik_21_cl_operation_mode
+      - input_select.luxtronik_23_cl_operation_mode
+      - input_select.luxtronik_25_cl_operation_mode
+    action: input_select.set_options
+  - data:
+      title: HA-Info Rotseepark - HZ Haus 19-25 Kühlen AUS
+      message: "Kühlung Operation Mode Soll: \n19: {{states('input_select.luxtronik_19_cl_operation_mode')|int}}\n21:
+        {{states('input_select.luxtronik_21_cl_operation_mode')|int}}\n23: {{states('input_select.luxtronik_23_cl_operation_mode')|int}}\n25:
+        {{states('input_select.luxtronik_25_cl_operation_mode')|int}}\nKühlung Operation
+        Mode Ist : \n19: {{state_attr('sensor.luxtronik_19_param_state','parameters')['cooling_operation_mode']}}\n21:
+        {{state_attr('sensor.luxtronik_21_param_state','parameters')['cooling_operation_mode']}}\n23:
+        {{state_attr('sensor.luxtronik_23_param_state','parameters')['cooling_operation_mode']}}\n25:
+        {{state_attr('sensor.luxtronik_25_param_state','parameters')['cooling_operation_mode']}}\nZeitpunkt:\n19:
+        {{state_attr('sensor.luxtronik_19_value_state','values')['rawDeviceTimeCalc']}}\n21:
+        {{state_attr('sensor.luxtronik_21_value_state','values')['rawDeviceTimeCalc']}}\n23:
+        {{state_attr('sensor.luxtronik_23_value_state','values')['rawDeviceTimeCalc']}}\n25:
+        {{state_attr('sensor.luxtronik_25_value_state','values')['rawDeviceTimeCalc']}}\nStatus
+        Standard:\n19: {{state_attr('sensor.luxtronik_19_value_state','values')['heatpump_state_string']}}\n21:
+        {{state_attr('sensor.luxtronik_21_value_state','values')['heatpump_state_string']}}\n23:
+        {{state_attr('sensor.luxtronik_23_value_state','values')['heatpump_state_string']}}\n25:
+        {{state_attr('sensor.luxtronik_25_value_state','values')['heatpump_state_string']}}\nStatus
+        Extended:\n19: {{state_attr('sensor.luxtronik_19_value_state','values')['heatpump_extendet_state_string']}}\n21:
+        {{state_attr('sensor.luxtronik_21_value_state','values')['heatpump_extendet_state_string']}}\n23:
+        {{state_attr('sensor.luxtronik_23_value_state','values')['heatpump_extendet_state_string']}}\n25:
+        {{state_attr('sensor.luxtronik_25_value_state','values')['heatpump_extendet_state_string']}}\n"
+    action: notify.administrator_rotseepark
+  alias: Kühlen AUS
+  description: ''
+kuhlen_an:
+  sequence:
+  - data:
+      options: '{{ states(''input_select.luxtronik_operation_mode_automatik_cooling'')
+        }}'
+    target:
+      entity_id:
+      - input_select.luxtronik_19_cl_operation_mode
+      - input_select.luxtronik_21_cl_operation_mode
+      - input_select.luxtronik_23_cl_operation_mode
+      - input_select.luxtronik_25_cl_operation_mode
+    action: input_select.set_options
+  - data:
+      title: HA-Info Rotseepark - HZ Haus 19-25 Kühlen AN
+      message: "Kühlung Operation Mode Soll: \n19: {{states('input_select.luxtronik_19_cl_operation_mode')|int}}\n21:
+        {{states('input_select.luxtronik_21_cl_operation_mode')|int}}\n23: {{states('input_select.luxtronik_23_cl_operation_mode')|int}}\n25:
+        {{states('input_select.luxtronik_25_cl_operation_mode')|int}}\nKühlung Operation
+        Mode Ist : \n19: {{state_attr('sensor.luxtronik_19_param_state','parameters')['cooling_operation_mode']}}\n21:
+        {{state_attr('sensor.luxtronik_21_param_state','parameters')['cooling_operation_mode']}}\n23:
+        {{state_attr('sensor.luxtronik_23_param_state','parameters')['cooling_operation_mode']}}\n25:
+        {{state_attr('sensor.luxtronik_25_param_state','parameters')['cooling_operation_mode']}}\nZeitpunkt:\n19:
+        {{state_attr('sensor.luxtronik_19_value_state','values')['rawDeviceTimeCalc']}}\n21:
+        {{state_attr('sensor.luxtronik_21_value_state','values')['rawDeviceTimeCalc']}}\n23:
+        {{state_attr('sensor.luxtronik_23_value_state','values')['rawDeviceTimeCalc']}}\n25:
+        {{state_attr('sensor.luxtronik_25_value_state','values')['rawDeviceTimeCalc']}}\nStatus
+        Standard:\n19: {{state_attr('sensor.luxtronik_19_value_state','values')['heatpump_state_string']}}\n21:
+        {{state_attr('sensor.luxtronik_21_value_state','values')['heatpump_state_string']}}\n23:
+        {{state_attr('sensor.luxtronik_23_value_state','values')['heatpump_state_string']}}\n25:
+        {{state_attr('sensor.luxtronik_25_value_state','values')['heatpump_state_string']}}\nStatus
+        Extended:\n19: {{state_attr('sensor.luxtronik_19_value_state','values')['heatpump_extendet_state_string']}}\n21:
+        {{state_attr('sensor.luxtronik_21_value_state','values')['heatpump_extendet_state_string']}}\n23:
+        {{state_attr('sensor.luxtronik_23_value_state','values')['heatpump_extendet_state_string']}}\n25:
+        {{state_attr('sensor.luxtronik_25_value_state','values')['heatpump_extendet_state_string']}}\n"
+    action: notify.administrator_rotseepark
+  alias: Kühlen AN
   description: ''
