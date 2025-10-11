@@ -1,0 +1,16 @@
+# ####### ############################################### #######
+# ####### Wattage Sensoren gPlug Haus 25 Elektromobilität #######
+# ####### ############################################### #######
+
+- sensor:
+    - name: "gPlug Haus 25 Elektromobilität Power"
+      state: "{{ (0
+      +(0 if states('sensor.gplugde_haus_25_elektromobilitat_meter_wirkleistung_cons_w') == 'unknown' 
+          or states('sensor.gplugde_haus_25_elektromobilitat_meter_wirkleistung_cons_w') == 'unavailable'
+        else states('sensor.gplugde_haus_25_elektromobilitat_meter_wirkleistung_cons_w')|float)
+    )|round(0) }}"
+      device_class: power
+      unit_of_measurement: "W"
+      attributes:
+        last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
+      unique_id: template.sensor_gPlug_haus_25_elektromobilitat_power

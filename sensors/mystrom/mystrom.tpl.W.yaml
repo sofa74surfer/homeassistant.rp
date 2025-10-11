@@ -5,6 +5,10 @@ sensors:
 # ####### Wattage Sensoren MyStrom #######
 # ####### ######################## #######
 
+# ######## #########################################################################################
+# 25.08.12  Entferne sensor.mystrom_204_report
+# ######## #########################################################################################
+
   mystrom_power:
     friendly_name: "MyStrom W"
     value_template: "{{ 
@@ -12,7 +16,6 @@ sensors:
         state_attr('sensor.mystrom_201_report', 'power')|regex_replace('.*[a-z]', '0')|float + 
         state_attr('sensor.mystrom_202_report', 'power')|regex_replace('.*[a-z]', '0')|float + 
         state_attr('sensor.mystrom_203_report', 'power')|regex_replace('.*[a-z]', '0')|float + 
-        state_attr('sensor.mystrom_204_report', 'power')|regex_replace('.*[a-z]', '0')|float + 
         state_attr('sensor.mystrom_205_report', 'power')|regex_replace('.*[a-z]', '0')|float + 
         state_attr('sensor.mystrom_206_report', 'power')|regex_replace('.*[a-z]', '0')|float + 
         state_attr('sensor.mystrom_207_report', 'power')|regex_replace('.*[a-z]', '0')|float + 

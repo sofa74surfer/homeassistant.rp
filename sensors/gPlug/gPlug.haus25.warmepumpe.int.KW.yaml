@@ -1,0 +1,10 @@
+# ####### ########################################### #######
+# ####### Integration Sensor gPlug Haus 25 Wärmepumpe #######
+# ####### ########################################### #######
+
+# Ableitung von Template Sensor gPlug.haus25.warmepumpe.tpl.W.yaml
+platform: integration
+source: sensor.gplug_haus_25_warmepumpe_power
+name: "gPlug Haus 25 Wärmepumpe Power Consumption"
+unit_prefix: k
+round: 3

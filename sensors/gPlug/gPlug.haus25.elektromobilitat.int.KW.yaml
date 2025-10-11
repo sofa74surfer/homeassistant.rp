@@ -1,0 +1,10 @@
+# ####### ################################################# #######
+# ####### Integration Sensor gPlug Haus 25 Elektromobilität #######
+# ####### ################################################# #######
+
+# Ableitung von Template Sensor gPlug.haus25.elektromobilitat.tpl.W.yaml
+platform: integration
+source: sensor.gplug_haus_25_elektromobilitat_power
+name: "gPlug Haus 25 Elektromobilität Power Consumption"
+unit_prefix: k
+round: 3

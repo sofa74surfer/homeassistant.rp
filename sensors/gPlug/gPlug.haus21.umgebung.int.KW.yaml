@@ -1,0 +1,10 @@
+# ####### ######################################### #######
+# ####### Integration Sensor gPlug Haus 21 Umgebung #######
+# ####### ######################################### #######
+
+# Ableitung von Template Sensor gPlug.haus21.umgebung.tpl.W.yaml
+platform: integration
+source: sensor.gplug_haus_21_umgebung_power
+name: "gPlug Haus 21 Umgebung Power Consumption"
+unit_prefix: k
+round: 3

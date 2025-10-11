@@ -13,7 +13,7 @@
             off
           {%- endif %}
         {%- else -%}
-          {{ states('sensor.zaptec_pp_80_is_online') }}
+          {{ states('binary_sensor.zaptec_pp_80_is_online') }}
         {%- endif %}"
       attributes:
         last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
@@ -31,7 +31,7 @@
             off
           {%- endif %}
         {%- else -%}
-          {{ states('sensor.zaptec_pp_80_offline_mode') }}
+          {{ states('binary_sensor.zaptec_pp_80_offline_mode') }}
         {%- endif %}"
       attributes:
         last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"

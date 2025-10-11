@@ -8,137 +8,137 @@ sensors:
     # Brauchwasserpumpe Haus 19
     luxtronik19_bup_out:
       friendly_name: "Luxtronik 19 BUP out"
-      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if (((state_attr('sensor.luxtronik_19_value_state', 'values')['BUPout'])|float != 0) and (((state_attr('sensor.luxtronik_19_value_state', 'values')['VD1out'])|float != 0) or ((state_attr('sensor.luxtronik_19_value_state', 'values')['VD2out'])|float != 0))) -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('sensor.luxtronik19_bup_out') }}{%- endif %}"
+      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if (((state_attr('sensor.luxtronik_19_value_state', 'values')['BUPout'])|float != 0) and (((state_attr('sensor.luxtronik_19_value_state', 'values')['VD1out'])|float != 0) or ((state_attr('sensor.luxtronik_19_value_state', 'values')['VD2out'])|float != 0))) -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('binary_sensor.luxtronik19_bup_out') }}{%- endif %}"
       device_class: running
       unique_id: luxtronik19_bup_out_running
 
     luxtronik19_bup:
       friendly_name: "Luxtronik 19 BUP (Brauchwasserpumpe)"
-      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['BUPout']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('sensor.luxtronik19_bup') }}{%- endif %}"
+      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['BUPout']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('binary_sensor.luxtronik19_bup') }}{%- endif %}"
       device_class: running
       unique_id: luxtronik19_bup_running
 
     # Heizkreispumpe Haus 19
     luxtronik19_hup_out:
       friendly_name: "Luxtronik 19 HUP out"
-      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if (((state_attr('sensor.luxtronik_19_value_state', 'values')['HUPout'])|float != 0) and ((state_attr('sensor.luxtronik_19_value_state', 'values')['BUPout'])|float == 0) and  (((state_attr('sensor.luxtronik_19_value_state', 'values')['VD1out'])|float != 0) or ((state_attr('sensor.luxtronik_19_value_state', 'values')['VD2out'])|float != 0))) -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('sensor.luxtronik19_bup_out') }}{%- endif %}"
+      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if (((state_attr('sensor.luxtronik_19_value_state', 'values')['HUPout'])|float != 0) and ((state_attr('sensor.luxtronik_19_value_state', 'values')['BUPout'])|float == 0) and  (((state_attr('sensor.luxtronik_19_value_state', 'values')['VD1out'])|float != 0) or ((state_attr('sensor.luxtronik_19_value_state', 'values')['VD2out'])|float != 0))) -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('binary_sensor.luxtronik19_bup_out') }}{%- endif %}"
       device_class: running
       unique_id: luxtronik19_hup_out_running
 
     luxtronik19_hup:
       friendly_name: "Luxtronik 19 HUP (Heizkreispumpe)"
-      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['HUPout']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('sensor.luxtronik19_hup') }}{%- endif %}"
+      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['HUPout']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('binary_sensor.luxtronik19_hup') }}{%- endif %}"
       device_class: running
       unique_id: luxtronik19_hup_running
 
     # Zusatzpumpe Haus 19
     luxtronik19_zup:
       friendly_name: "Luxtronik 19 ZUP (Zusatzpumpe)"
-      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['ZUPout']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('sensor.luxtronik19_zup') }}{%- endif %}"
+      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['ZUPout']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('binary_sensor.luxtronik19_zup') }}{%- endif %}"
       device_class: running
       unique_id: luxtronik19_zup_running
 
     # Zirkulationspumpe Haus 19
     luxtronik19_zip:
       friendly_name: "Luxtronik 19 ZIP (Zirkulationspumpe)"
-      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['ZIPout']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('sensor.luxtronik19_zip') }}{%- endif %}"
+      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['ZIPout']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('binary_sensor.luxtronik19_zip') }}{%- endif %}"
       device_class: running
       unique_id: luxtronik19_zip_running
 
     # Verdampferpumpe Haus 19
     luxtronik19_vbo:
       friendly_name: "Luxtronik 19 VBO (Verdampferpumpe)"
-      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['VBOout']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('sensor.luxtronik19_vbo') }}{%- endif %}"
+      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['VBOout']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('binary_sensor.luxtronik19_vbo') }}{%- endif %}"
       device_class: running
       unique_id: luxtronik19_vbo_running
 
     # Verdichter 1 Haus 19
     luxtronik19_vd1:
       friendly_name: "Luxtronik 19 VD1 (Verdichter 1)"
-      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['VD1out']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('sensor.luxtronik19_vd1') }}{%- endif %}"
+      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['VD1out']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('binary_sensor.luxtronik19_vd1') }}{%- endif %}"
       device_class: running
       unique_id: luxtronik19_vd1_running
 
     # Verdichter 2 Haus 19
     luxtronik19_vd2:
       friendly_name: "Luxtronik 19 VD2 (Verdichter 2)"
-      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['VD2out']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('sensor.luxtronik19_vd2') }}{%- endif %}"
+      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['VD2out']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('binary_sensor.luxtronik19_vd2') }}{%- endif %}"
       device_class: running
       unique_id: luxtronik19_vd2_running
 
     # Zusatzheizung Brauchwasser Haus 19
     luxtronik19_zw2sst:
       friendly_name: "Luxtronik 19 ZW2SST (Zusatzheizung Brauchwasser)"
-      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['ZW2SSTout']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('sensor.luxtronik19_zw2sst') }}{%- endif %}"
+      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['ZW2SSTout']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('binary_sensor.luxtronik19_zw2sst') }}{%- endif %}"
       device_class: running
       unique_id: luxtronik19_zw2sst_running
 
     # Eingang Soledruck Pressostat Haus 19
     luxtronik19_asd:
       friendly_name: "Luxtronik 19 ASD (Soledruck Pressostat)"
-      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['ASDin']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('sensor.luxtronik19_asd') }}{%- endif %}"
+      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['ASDin']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('binary_sensor.luxtronik19_asd') }}{%- endif %}"
       device_class: running
       unique_id: luxtronik19_asd_running
 
     # Eingang Energie Versorger Sperre Haus 19
     luxtronik19_evu:
       friendly_name: "Luxtronik 19 EVU (Energie Versorger Sperre)"
-      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['EVUin']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('sensor.luxtronik19_evu') }}{%- endif %}"
+      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['EVUin']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('binary_sensor.luxtronik19_evu') }}{%- endif %}"
       device_class: running
       unique_id: luxtronik19_evu_running
 
     # Eingang Hochdruckpressostat Haus 19
     luxtronik19_hd:
       friendly_name: "Luxtronik 19 HD (Hochdruckpressostat)"
-      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['HDin']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('sensor.luxtronik19_hd') }}{%- endif %}"
+      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['HDin']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('binary_sensor.luxtronik19_hd') }}{%- endif %}"
       device_class: running
       unique_id: luxtronik19_hd_running
 
     # Eingang Motorschutz Haus 19
     luxtronik19_mot:
       friendly_name: "Luxtronik 19 MOT (Motorschutz)"
-      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['MOTin']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('sensor.luxtronik19_mot') }}{%- endif %}"
+      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['MOTin']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('binary_sensor.luxtronik19_mot') }}{%- endif %}"
       device_class: running
       unique_id: luxtronik19_mot_running
 
     # Eingang Niederdruckpressostat Haus 19
     luxtronik19_nd:
       friendly_name: "Luxtronik 19 ND (Niederdruckpressostat)"
-      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['NDin']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('sensor.luxtronik19_nd') }}{%- endif %}"
+      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['NDin']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('binary_sensor.luxtronik19_nd') }}{%- endif %}"
       device_class: running
       unique_id: luxtronik19_nd_running
 
     # hwbv hotWaterBoilerValve Haus 19
     luxtronik19_hwbv:
       friendly_name: "Luxtronik 19 hwbv (hotWaterBoilerValve)"
-      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['hotWaterBoilerValve']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('sensor.luxtronik19_hwbv') }}{%- endif %}"
+      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['hotWaterBoilerValve']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('binary_sensor.luxtronik19_hwbv') }}{%- endif %}"
       device_class: running
       unique_id: luxtronik19_hwbv_running
 
     # hscp heatingSystemCircPump Haus 19
     luxtronik19_hscp:
       friendly_name: "Luxtronik 19 hscp (heatingSystemCircPump)"
-      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{{ state_attr('sensor.luxtronik_19_value_state', 'values')['heatingSystemCircPump'] }}{%- else -%}{{ states('sensor.luxtronik19_hscp') }}{%- endif %}"
+      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{{ state_attr('sensor.luxtronik_19_value_state', 'values')['heatingSystemCircPump'] }}{%- else -%}{{ states('binary_sensor.luxtronik19_hscp') }}{%- endif %}"
       device_class: running
       unique_id: luxtronik19_hscp_running
 
     # hsm heatSourceMotor Haus 19
     luxtronik19_hsm:
       friendly_name: "Luxtronik 19 hsm (heatSourceMotor)"
-      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['heatSourceMotor']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('sensor.luxtronik19_hsm') }}{%- endif %}"
+      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['heatSourceMotor']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('binary_sensor.luxtronik19_hsm') }}{%- endif %}"
       device_class: running
       unique_id: luxtronik19_hsm_running
 
     # hwcpe hotWaterCircPumpExtern Haus 19
     luxtronik19_hwcpe:
       friendly_name: "Luxtronik 19 hwcpe (hotWaterCircPumpExtern)"
-      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['hotWaterCircPumpExtern']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('sensor.luxtronik19_hwcpe') }}{%- endif %}"
+      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['hotWaterCircPumpExtern']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('binary_sensor.luxtronik19_hwcpe') }}{%- endif %}"
       device_class: running
       unique_id: luxtronik19_hwcpe_running
 
     # ai AnalogIn Haus 19
     luxtronik19_ai:
       friendly_name: "Luxtronik 19 ai (AnalogIn)"
-      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['AnalogIn']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('sensor.luxtronik19_ai') }}{%- endif %}"
+      value_template: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}{% if state_attr('sensor.luxtronik_19_value_state', 'values')['AnalogIn']|float != 0 -%}on{%- else -%}off{%- endif %}{%- else -%}{{ states('binary_sensor.luxtronik19_ai') }}{%- endif %}"
       device_class: running
       unique_id: luxtronik19_ai_running 

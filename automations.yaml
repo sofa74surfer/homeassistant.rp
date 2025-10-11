@@ -265,40 +265,58 @@
             'parameters')['heating_temperature']}}
         action: notify.administrator_rotseepark
       alias: Prüfe den Parameter heating_temperature
-    - if:
-      - condition: and
-        conditions:
-        - condition: template
-          value_template: "{{state_attr('sensor.luxtronik_19_param_state', 'parameters')['warmwater_temperature']
-            \n!= states('input_number.luxtronik_19_ww_solltemperatur')|int \n    and
-            (state_attr('automation.schalte_ww_setze_ww_solltemperatur_haus_19_bei_anderung','current')|int
-            == 0) \n}}"
+    - alias: Prüfe nur, wenn BPU nicht läuft
+      if:
+      - condition: state
+        entity_id: binary_sensor.luxtronik19_bup
+        state: 'off'
       then:
-      - data:
-          title: 'HA-Alert Heatpump 19: Der Wert warmwater_temperature hat geändert'
-          message: Der neue Wert für warmwater_temperature ist {{state_attr('sensor.luxtronik_19_param_state',
-            'parameters')['warmwater_temperature']}}
-        action: notify.administrator_rotseepark
-      alias: Prüfe den Parameter warmwater_temperature (ändert während der TDI)
-    - if:
-      - condition: and
-        conditions:
+      - if:
+        - condition: and
+          conditions:
+          - condition: template
+            value_template: "{{state_attr('sensor.luxtronik_19_param_state', 'parameters')['warmwater_temperature']
+              \n!= states('input_number.luxtronik_19_ww_solltemperatur')|int \n    and
+              (state_attr('automation.schalte_ww_setze_ww_solltemperatur_haus_19_bei_anderung','current')|int
+              == 0) \n}}"
+        then:
+        - data:
+            title: 'HA-Alert Heatpump 19: Der Wert warmwater_temperature hat geändert'
+            message: Der neue Wert für warmwater_temperature ist {{state_attr('sensor.luxtronik_19_param_state',
+              'parameters')['warmwater_temperature']}}
+          action: notify.administrator_rotseepark
+        alias: Prüfe den Parameter warmwater_temperature (ändert während der TDI)
+      - if:
+        - condition: and
+          conditions:
+          - condition: template
+            value_template: '{{state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')[''warmwater_temperature'']
+              != states(''input_number.luxtronik_ww_normaltemperatur'')|int }}'
+          - condition: state
+            entity_id: schedule.luxtronik_zeitplan_tdi_haus_19
+            state: 'off'
+            enabled: true
+        then:
+        - data:
+            title: 'HA-Alert Heatpump 19: Der Wert warmwater_temperature hat geändert
+              (während TDI)'
+            message: Der neue Wert für warmwater_temperature ist {{state_attr('sensor.luxtronik_19_param_state',
+              'parameters')['warmwater_temperature']}}
+          action: notify.administrator_rotseepark
+        alias: Prüfe den Parameter warmwater_temperature Normabweichung (nicht während
+          der TDI)
+      - if:
         - condition: template
-          value_template: '{{state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')[''warmwater_temperature'']
-            != states(''input_number.luxtronik_ww_normaltemperatur'')|int }}'
-        - condition: state
-          entity_id: schedule.luxtronik_zeitplan_tdi_haus_19
-          state: 'off'
-          enabled: true
-      then:
-      - data:
-          title: 'HA-Alert Heatpump 19: Der Wert warmwater_temperature hat geändert
-            (während TDI)'
-          message: Der neue Wert für warmwater_temperature ist {{state_attr('sensor.luxtronik_19_param_state',
-            'parameters')['warmwater_temperature']}}
-        action: notify.administrator_rotseepark
-      alias: Prüfe den Parameter warmwater_temperature Normabweichung (nicht während
-        der TDI)
+          value_template: '{{state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')[''warmwater_operation_mode_string'']
+            != "Automatik" }}'
+        then:
+        - data:
+            title: 'HA-Alert Heatpump 19: Der Wert warmwater_operation_mode_string
+              hat geändert (ausserhalb TDI)'
+            message: Der neue Wert für warmwater_operation_mode_string ist {{state_attr('sensor.luxtronik_19_param_state',
+              'parameters')['warmwater_operation_mode_string']}}
+          action: notify.administrator_rotseepark
+        alias: Prüfe den Parameter warmwater_operation_mode_string
     - if:
       - condition: and
         conditions:
@@ -312,18 +330,6 @@
             'parameters')['heating_operation_mode']}}
         action: notify.administrator_rotseepark
       alias: Prüfe den Parameter heating_operation_mode
-    - if:
-      - condition: template
-        value_template: '{{state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')[''warmwater_operation_mode_string'']
-          != "Automatik" }}'
-      then:
-      - data:
-          title: 'HA-Alert Heatpump 19: Der Wert warmwater_operation_mode_string hat
-            geändert (ausserhalb TDI)'
-          message: Der neue Wert für warmwater_operation_mode_string ist {{state_attr('sensor.luxtronik_19_param_state',
-            'parameters')['warmwater_operation_mode_string']}}
-        action: notify.administrator_rotseepark
-      alias: Prüfe den Parameter warmwater_operation_mode_string
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')[''heating_curve_end_point'']
@@ -383,40 +389,46 @@
             'parameters')['returnTemperatureHysteresis']}}
         action: notify.administrator_rotseepark
       alias: Prüfe den Parameter returnTemperatureHysteresis
-    - if:
-      - condition: and
-        conditions:
-        - condition: template
-          value_template: '{{state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')[''temperature_hot_water_target'']
-            != states(''input_number.luxtronik_19_ww_solltemperatur'')|int }}'
+    - alias: Prüfe nur, wenn BPU nicht läuft
+      if:
+      - condition: state
+        entity_id: binary_sensor.luxtronik19_bup
+        state: 'off'
       then:
-      - data:
-          title: 'HA-Alert Heatpump 19: Der Wert temperature_hot_water_target hat
-            geändert'
-          message: Der neue Wert für temperature_hot_water_target ist {{state_attr('sensor.luxtronik_19_param_state',
-            'parameters')['temperature_hot_water_target']}}
-        action: notify.administrator_rotseepark
-      alias: Prüfe den Parameter temperature_hot_water_target (ändert während der
-        TDI)
-    - if:
-      - condition: and
-        conditions:
-        - condition: template
-          value_template: '{{state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')[''temperature_hot_water_target'']
-            != states(''input_number.luxtronik_ww_normaltemperatur'')|int }}'
-        - condition: state
-          entity_id: schedule.luxtronik_zeitplan_tdi_haus_19
-          state: 'off'
-          enabled: true
-      then:
-      - data:
-          title: 'HA-Alert Heatpump 19: Der Wert temperature_hot_water_target hat
-            geändert (während TDI)'
-          message: Der neue Wert für temperature_hot_water_target ist {{state_attr('sensor.luxtronik_19_param_state',
-            'parameters')['temperature_hot_water_target']}}
-        action: notify.administrator_rotseepark
-      alias: Prüfe den Parameter temperature_hot_water_target Normabweichung  (ausserhalb
-        der TDI)
+      - if:
+        - condition: and
+          conditions:
+          - condition: template
+            value_template: '{{state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')[''temperature_hot_water_target'']
+              != states(''input_number.luxtronik_19_ww_solltemperatur'')|int }}'
+        then:
+        - data:
+            title: 'HA-Alert Heatpump 19: Der Wert temperature_hot_water_target hat
+              geändert'
+            message: Der neue Wert für temperature_hot_water_target ist {{state_attr('sensor.luxtronik_19_param_state',
+              'parameters')['temperature_hot_water_target']}}
+          action: notify.administrator_rotseepark
+        alias: Prüfe den Parameter temperature_hot_water_target (ändert während der
+          TDI)
+      - if:
+        - condition: and
+          conditions:
+          - condition: template
+            value_template: '{{state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')[''temperature_hot_water_target'']
+              != states(''input_number.luxtronik_ww_normaltemperatur'')|int }}'
+          - condition: state
+            entity_id: schedule.luxtronik_zeitplan_tdi_haus_19
+            state: 'off'
+            enabled: true
+        then:
+        - data:
+            title: 'HA-Alert Heatpump 19: Der Wert temperature_hot_water_target hat
+              geändert (während TDI)'
+            message: Der neue Wert für temperature_hot_water_target ist {{state_attr('sensor.luxtronik_19_param_state',
+              'parameters')['temperature_hot_water_target']}}
+          action: notify.administrator_rotseepark
+        alias: Prüfe den Parameter temperature_hot_water_target Normabweichung  (ausserhalb
+          der TDI)
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_19_param_state'', ''parameters'')[''thresholdHeatingLimit'']
@@ -1010,40 +1022,58 @@
             'parameters')['heating_temperature']}}
         action: notify.administrator_rotseepark
       alias: Prüfe den Parameter heating_temperature
-    - if:
-      - condition: and
-        conditions:
-        - condition: template
-          value_template: "{{state_attr('sensor.luxtronik_21_param_state', 'parameters')['warmwater_temperature']
-            \n!= states('input_number.luxtronik_21_ww_solltemperatur')|int \n    and
-            (state_attr('automation.schalte_ww_setze_ww_solltemperatur_haus_21_bei_anderung','current')|int
-            == 0) \n}}"
+    - alias: Prüfe nur, wenn BPU nicht läuft
+      if:
+      - condition: state
+        entity_id: binary_sensor.luxtronik21_bup
+        state: 'off'
       then:
-      - data:
-          title: 'HA-Alert Heatpump 21: Der Wert warmwater_temperature hat geändert'
-          message: Der neue Wert für warmwater_temperature ist {{state_attr('sensor.luxtronik_21_param_state',
-            'parameters')['warmwater_temperature']}}
-        action: notify.administrator_rotseepark
-      alias: Prüfe den Parameter warmwater_temperature (ändert während der TDI)
-    - if:
-      - condition: and
-        conditions:
+      - if:
+        - condition: and
+          conditions:
+          - condition: template
+            value_template: "{{state_attr('sensor.luxtronik_21_param_state', 'parameters')['warmwater_temperature']
+              \n!= states('input_number.luxtronik_21_ww_solltemperatur')|int \n    and
+              (state_attr('automation.schalte_ww_setze_ww_solltemperatur_haus_21_bei_anderung','current')|int
+              == 0) \n}}"
+        then:
+        - data:
+            title: 'HA-Alert Heatpump 21: Der Wert warmwater_temperature hat geändert'
+            message: Der neue Wert für warmwater_temperature ist {{state_attr('sensor.luxtronik_21_param_state',
+              'parameters')['warmwater_temperature']}}
+          action: notify.administrator_rotseepark
+        alias: Prüfe den Parameter warmwater_temperature (ändert während der TDI)
+      - if:
+        - condition: and
+          conditions:
+          - condition: template
+            value_template: '{{state_attr(''sensor.luxtronik_21_param_state'', ''parameters'')[''warmwater_temperature'']
+              != states(''input_number.luxtronik_ww_normaltemperatur'')|int }}'
+          - condition: state
+            entity_id: schedule.luxtronik_zeitplan_tdi_haus_21
+            state: 'off'
+            enabled: true
+        then:
+        - data:
+            title: 'HA-Alert Heatpump 21: Der Wert warmwater_temperature hat geändert
+              (während TDI)'
+            message: Der neue Wert für warmwater_temperature ist {{state_attr('sensor.luxtronik_21_param_state',
+              'parameters')['warmwater_temperature']}}
+          action: notify.administrator_rotseepark
+        alias: Prüfe den Parameter warmwater_temperature Normabweichung (nicht während
+          der TDI)
+      - if:
         - condition: template
-          value_template: '{{state_attr(''sensor.luxtronik_21_param_state'', ''parameters'')[''warmwater_temperature'']
-            != states(''input_number.luxtronik_ww_normaltemperatur'')|int }}'
-        - condition: state
-          entity_id: schedule.luxtronik_zeitplan_tdi_haus_21
-          state: 'off'
-          enabled: true
-      then:
-      - data:
-          title: 'HA-Alert Heatpump 21: Der Wert warmwater_temperature hat geändert
-            (während TDI)'
-          message: Der neue Wert für warmwater_temperature ist {{state_attr('sensor.luxtronik_21_param_state',
-            'parameters')['warmwater_temperature']}}
-        action: notify.administrator_rotseepark
-      alias: Prüfe den Parameter warmwater_temperature Normabweichung (nicht während
-        der TDI)
+          value_template: '{{state_attr(''sensor.luxtronik_21_param_state'', ''parameters'')[''warmwater_operation_mode_string'']
+            != "Automatik" }}'
+        then:
+        - data:
+            title: 'HA-Alert Heatpump 21: Der Wert warmwater_operation_mode_string
+              hat geändert (ausserhalb TDI)'
+            message: Der neue Wert für warmwater_operation_mode_string ist {{state_attr('sensor.luxtronik_21_param_state',
+              'parameters')['warmwater_operation_mode_string']}}
+          action: notify.administrator_rotseepark
+        alias: Prüfe den Parameter warmwater_operation_mode_string
     - if:
       - condition: and
         conditions:
@@ -1057,18 +1087,6 @@
             'parameters')['heating_operation_mode']}}
         action: notify.administrator_rotseepark
       alias: Prüfe den Parameter heating_operation_mode
-    - if:
-      - condition: template
-        value_template: '{{state_attr(''sensor.luxtronik_21_param_state'', ''parameters'')[''warmwater_operation_mode_string'']
-          != "Automatik" }}'
-      then:
-      - data:
-          title: 'HA-Alert Heatpump 21: Der Wert warmwater_operation_mode_string hat
-            geändert (ausserhalb TDI)'
-          message: Der neue Wert für warmwater_operation_mode_string ist {{state_attr('sensor.luxtronik_21_param_state',
-            'parameters')['warmwater_operation_mode_string']}}
-        action: notify.administrator_rotseepark
-      alias: Prüfe den Parameter warmwater_operation_mode_string
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_21_param_state'', ''parameters'')[''heating_curve_end_point'']
@@ -1128,40 +1146,46 @@
             'parameters')['returnTemperatureHysteresis']}}
         action: notify.administrator_rotseepark
       alias: Prüfe den Parameter returnTemperatureHysteresis
-    - if:
-      - condition: and
-        conditions:
-        - condition: template
-          value_template: '{{state_attr(''sensor.luxtronik_21_param_state'', ''parameters'')[''temperature_hot_water_target'']
-            != states(''input_number.luxtronik_21_ww_solltemperatur'')|int }}'
+    - alias: Prüfe nur, wenn BPU nicht läuft
+      if:
+      - condition: state
+        entity_id: binary_sensor.luxtronik21_bup
+        state: 'off'
       then:
-      - data:
-          title: 'HA-Alert Heatpump 21: Der Wert temperature_hot_water_target hat
-            geändert'
-          message: Der neue Wert für temperature_hot_water_target ist {{state_attr('sensor.luxtronik_21_param_state',
-            'parameters')['temperature_hot_water_target']}}
-        action: notify.administrator_rotseepark
-      alias: Prüfe den Parameter temperature_hot_water_target (ändert während der
-        TDI)
-    - if:
-      - condition: and
-        conditions:
-        - condition: template
-          value_template: '{{state_attr(''sensor.luxtronik_21_param_state'', ''parameters'')[''temperature_hot_water_target'']
-            != states(''input_number.luxtronik_ww_normaltemperatur'')|int }}'
-        - condition: state
-          entity_id: schedule.luxtronik_zeitplan_tdi_haus_21
-          state: 'off'
-          enabled: true
-      then:
-      - data:
-          title: 'HA-Alert Heatpump 21: Der Wert temperature_hot_water_target hat
-            geändert (während TDI)'
-          message: Der neue Wert für temperature_hot_water_target ist {{state_attr('sensor.luxtronik_21_param_state',
-            'parameters')['temperature_hot_water_target']}}
-        action: notify.administrator_rotseepark
-      alias: Prüfe den Parameter temperature_hot_water_target Normabweichung  (ausserhalb
-        der TDI)
+      - if:
+        - condition: and
+          conditions:
+          - condition: template
+            value_template: '{{state_attr(''sensor.luxtronik_21_param_state'', ''parameters'')[''temperature_hot_water_target'']
+              != states(''input_number.luxtronik_21_ww_solltemperatur'')|int }}'
+        then:
+        - data:
+            title: 'HA-Alert Heatpump 21: Der Wert temperature_hot_water_target hat
+              geändert'
+            message: Der neue Wert für temperature_hot_water_target ist {{state_attr('sensor.luxtronik_21_param_state',
+              'parameters')['temperature_hot_water_target']}}
+          action: notify.administrator_rotseepark
+        alias: Prüfe den Parameter temperature_hot_water_target (ändert während der
+          TDI)
+      - if:
+        - condition: and
+          conditions:
+          - condition: template
+            value_template: '{{state_attr(''sensor.luxtronik_21_param_state'', ''parameters'')[''temperature_hot_water_target'']
+              != states(''input_number.luxtronik_ww_normaltemperatur'')|int }}'
+          - condition: state
+            entity_id: schedule.luxtronik_zeitplan_tdi_haus_21
+            state: 'off'
+            enabled: true
+        then:
+        - data:
+            title: 'HA-Alert Heatpump 21: Der Wert temperature_hot_water_target hat
+              geändert (während TDI)'
+            message: Der neue Wert für temperature_hot_water_target ist {{state_attr('sensor.luxtronik_21_param_state',
+              'parameters')['temperature_hot_water_target']}}
+          action: notify.administrator_rotseepark
+        alias: Prüfe den Parameter temperature_hot_water_target Normabweichung  (ausserhalb
+          der TDI)
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_21_param_state'', ''parameters'')[''thresholdHeatingLimit'']
@@ -1755,40 +1779,58 @@
             'parameters')['heating_temperature']}}
         action: notify.administrator_rotseepark
       alias: Prüfe den Parameter heating_temperature
-    - if:
-      - condition: and
-        conditions:
-        - condition: template
-          value_template: "{{state_attr('sensor.luxtronik_23_param_state', 'parameters')['warmwater_temperature']
-            \n!= states('input_number.luxtronik_23_ww_solltemperatur')|int \n    and
-            (state_attr('automation.schalte_ww_setze_ww_solltemperatur_haus_23_bei_anderung','current')|int
-            == 0) \n}}"
+    - alias: Prüfe nur, wenn BPU nicht läuft
+      if:
+      - condition: state
+        entity_id: binary_sensor.luxtronik23_bup
+        state: 'off'
       then:
-      - data:
-          title: 'HA-Alert Heatpump 23: Der Wert warmwater_temperature hat geändert'
-          message: Der neue Wert für warmwater_temperature ist {{state_attr('sensor.luxtronik_23_param_state',
-            'parameters')['warmwater_temperature']}}
-        action: notify.administrator_rotseepark
-      alias: Prüfe den Parameter warmwater_temperature (ändert während der TDI)
-    - if:
-      - condition: and
-        conditions:
+      - if:
+        - condition: and
+          conditions:
+          - condition: template
+            value_template: "{{state_attr('sensor.luxtronik_23_param_state', 'parameters')['warmwater_temperature']
+              \n!= states('input_number.luxtronik_23_ww_solltemperatur')|int \n    and
+              (state_attr('automation.schalte_ww_setze_ww_solltemperatur_haus_23_bei_anderung','current')|int
+              == 0) \n}}"
+        then:
+        - data:
+            title: 'HA-Alert Heatpump 23: Der Wert warmwater_temperature hat geändert'
+            message: Der neue Wert für warmwater_temperature ist {{state_attr('sensor.luxtronik_23_param_state',
+              'parameters')['warmwater_temperature']}}
+          action: notify.administrator_rotseepark
+        alias: Prüfe den Parameter warmwater_temperature (ändert während der TDI)
+      - if:
+        - condition: and
+          conditions:
+          - condition: template
+            value_template: '{{state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')[''warmwater_temperature'']
+              != states(''input_number.luxtronik_ww_normaltemperatur'')|int }}'
+          - condition: state
+            entity_id: schedule.luxtronik_zeitplan_tdi_haus_23
+            state: 'off'
+            enabled: true
+        then:
+        - data:
+            title: 'HA-Alert Heatpump 23: Der Wert warmwater_temperature hat geändert
+              (während TDI)'
+            message: Der neue Wert für warmwater_temperature ist {{state_attr('sensor.luxtronik_23_param_state',
+              'parameters')['warmwater_temperature']}}
+          action: notify.administrator_rotseepark
+        alias: Prüfe den Parameter warmwater_temperature Normabweichung (nicht während
+          der TDI)
+      - if:
         - condition: template
-          value_template: '{{state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')[''warmwater_temperature'']
-            != states(''input_number.luxtronik_ww_normaltemperatur'')|int }}'
-        - condition: state
-          entity_id: schedule.luxtronik_zeitplan_tdi_haus_23
-          state: 'off'
-          enabled: true
-      then:
-      - data:
-          title: 'HA-Alert Heatpump 23: Der Wert warmwater_temperature hat geändert
-            (während TDI)'
-          message: Der neue Wert für warmwater_temperature ist {{state_attr('sensor.luxtronik_23_param_state',
-            'parameters')['warmwater_temperature']}}
-        action: notify.administrator_rotseepark
-      alias: Prüfe den Parameter warmwater_temperature Normabweichung (nicht während
-        der TDI)
+          value_template: '{{state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')[''warmwater_operation_mode_string'']
+            != "Automatik" }}'
+        then:
+        - data:
+            title: 'HA-Alert Heatpump 23: Der Wert warmwater_operation_mode_string
+              hat geändert (ausserhalb TDI)'
+            message: Der neue Wert für warmwater_operation_mode_string ist {{state_attr('sensor.luxtronik_23_param_state',
+              'parameters')['warmwater_operation_mode_string']}}
+          action: notify.administrator_rotseepark
+        alias: Prüfe den Parameter warmwater_operation_mode_string
     - if:
       - condition: and
         conditions:
@@ -1802,18 +1844,6 @@
             'parameters')['heating_operation_mode']}}
         action: notify.administrator_rotseepark
       alias: Prüfe den Parameter heating_operation_mode
-    - if:
-      - condition: template
-        value_template: '{{state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')[''warmwater_operation_mode_string'']
-          != "Automatik" }}'
-      then:
-      - data:
-          title: 'HA-Alert Heatpump 23: Der Wert warmwater_operation_mode_string hat
-            geändert (ausserhalb TDI)'
-          message: Der neue Wert für warmwater_operation_mode_string ist {{state_attr('sensor.luxtronik_23_param_state',
-            'parameters')['warmwater_operation_mode_string']}}
-        action: notify.administrator_rotseepark
-      alias: Prüfe den Parameter warmwater_operation_mode_string
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')[''heating_curve_end_point'']
@@ -1873,40 +1903,46 @@
             'parameters')['returnTemperatureHysteresis']}}
         action: notify.administrator_rotseepark
       alias: Prüfe den Parameter returnTemperatureHysteresis
-    - if:
-      - condition: and
-        conditions:
-        - condition: template
-          value_template: '{{state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')[''temperature_hot_water_target'']
-            != states(''input_number.luxtronik_23_ww_solltemperatur'')|int }}'
+    - alias: Prüfe nur, wenn BPU nicht läuft
+      if:
+      - condition: state
+        entity_id: binary_sensor.luxtronik23_bup
+        state: 'off'
       then:
-      - data:
-          title: 'HA-Alert Heatpump 23: Der Wert temperature_hot_water_target hat
-            geändert'
-          message: Der neue Wert für temperature_hot_water_target ist {{state_attr('sensor.luxtronik_23_param_state',
-            'parameters')['temperature_hot_water_target']}}
-        action: notify.administrator_rotseepark
-      alias: Prüfe den Parameter temperature_hot_water_target (ändert während der
-        TDI)
-    - if:
-      - condition: and
-        conditions:
-        - condition: template
-          value_template: '{{state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')[''temperature_hot_water_target'']
-            != states(''input_number.luxtronik_ww_normaltemperatur'')|int }}'
-        - condition: state
-          entity_id: schedule.luxtronik_zeitplan_tdi_haus_23
-          state: 'off'
-          enabled: true
-      then:
-      - data:
-          title: 'HA-Alert Heatpump 23: Der Wert temperature_hot_water_target hat
-            geändert (während TDI)'
-          message: Der neue Wert für temperature_hot_water_target ist {{state_attr('sensor.luxtronik_23_param_state',
-            'parameters')['temperature_hot_water_target']}}
-        action: notify.administrator_rotseepark
-      alias: Prüfe den Parameter temperature_hot_water_target Normabweichung  (ausserhalb
-        der TDI)
+      - if:
+        - condition: and
+          conditions:
+          - condition: template
+            value_template: '{{state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')[''temperature_hot_water_target'']
+              != states(''input_number.luxtronik_23_ww_solltemperatur'')|int }}'
+        then:
+        - data:
+            title: 'HA-Alert Heatpump 23: Der Wert temperature_hot_water_target hat
+              geändert'
+            message: Der neue Wert für temperature_hot_water_target ist {{state_attr('sensor.luxtronik_23_param_state',
+              'parameters')['temperature_hot_water_target']}}
+          action: notify.administrator_rotseepark
+        alias: Prüfe den Parameter temperature_hot_water_target (ändert während der
+          TDI)
+      - if:
+        - condition: and
+          conditions:
+          - condition: template
+            value_template: '{{state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')[''temperature_hot_water_target'']
+              != states(''input_number.luxtronik_ww_normaltemperatur'')|int }}'
+          - condition: state
+            entity_id: schedule.luxtronik_zeitplan_tdi_haus_23
+            state: 'off'
+            enabled: true
+        then:
+        - data:
+            title: 'HA-Alert Heatpump 23: Der Wert temperature_hot_water_target hat
+              geändert (während TDI)'
+            message: Der neue Wert für temperature_hot_water_target ist {{state_attr('sensor.luxtronik_23_param_state',
+              'parameters')['temperature_hot_water_target']}}
+          action: notify.administrator_rotseepark
+        alias: Prüfe den Parameter temperature_hot_water_target Normabweichung  (ausserhalb
+          der TDI)
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_23_param_state'', ''parameters'')[''thresholdHeatingLimit'']
@@ -2500,40 +2536,58 @@
             'parameters')['heating_temperature']}}
         action: notify.administrator_rotseepark
       alias: Prüfe den Parameter heating_temperature
-    - if:
-      - condition: and
-        conditions:
-        - condition: template
-          value_template: "{{state_attr('sensor.luxtronik_25_param_state', 'parameters')['warmwater_temperature']
-            \n!= states('input_number.luxtronik_25_ww_solltemperatur')|int \n    and
-            (state_attr('automation.schalte_ww_setze_ww_solltemperatur_haus_25_bei_anderung','current')|int
-            == 0) \n}}"
+    - alias: Prüfe nur, wenn BPU nicht läuft
+      if:
+      - condition: state
+        entity_id: binary_sensor.luxtronik25_bup
+        state: 'off'
       then:
-      - data:
-          title: 'HA-Alert Heatpump 25: Der Wert warmwater_temperature hat geändert'
-          message: Der neue Wert für warmwater_temperature ist {{state_attr('sensor.luxtronik_25_param_state',
-            'parameters')['warmwater_temperature']}}
-        action: notify.administrator_rotseepark
-      alias: Prüfe den Parameter warmwater_temperature (ändert während der TDI)
-    - if:
-      - condition: and
-        conditions:
+      - if:
+        - condition: and
+          conditions:
+          - condition: template
+            value_template: "{{state_attr('sensor.luxtronik_25_param_state', 'parameters')['warmwater_temperature']
+              \n!= states('input_number.luxtronik_25_ww_solltemperatur')|int \n    and
+              (state_attr('automation.schalte_ww_setze_ww_solltemperatur_haus_25_bei_anderung','current')|int
+              == 0) \n}}"
+        then:
+        - data:
+            title: 'HA-Alert Heatpump 25: Der Wert warmwater_temperature hat geändert'
+            message: Der neue Wert für warmwater_temperature ist {{state_attr('sensor.luxtronik_25_param_state',
+              'parameters')['warmwater_temperature']}}
+          action: notify.administrator_rotseepark
+        alias: Prüfe den Parameter warmwater_temperature (ändert während der TDI)
+      - if:
+        - condition: and
+          conditions:
+          - condition: template
+            value_template: '{{state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')[''warmwater_temperature'']
+              != states(''input_number.luxtronik_ww_normaltemperatur'')|int }}'
+          - condition: state
+            entity_id: schedule.luxtronik_zeitplan_tdi_haus_25
+            state: 'off'
+            enabled: true
+        then:
+        - data:
+            title: 'HA-Alert Heatpump 25: Der Wert warmwater_temperature hat geändert
+              (während TDI)'
+            message: Der neue Wert für warmwater_temperature ist {{state_attr('sensor.luxtronik_25_param_state',
+              'parameters')['warmwater_temperature']}}
+          action: notify.administrator_rotseepark
+        alias: Prüfe den Parameter warmwater_temperature Normabweichung (nicht während
+          der TDI)
+      - if:
         - condition: template
-          value_template: '{{state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')[''warmwater_temperature'']
-            != states(''input_number.luxtronik_ww_normaltemperatur'')|int }}'
-        - condition: state
-          entity_id: schedule.luxtronik_zeitplan_tdi_haus_25
-          state: 'off'
-          enabled: true
-      then:
-      - data:
-          title: 'HA-Alert Heatpump 25: Der Wert warmwater_temperature hat geändert
-            (während TDI)'
-          message: Der neue Wert für warmwater_temperature ist {{state_attr('sensor.luxtronik_25_param_state',
-            'parameters')['warmwater_temperature']}}
-        action: notify.administrator_rotseepark
-      alias: Prüfe den Parameter warmwater_temperature Normabweichung (nicht während
-        der TDI)
+          value_template: '{{state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')[''warmwater_operation_mode_string'']
+            != "Automatik" }}'
+        then:
+        - data:
+            title: 'HA-Alert Heatpump 25: Der Wert warmwater_operation_mode_string
+              hat geändert (ausserhalb TDI)'
+            message: Der neue Wert für warmwater_operation_mode_string ist {{state_attr('sensor.luxtronik_25_param_state',
+              'parameters')['warmwater_operation_mode_string']}}
+          action: notify.administrator_rotseepark
+        alias: Prüfe den Parameter warmwater_operation_mode_string
     - if:
       - condition: and
         conditions:
@@ -2547,18 +2601,6 @@
             'parameters')['heating_operation_mode']}}
         action: notify.administrator_rotseepark
       alias: Prüfe den Parameter heating_operation_mode
-    - if:
-      - condition: template
-        value_template: '{{state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')[''warmwater_operation_mode_string'']
-          != "Automatik" }}'
-      then:
-      - data:
-          title: 'HA-Alert Heatpump 25: Der Wert warmwater_operation_mode_string hat
-            geändert (ausserhalb TDI)'
-          message: Der neue Wert für warmwater_operation_mode_string ist {{state_attr('sensor.luxtronik_25_param_state',
-            'parameters')['warmwater_operation_mode_string']}}
-        action: notify.administrator_rotseepark
-      alias: Prüfe den Parameter warmwater_operation_mode_string
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')[''heating_curve_end_point'']
@@ -2618,40 +2660,46 @@
             'parameters')['returnTemperatureHysteresis']}}
         action: notify.administrator_rotseepark
       alias: Prüfe den Parameter returnTemperatureHysteresis
-    - if:
-      - condition: and
-        conditions:
-        - condition: template
-          value_template: '{{state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')[''temperature_hot_water_target'']
-            != states(''input_number.luxtronik_25_ww_solltemperatur'')|int }}'
+    - alias: Prüfe nur, wenn BPU nicht läuft
+      if:
+      - condition: state
+        entity_id: binary_sensor.luxtronik25_bup
+        state: 'off'
       then:
-      - data:
-          title: 'HA-Alert Heatpump 25: Der Wert temperature_hot_water_target hat
-            geändert'
-          message: Der neue Wert für temperature_hot_water_target ist {{state_attr('sensor.luxtronik_25_param_state',
-            'parameters')['temperature_hot_water_target']}}
-        action: notify.administrator_rotseepark
-      alias: Prüfe den Parameter temperature_hot_water_target (ändert während der
-        TDI)
-    - if:
-      - condition: and
-        conditions:
-        - condition: template
-          value_template: '{{state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')[''temperature_hot_water_target'']
-            != states(''input_number.luxtronik_ww_normaltemperatur'')|int }}'
-        - condition: state
-          entity_id: schedule.luxtronik_zeitplan_tdi_haus_25
-          state: 'off'
-          enabled: true
-      then:
-      - data:
-          title: 'HA-Alert Heatpump 25: Der Wert temperature_hot_water_target hat
-            geändert (während TDI)'
-          message: Der neue Wert für temperature_hot_water_target ist {{state_attr('sensor.luxtronik_25_param_state',
-            'parameters')['temperature_hot_water_target']}}
-        action: notify.administrator_rotseepark
-      alias: Prüfe den Parameter temperature_hot_water_target Normabweichung  (ausserhalb
-        der TDI)
+      - if:
+        - condition: and
+          conditions:
+          - condition: template
+            value_template: '{{state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')[''temperature_hot_water_target'']
+              != states(''input_number.luxtronik_25_ww_solltemperatur'')|int }}'
+        then:
+        - data:
+            title: 'HA-Alert Heatpump 25: Der Wert temperature_hot_water_target hat
+              geändert'
+            message: Der neue Wert für temperature_hot_water_target ist {{state_attr('sensor.luxtronik_25_param_state',
+              'parameters')['temperature_hot_water_target']}}
+          action: notify.administrator_rotseepark
+        alias: Prüfe den Parameter temperature_hot_water_target (ändert während der
+          TDI)
+      - if:
+        - condition: and
+          conditions:
+          - condition: template
+            value_template: '{{state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')[''temperature_hot_water_target'']
+              != states(''input_number.luxtronik_ww_normaltemperatur'')|int }}'
+          - condition: state
+            entity_id: schedule.luxtronik_zeitplan_tdi_haus_25
+            state: 'off'
+            enabled: true
+        then:
+        - data:
+            title: 'HA-Alert Heatpump 25: Der Wert temperature_hot_water_target hat
+              geändert (während TDI)'
+            message: Der neue Wert für temperature_hot_water_target ist {{state_attr('sensor.luxtronik_25_param_state',
+              'parameters')['temperature_hot_water_target']}}
+          action: notify.administrator_rotseepark
+        alias: Prüfe den Parameter temperature_hot_water_target Normabweichung  (ausserhalb
+          der TDI)
     - if:
       - condition: template
         value_template: '{{state_attr(''sensor.luxtronik_25_param_state'', ''parameters'')[''thresholdHeatingLimit'']
@@ -4095,7 +4143,7 @@
     enabled: false
   mode: single
 - id: '1676530127632'
-  alias: Schalte WW - Produziere Warmwasser (Sonnenmodus moderat)
+  alias: Schalte WW - Produziere Warmwasser (Sonnenmodus moderat) - April & September
   description: ''
   triggers:
   - alias: Time Pattern Trigger 9 Uhr alle 20 Minuten
@@ -4123,6 +4171,27 @@
     alias: Time Pattern Trigger 14 Uhr alle 20 Minuten
     trigger: time_pattern
   conditions:
+  - alias: Prüfung im April und September
+    condition: template
+    value_template: "{{ true if ( \n  (    (now().month == 4 ) \n    or (now().month
+      == 9 ) \n  ) \n) else false }}"
+  - condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+    alias: Montag bis Samstag
+  - condition: template
+    value_template: "{{ true if ( \n  ((now().month <= 4) and (now().hour < 14) or
+      (now().month > 4)) \n) else false }}"
+    alias: Bis und mit April ist der Sonnenmodus bis maximal 14:00 aktiv
+  - condition: template
+    value_template: "{{ true if ( \n  ((now().month >= 9) and (now().hour < 15) or
+      (now().month < 9)) \n) else false }}"
+    alias: Ab September ist der Sonnenmodus bis maximal 15:00 aktiv
   - alias: Nur wenn die Sonne schon 3 Stunden oben ist und noch mindestens 4 Stunden
       scheint
     condition: sun
@@ -4145,47 +4214,28 @@
     above: 25
     alias: Nur wenn der Produktion Forecast für die nächste Stunde mindestens 25 kWh
       ist
-    enabled: true
+    enabled: false
   - alias: Nur wenn der Produktion Forecast für den Rest des Tages mindestens 100
       kWh ist
     condition: numeric_state
     entity_id: sensor.forecast_solar_production_today_remaining
     above: 100
-    enabled: true
-  - condition: time
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
-    - sat
-    alias: Montag bis Samstag
-  - alias: Prüfung vom 1. März bis zum 30. April sowie 16. September bis 15. Oktober
-    condition: template
-    value_template: "{{ true if ( \n  (    (now().month >= 3 and now().month <= 4)
-      \n    or (now().month == 9 and now().day > 15) \n    or (now().month == 10 and
-      now().day <= 15)\n  ) \n) else false }}"
-  - condition: template
-    value_template: "{{ true if ( \n  ((now().month <= 4) and (now().hour < 14) or
-      (now().month > 4)) \n) else false }}"
-    alias: Bis und mit April ist der Sonnenmodus bis maximal 14:00 aktiv
+    enabled: false
   - condition: template
     value_template: "{{ true if ( \n  ((now().month <= 5) and (now().hour < 15) or
       (now().month > 5)) \n) else false }}"
     alias: Bis und mit Mai ist der Sonnenmodus bis maximal 15:00 aktiv
+    enabled: false
   - condition: template
     value_template: "{{ true if ( \n  ((now().month <= 8) and (now().hour < 16) or
       (now().month > 8)) \n) else false }}"
     alias: Bis und mit August ist der Sonnenmodus bis maximal 16:00 aktiv
-  - condition: template
-    value_template: "{{ true if ( \n  ((now().month >= 9) and (now().hour < 15) or
-      (now().month < 9)) \n) else false }}"
-    alias: Ab September ist der Sonnenmodus bis maximal 15:00 aktiv
+    enabled: false
   - condition: template
     value_template: "{{ true if ( \n  ((now().month >= 10) and (now().hour < 14) or
       (now().month < 10)) \n) else false }}"
     alias: Ab Oktober ist der Sonnenmodus bis maximal 14:00 aktiv
+    enabled: false
   actions:
   - choose:
     - conditions:
@@ -4669,6 +4719,7 @@
           heatpump: 19
           value: '{{ states(''input_number.luxtronik_19_ww_hysterese'')|int }}'
         action: script.schalte_warmwasser_hysterese
+        continue_on_error: true
       - delay:
           hours: 0
           minutes: 2
@@ -4728,6 +4779,7 @@
           heatpump: 21
           value: '{{ states(''input_number.luxtronik_21_ww_hysterese'')|int }}'
         action: script.schalte_warmwasser_hysterese
+        continue_on_error: true
       - delay:
           hours: 0
           minutes: 2
@@ -4787,6 +4839,7 @@
           heatpump: 23
           value: '{{ states(''input_number.luxtronik_23_ww_hysterese'')|int }}'
         action: script.schalte_warmwasser_hysterese
+        continue_on_error: true
       - delay:
           hours: 0
           minutes: 2
@@ -4846,6 +4899,7 @@
           heatpump: 25
           value: '{{ states(''input_number.luxtronik_25_ww_hysterese'')|int }}'
         action: script.schalte_warmwasser_hysterese
+        continue_on_error: true
       - delay:
           hours: 0
           minutes: 2
@@ -4905,6 +4959,7 @@
           heatpump: 19
           value: '{{ states(''input_number.luxtronik_19_ww_solltemperatur'')|int }}'
         action: script.schalte_warmwasser_zieltemperatur
+        continue_on_error: true
       - delay:
           hours: 0
           minutes: 2
@@ -4914,6 +4969,7 @@
         target:
           entity_id: sensor.luxtronik_19_param_state
         action: homeassistant.update_entity
+        continue_on_error: true
       - delay:
           hours: 0
           minutes: 2
@@ -4955,7 +5011,8 @@
     trigger: state
   conditions: []
   actions:
-  - repeat:
+  - alias: Wiederhole, bis Parameter Warmwasser Solltemperatur gesetzt werden konnte
+    repeat:
       while:
       - condition: and
         conditions:
@@ -4970,6 +5027,7 @@
           heatpump: 21
           value: '{{ states(''input_number.luxtronik_21_ww_solltemperatur'')|int }}'
         action: script.schalte_warmwasser_zieltemperatur
+        continue_on_error: true
       - delay:
           hours: 0
           minutes: 2
@@ -4979,12 +5037,12 @@
         target:
           entity_id: sensor.luxtronik_21_param_state
         action: homeassistant.update_entity
+        continue_on_error: true
       - delay:
           hours: 0
           minutes: 2
           seconds: 0
           milliseconds: 0
-    alias: Wiederhole, bis Parameter Warmwasser Solltemperatur gesetzt werden konnte
   - if:
     - condition: template
       alias: NOT Parameter Warmwasser Solltemperatur gesetzt
@@ -5035,6 +5093,7 @@
           heatpump: 23
           value: '{{ states(''input_number.luxtronik_23_ww_solltemperatur'')|int }}'
         action: script.schalte_warmwasser_zieltemperatur
+        continue_on_error: true
       - delay:
           hours: 0
           minutes: 2
@@ -5044,6 +5103,7 @@
         target:
           entity_id: sensor.luxtronik_23_param_state
         action: homeassistant.update_entity
+        continue_on_error: true
       - delay:
           hours: 0
           minutes: 2
@@ -5100,6 +5160,7 @@
           heatpump: 25
           value: '{{ states(''input_number.luxtronik_25_ww_solltemperatur'')|int }}'
         action: script.schalte_warmwasser_zieltemperatur
+        continue_on_error: true
       - delay:
           hours: 0
           minutes: 2
@@ -5109,6 +5170,7 @@
         target:
           entity_id: sensor.luxtronik_25_param_state
         action: homeassistant.update_entity
+        continue_on_error: true
       - delay:
           hours: 0
           minutes: 2
@@ -5430,7 +5492,7 @@
       werden konnte
   mode: single
 - id: '1684861404540'
-  alias: Schalte WW - Produziere Warmwasser (Nachtmodus)
+  alias: Schalte WW - Produziere Warmwasser (Nachtmodus) - April bis September
   description: ''
   triggers:
   - alias: Time Pattern Trigger 22 Uhr alle 10 Minuten
@@ -5458,6 +5520,10 @@
     minutes: /10
     trigger: time_pattern
   conditions:
+  - condition: template
+    value_template: "{{ true if ( \n  ((now().month >= 4 and now().month <= 9)) \n)
+      else false }}"
+    alias: Gültig vom April bis September
   - condition: time
     weekday:
     - mon
@@ -6290,59 +6356,21 @@
   alias: Monitoring Netatmo Keller Feuchtigkeit, Temperatur, Batterie
   description: ''
   triggers:
-  - hours: /4
+  - hours: /1
     trigger: time_pattern
-  - entity_id: sensor.netatmo_keller_gang_humidity
-    above: 62
-    trigger: numeric_state
-  - entity_id: sensor.netatmo_keller_buhler_humidity
-    above: 60
-    trigger: numeric_state
-  - entity_id: sensor.netatmo_keller_gang_humidity
-    below: 50
-    trigger: numeric_state
-  - entity_id: sensor.netatmo_keller_buhler_humidity
-    below: 50
-    trigger: numeric_state
-  - entity_id: sensor.netatmo_keller_gang_temperature
-    above: 22
-    trigger: numeric_state
-  - entity_id: sensor.netatmo_keller_buhler_temperature
-    above: 22
-    trigger: numeric_state
-  - entity_id:
-    - sensor.netatmo_keller_gang_temperature
-    below: 9
-    trigger: numeric_state
-  - entity_id:
-    - sensor.netatmo_keller_buhler_temperature
-    below: 9
-    trigger: numeric_state
-  - entity_id: sensor.netatmo_keller_gang_absolute_feuchte
-    above: 11
-    trigger: numeric_state
-  - entity_id: sensor.netatmo_keller_buhler_absolute_feuchte
-    above: 11
-    trigger: numeric_state
-  - entity_id: sensor.netatmo_keller_gang_absolute_feuchte
-    below: 4
-    trigger: numeric_state
-  - entity_id: sensor.netatmo_keller_buhler_absolute_feuchte
-    below: 4
-    trigger: numeric_state
   conditions: []
   actions:
-  - alias: Prüfen ob Abweichungen in den Soll Werten Temperatur, Feuchte und Batterie
-      -> dann Mitteilung
+  - alias: Prüfen ob Abweichungen in den Soll Werten Temperatur und Feuchte -> dann
+      Mitteilung
     if:
     - condition: or
       conditions:
       - condition: numeric_state
         entity_id: sensor.netatmo_keller_gang_humidity
-        below: 50
+        below: 45
       - condition: numeric_state
         entity_id: sensor.netatmo_keller_buhler_humidity
-        below: 50
+        below: 45
       - condition: numeric_state
         entity_id: sensor.netatmo_keller_gang_humidity
         above: 62
@@ -6373,19 +6401,13 @@
       - condition: numeric_state
         entity_id: sensor.netatmo_keller_buhler_absolute_feuchte
         above: 11
-      - condition: numeric_state
-        entity_id: sensor.netatmo_keller_gang_battery_percent
-        below: 10
-      - condition: numeric_state
-        entity_id: sensor.netatmo_outdoor_battery_percent
-        below: 10
     then:
     - data:
-        title: 'HA-Alert Kellerräume: Netatmo Keller prüfen'
+        title: 'HA-Alert Kellerräume: Luftfeuchtigkeit Keller prüfen'
         message: 'IST-Werte sind ... (Outdoor ist nicht geprüft)
 
 
-          Relative Feuchte ... (50 - 60 % (Bühler) 62 % (Gang) rfH)
+          Relative Feuchte ... (45 - 60 % (Bühler) 62 % (Gang) rfH)
 
           Gang    - {{ states(''sensor.netatmo_keller_gang_humidity'') }} % rfH
 
@@ -6411,11 +6433,7 @@
 
           Outdoor - {{ states(''sensor.netatmo_outdoor_absolute_feuchte'') }} g/m³
 
-          Batteriezustand ... (10% - 90%)
-
-          Gang    - {{ states(''sensor.netatmo_keller_gang_battery_percent'') }}%
-
-          Outdoor - {{ states(''sensor.netatmo_outdoor_battery_percent'') }}%  '
+          '
       action: notify.administrator_rotseepark
   - alias: Prüfen ob absolute Feuchte draussen höher ist als innen -> dann Mitteilung
     if:
@@ -6453,6 +6471,49 @@
           Stunde  - {{ now().hour }}'
       action: notify.administrator_rotseepark
     alias: Prüfen ob Lüftung zu wenig Lärm macht -> dann Mitteilung
+    enabled: false
+  - alias: Prüfen ob Lüftung zu wenig Strom verbraucht -> dann Mitteilung
+    if:
+    - condition: template
+      value_template: "{{ \n  (\n   (now().hour > 22 or now().hour < 8)\n   and states('sensor.gplugde_haus_21_luftung_meter_wirkleistung_cons_w')|float
+        < 4000\n  )\n  or\n  (\n   (now().hour > 1 and now().hour < 6)\n   and states('sensor.gplugde_haus_21_luftung_meter_wirkleistung_cons_w')|float
+        < 15000\n  )\n}}"
+    then:
+    - data:
+        title: 'HA-Alert Kellerräume: Stromverbrauch der Lüftung ist zu tief (läuft
+          sie nicht?)'
+        message: 'Lärmpegel ... (mindestens 4500 oder 15000 W)
+
+          gPlugDE  - {{ states(''sensor.gplugde_haus_21_luftung_meter_wirkleistung_cons_w'')
+          }} W
+
+          Stunde  - {{ now().hour }}'
+      action: notify.administrator_rotseepark
+  - alias: Prüfen ob Abweichungen in den Soll Werten Batterie -> dann Mitteilung
+    if:
+    - condition: and
+      conditions:
+      - condition: template
+        value_template: "{{ \n  (\n   (now().hour == 8)\n  )\n}}"
+        alias: Wenn es 8 Uhr ist
+      - condition: or
+        conditions:
+        - condition: numeric_state
+          entity_id: sensor.netatmo_keller_gang_battery_percent
+          below: 10
+        - condition: numeric_state
+          entity_id: sensor.netatmo_outdoor_battery_percent
+          below: 10
+      alias: 8 Uhr und Batterie und 10
+    then:
+    - data:
+        title: 'HA-Alert Kellerräume: Netatmo Batterie Keller prüfen'
+        message: 'Batteriezustand ... (10% - 90%)
+
+          Gang    - {{ states(''sensor.netatmo_keller_gang_battery_percent'') }}%
+
+          Outdoor - {{ states(''sensor.netatmo_outdoor_battery_percent'') }}%  '
+      action: notify.administrator_rotseepark
   mode: single
 - id: '1692770037460'
   alias: Monitoring Heatpump 21 - Brauchwasser Erzeugung Energie Verbrauch
@@ -6585,7 +6646,7 @@
     - variables:
         bup_ende: '{{ now() }}'
     - variables:
-        pumpen_kw: '{{  (  ( 2300/1000/60* ( strptime(bup_ende, ''%Y-%m-%d %H:%M:%S.%f%z'').timestamp()  -
+        pumpen_kw: '{{  (  ( 1000/1000/60* ( strptime(bup_ende, ''%Y-%m-%d %H:%M:%S.%f%z'').timestamp()  -
           strptime(bup_start, ''%Y-%m-%d %H:%M:%S.%f%z'').timestamp() )/60 )|round(1)  )
           }}'
       alias: Variablen pumpen_kw definieren (Hochrechnung kW Bedarf der Pumpen)
@@ -6665,7 +6726,9 @@
         entity_id: input_number.bwm21_variable_tvl_60_watt
       action: input_number.set_value
     - data:
-        title: 'HA-Info Heatpump 21: Die Boiler Ladung ist beendet'
+        title: 'HA-Info Heatpump 21: Die Boiler Ladung ist beendet in: ({{  ((as_timestamp(bup_ende)
+          - as_timestamp(bup_start)) / 3600) | int }}:{{  (((as_timestamp(bup_ende)
+          - as_timestamp(bup_start)) % 3600) / 60) | int | format(''%02d'')  }})'
         message: "*** Ablaufzeiten ***\nBUP Start   - {{ bup_start }} \nBTW Low End
           - {{ btw_low_ende }} \nBUP End     - {{ bup_ende }} \nGWF End     - {{ gwf_ende
           }} \n*** Low Temperatur ermitteln ***\nBTW Low     - {{ btw_low }} Tiefpunkt
@@ -6837,7 +6900,7 @@
     - variables:
         bup_ende: '{{ now() }}'
     - variables:
-        pumpen_kw: '{{  (  ( 2300/1000/60* ( strptime(bup_ende, ''%Y-%m-%d %H:%M:%S.%f%z'').timestamp()  -
+        pumpen_kw: '{{  (  ( 1000/1000/60* ( strptime(bup_ende, ''%Y-%m-%d %H:%M:%S.%f%z'').timestamp()  -
           strptime(bup_start, ''%Y-%m-%d %H:%M:%S.%f%z'').timestamp() )/60 )|round(1)  )
           }}'
       alias: Variablen pumpen_kw definieren (Hochrechnung kW Bedarf der Pumpen)
@@ -6917,7 +6980,9 @@
         entity_id: input_number.bwm25_variable_tvl_60_watt
       action: input_number.set_value
     - data:
-        title: 'HA-Info Heatpump 25: Die Boiler Ladung ist beendet'
+        title: 'HA-Info Heatpump 25: Die Boiler Ladung ist beendet in: ({{  ((as_timestamp(bup_ende)
+          - as_timestamp(bup_start)) / 3600) | int }}:{{  (((as_timestamp(bup_ende)
+          - as_timestamp(bup_start)) % 3600) / 60) | int | format(''%02d'')  }})'
         message: "*** Ablaufzeiten ***\nBUP Start   - {{ bup_start }} \nBTW Low End
           - {{ btw_low_ende }} \nBUP End     - {{ bup_ende }} \nGWF End     - {{ gwf_ende
           }} \n*** Low Temperatur ermitteln ***\nBTW Low     - {{ btw_low }} Tiefpunkt
@@ -7078,7 +7143,7 @@
     - variables:
         bup_ende: '{{ now() }}'
     - variables:
-        pumpen_kw: '{{  (  ( 2300/1000/60* ( strptime(bup_ende, ''%Y-%m-%d %H:%M:%S.%f%z'').timestamp()  -
+        pumpen_kw: '{{  (  ( 1000/1000/60* ( strptime(bup_ende, ''%Y-%m-%d %H:%M:%S.%f%z'').timestamp()  -
           strptime(bup_start, ''%Y-%m-%d %H:%M:%S.%f%z'').timestamp() )/60 )|round(1)  )
           }}'
       alias: Variablen pumpen_kw definieren (Hochrechnung kW Bedarf der Pumpen)
@@ -7158,7 +7223,9 @@
         entity_id: input_number.bwm19_variable_tvl_60_watt
       action: input_number.set_value
     - data:
-        title: 'HA-Info Heatpump 19: Die Boiler Ladung ist beendet'
+        title: 'HA-Info Heatpump 19: Die Boiler Ladung ist beendet in: ({{  ((as_timestamp(bup_ende)
+          - as_timestamp(bup_start)) / 3600) | int }}:{{  (((as_timestamp(bup_ende)
+          - as_timestamp(bup_start)) % 3600) / 60) | int | format(''%02d'')  }})'
         message: "*** Ablaufzeiten ***\nBUP Start   - {{ bup_start }} \nBTW Low End
           - {{ btw_low_ende }} \nBUP End     - {{ bup_ende }} \nGWF End     - {{ gwf_ende
           }} \n*** Low Temperatur ermitteln ***\nBTW Low     - {{ btw_low }} Tiefpunkt
@@ -7319,7 +7386,7 @@
     - variables:
         bup_ende: '{{ now() }}'
     - variables:
-        pumpen_kw: '{{  (  ( 2300/1000/60* ( strptime(bup_ende, ''%Y-%m-%d %H:%M:%S.%f%z'').timestamp()  -
+        pumpen_kw: '{{  (  ( 1000/1000/60* ( strptime(bup_ende, ''%Y-%m-%d %H:%M:%S.%f%z'').timestamp()  -
           strptime(bup_start, ''%Y-%m-%d %H:%M:%S.%f%z'').timestamp() )/60 )|round(1)  )
           }}'
       alias: Variablen pumpen_kw definieren (Hochrechnung kW Bedarf der Pumpen)
@@ -7399,7 +7466,9 @@
         entity_id: input_number.bwm23_variable_tvl_60_watt
       action: input_number.set_value
     - data:
-        title: 'HA-Info Heatpump 23: Die Boiler Ladung ist beendet'
+        title: 'HA-Info Heatpump 23: Die Boiler Ladung ist beendet in: ({{  ((as_timestamp(bup_ende)
+          - as_timestamp(bup_start)) / 3600) | int }}:{{  (((as_timestamp(bup_ende)
+          - as_timestamp(bup_start)) % 3600) / 60) | int | format(''%02d'')  }})'
         message: "*** Ablaufzeiten ***\nBUP Start   - {{ bup_start }} \nBTW Low End
           - {{ btw_low_ende }} \nBUP End     - {{ bup_ende }} \nGWF End     - {{ gwf_ende
           }} \n*** Low Temperatur ermitteln ***\nBTW Low     - {{ btw_low }} Tiefpunkt
@@ -7899,99 +7968,6 @@
     alias: Secomat 25.2 prüfen
   mode: queued
   max: 3
-- id: '1696751469026'
-  alias: Transferiere Luxtronik DTA Dateien
-  description: ''
-  triggers:
-  - hours: '6'
-    trigger: time_pattern
-  conditions:
-  - condition: time
-    weekday:
-    - sun
-    enabled: true
-  actions:
-  - data: {}
-    response_variable: scriptanswer
-    action: shell_command.luxtronik19_to_ha
-    enabled: true
-  - if:
-    - condition: template
-      value_template: '{{ scriptanswer[''stdout''] | regex_search(''Return:0-0-0-0-[0-9]*'')
-        }}'
-    then:
-    - data:
-        message: '{{scriptanswer[''stdout'']}}'
-        title: HA-Info Heatpump 19 - Dateien gesichert mit {{ (scriptanswer['stdout']
-          | regex_findall('Return:[0]-[0]-[0]-[0]-[0-9]*'))[0] }}
-      action: notify.administrator_rotseepark
-    else:
-    - data:
-        message: '{{scriptanswer[''stdout'']}}'
-        title: HA-Alert Heatpump 19 - Dateien sichern FEHLGESCHLAGEN mit {{ (scriptanswer['stdout']
-          | regex_findall('Return:[0-9]*-[0-9]*-[0-9]*-[0-9]*-[0-9]*'))[0] }}
-      action: notify.administrator_rotseepark
-    enabled: true
-  - data: {}
-    response_variable: scriptanswer
-    action: shell_command.luxtronik21_to_ha
-  - if:
-    - condition: template
-      value_template: '{{ scriptanswer[''stdout''] | regex_search(''Return:0-0-0-0-[0-9]*'')
-        }}'
-    then:
-    - data:
-        message: '{{scriptanswer[''stdout'']}}'
-        title: HA-Info Heatpump 21 - Dateien gesichert mit {{ (scriptanswer['stdout']
-          | regex_findall('Return:[0]-[0]-[0]-[0]-[0-9]*'))[0] }}
-      action: notify.administrator_rotseepark
-    else:
-    - data:
-        message: '{{scriptanswer[''stdout'']}}'
-        title: HA-Alert Heatpump 21 - Dateien sichern FEHLGESCHLAGEN mit {{ (scriptanswer['stdout']
-          | regex_findall('Return:[0-9]*-[0-9]*-[0-9]*-[0-9]*-[0-9]*'))[0] }}
-      action: notify.administrator_rotseepark
-  - data: {}
-    response_variable: scriptanswer
-    action: shell_command.luxtronik23_to_ha
-  - if:
-    - condition: template
-      value_template: '{{ scriptanswer[''stdout''] | regex_search(''Return:0-0-0-0-[0-9]*'')
-        }}'
-    then:
-    - data:
-        message: '{{scriptanswer[''stdout'']}}'
-        title: HA-Info Heatpump 23 - Dateien gesichert mit {{ (scriptanswer['stdout']
-          | regex_findall('Return:[0]-[0]-[0]-[0]-[0-9]*'))[0] }}
-      action: notify.administrator_rotseepark
-    else:
-    - data:
-        message: '{{scriptanswer[''stdout'']}}'
-        title: HA-Alert Heatpump 23 - Dateien sichern FEHLGESCHLAGEN mit {{ (scriptanswer['stdout']
-          | regex_findall('Return:[0-9]*-[0-9]*-[0-9]*-[0-9]*-[0-9]*'))[0] }}
-      action: notify.administrator_rotseepark
-  - data: {}
-    response_variable: scriptanswer
-    action: shell_command.luxtronik25_to_ha
-    enabled: true
-  - if:
-    - condition: template
-      value_template: '{{ scriptanswer[''stdout''] | regex_search(''Return:0-0-0-0-[0-9]*'')
-        }}'
-    then:
-    - data:
-        message: '{{scriptanswer[''stdout'']}}'
-        title: HA-Info Heatpump 25 - Dateien gesichert mit {{ (scriptanswer['stdout']
-          | regex_findall('Return:[0]-[0]-[0]-[0]-[0-9]*'))[0] }}
-      action: notify.administrator_rotseepark
-    else:
-    - data:
-        message: '{{scriptanswer[''stdout'']}}'
-        title: HA-Alert Heatpump 25 - Dateien sichern FEHLGESCHLAGEN mit {{ (scriptanswer['stdout']
-          | regex_findall('Return:[0-9]*-[0-9]*-[0-9]*-[0-9]*-[0-9]*'))[0] }}
-      action: notify.administrator_rotseepark
-    enabled: true
-  mode: single
 - id: '1697293788781'
   alias: Schalte WW - Bei drohender Sperrzeit auf Party schalten
   description: 'Diese Automation verwendet den Zeitplan Sperrzeit, welche die Brauchwasser
@@ -8315,6 +8291,7 @@
           heatpump: 19
           value: '{{ states(''input_select.luxtronik_19_ww_operation_mode'')|int }}'
         action: script.schalte_warmwasser_operation_mode
+        continue_on_error: true
       - delay:
           hours: 0
           minutes: 2
@@ -8324,6 +8301,7 @@
         target:
           entity_id: sensor.luxtronik_19_param_state
         action: homeassistant.update_entity
+        continue_on_error: true
       - delay:
           hours: 0
           minutes: 2
@@ -8407,6 +8385,7 @@
           heatpump: 21
           value: '{{ states(''input_select.luxtronik_21_ww_operation_mode'')|int }}'
         action: script.schalte_warmwasser_operation_mode
+        continue_on_error: true
       - delay:
           hours: 0
           minutes: 2
@@ -8416,6 +8395,7 @@
         target:
           entity_id: sensor.luxtronik_21_param_state
         action: homeassistant.update_entity
+        continue_on_error: true
       - delay:
           hours: 0
           minutes: 2
@@ -8499,6 +8479,7 @@
           heatpump: 23
           value: '{{ states(''input_select.luxtronik_23_ww_operation_mode'')|int }}'
         action: script.schalte_warmwasser_operation_mode
+        continue_on_error: true
       - delay:
           hours: 0
           minutes: 2
@@ -8508,6 +8489,7 @@
         target:
           entity_id: sensor.luxtronik_23_param_state
         action: homeassistant.update_entity
+        continue_on_error: true
       - delay:
           hours: 0
           minutes: 2
@@ -8591,6 +8573,7 @@
           heatpump: 25
           value: '{{ states(''input_select.luxtronik_25_ww_operation_mode'')|int }}'
         action: script.schalte_warmwasser_operation_mode
+        continue_on_error: true
       - delay:
           hours: 0
           minutes: 2
@@ -8600,6 +8583,7 @@
         target:
           entity_id: sensor.luxtronik_25_param_state
         action: homeassistant.update_entity
+        continue_on_error: true
       - delay:
           hours: 0
           minutes: 2
@@ -8795,7 +8779,7 @@
       action: notify.administrator_rotseepark
   mode: single
 - id: '1717559263530'
-  alias: Schalte WW - Produziere Warmwasser (Sonnenmodus forciert)
+  alias: Schalte WW - Produziere Warmwasser (Sonnenmodus forciert) - Mai bis August
   description: ''
   triggers:
   - alias: Time Pattern Trigger 9 Uhr alle 20 Minuten
@@ -8823,6 +8807,23 @@
     minutes: /20
     trigger: time_pattern
   conditions:
+  - alias: Gültig nur vom Mai bis zum August
+    condition: template
+    value_template: "{{ true if ( \n  ((now().month >= 5 and now().month <= 8)) \n)
+      else false }}"
+  - condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+    alias: Montag bis Samstag
+  - alias: Gültig nur ab 09:20 Uhr
+    condition: template
+    value_template: "{{ true if ( \n  ((now().hour > 9 ) or (now().hour == 9 and now().minute
+      > 15)) \n) else false }}"
   - alias: Nur wenn die Sonne schon 3 Stunden oben ist und noch mindestens 4 Stunden
       scheint
     condition: sun
@@ -8853,23 +8854,6 @@
     entity_id: sensor.forecast_solar_production_today_remaining
     above: 100
     enabled: false
-  - condition: time
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
-    - sat
-    alias: Montag bis Samstag
-  - alias: Gültig nur vom 1. Mai bis zum 15. September
-    condition: template
-    value_template: "{{ true if ( \n  ((now().month >= 5 and now().month <= 8) or
-      (now().month == 9 and now().day <= 15)) \n) else false }}"
-  - alias: Gültig nur ab 09:20 Uhr
-    condition: template
-    value_template: "{{ true if ( \n  ((now().hour > 9 ) or (now().hour == 9 and now().minute
-      > 15)) \n) else false }}"
   actions:
   - alias: Prüfen welches Haus das tiefste Brauchwasser hat und geladen werden soll
     choose:
@@ -12091,76 +12075,6 @@
     alias: Sende eine Benachrichtigung, wenn die Kühlung Operation Mode nicht gesetzt
       werden konnte
   mode: single
-- id: '1752007755353'
-  alias: Monitoring TA und Schalten Kühlen auf Automatik oder Aus
-  description: ''
-  triggers:
-  - trigger: numeric_state
-    entity_id:
-    - sensor.luxtronik19_ta
-    - sensor.luxtronik21_ta
-    - sensor.luxtronik23_ta
-    - sensor.luxtronik25_ta
-    for:
-      hours: 9
-      minutes: 0
-      seconds: 0
-    above: 18
-  - trigger: numeric_state
-    entity_id:
-    - sensor.luxtronik19_ta
-    - sensor.luxtronik21_ta
-    - sensor.luxtronik23_ta
-    - sensor.luxtronik25_ta
-    for:
-      hours: 12
-      minutes: 0
-      seconds: 0
-    below: 18
-  conditions:
-  - condition: or
-    conditions:
-    - condition: numeric_state
-      entity_id:
-      - sensor.luxtronik19_ta
-      - sensor.luxtronik21_ta
-      - sensor.luxtronik23_ta
-      - sensor.luxtronik25_ta
-      above: 18
-    - condition: numeric_state
-      entity_id:
-      - sensor.luxtronik19_ta
-      - sensor.luxtronik21_ta
-      - sensor.luxtronik23_ta
-      - sensor.luxtronik25_ta
-      below: 18
-  actions:
-  - choose:
-    - conditions:
-      - condition: numeric_state
-        entity_id:
-        - sensor.luxtronik19_ta
-        - sensor.luxtronik21_ta
-        - sensor.luxtronik23_ta
-        - sensor.luxtronik25_ta
-        above: 18
-      sequence:
-      - action: script.kuhlen_an
-        metadata: {}
-        data: {}
-    - conditions:
-      - condition: numeric_state
-        entity_id:
-        - sensor.luxtronik19_ta
-        - sensor.luxtronik21_ta
-        - sensor.luxtronik23_ta
-        - sensor.luxtronik25_ta
-        below: 18
-      sequence:
-      - action: script.kuhlen_aus
-        metadata: {}
-        data: {}
-  mode: single
 - id: '1752209277834'
   alias: Zaptec Überschussladung PP 29
   description: ''
@@ -12549,3 +12463,1243 @@
         alias: Warte 1h bis frühestens das nächste Laden erfolgen kann
   mode: parallel
   max: 10
+- id: '1752818618522'
+  alias: Monitoring TA Minimum und Schalten Kühlen AN (Automatik)
+  description: ''
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - sensor.luxtronik_ta_minimum
+    for:
+      hours: 9
+      minutes: 0
+      seconds: 0
+    above: 18
+  - trigger: numeric_state
+    entity_id:
+    - sensor.luxtronik_ta_minimum
+    for:
+      hours: 8
+      minutes: 0
+      seconds: 0
+    above: 19
+  - trigger: numeric_state
+    entity_id:
+    - sensor.luxtronik_ta_minimum
+    for:
+      hours: 7
+      minutes: 0
+      seconds: 0
+    above: 20
+  - trigger: numeric_state
+    entity_id:
+    - sensor.luxtronik_ta_minimum
+    for:
+      hours: 6
+      minutes: 0
+      seconds: 0
+    above: 21
+  - trigger: numeric_state
+    entity_id:
+    - sensor.luxtronik_ta_minimum
+    for:
+      hours: 5
+      minutes: 0
+      seconds: 0
+    above: 22
+  - trigger: numeric_state
+    entity_id:
+    - sensor.luxtronik_ta_minimum
+    for:
+      hours: 4
+      minutes: 0
+      seconds: 0
+    above: 23
+  conditions:
+  - condition: template
+    value_template: "{{\n  (true if states('input_select.luxtronik_19_cl_operation_mode')|int
+      != states('input_select.luxtronik_operation_mode_automatik_cooling')|int\n        or
+      states('input_select.luxtronik_21_cl_operation_mode')|int != states('input_select.luxtronik_operation_mode_automatik_cooling')|int\n
+      \       or states('input_select.luxtronik_23_cl_operation_mode')|int != states('input_select.luxtronik_operation_mode_automatik_cooling')|int\n
+      \       or states('input_select.luxtronik_25_cl_operation_mode')|int != states('input_select.luxtronik_operation_mode_automatik_cooling')|int\n
+      \       or states('input_select.luxtronik_19_cl_operation_mode')|int != state_attr('sensor.luxtronik_19_param_state','parameters')['cooling_operation_mode']|int
+      \n        or states('input_select.luxtronik_21_cl_operation_mode')|int != state_attr('sensor.luxtronik_21_param_state','parameters')['cooling_operation_mode']|int\n
+      \       or states('input_select.luxtronik_23_cl_operation_mode')|int != state_attr('sensor.luxtronik_23_param_state','parameters')['cooling_operation_mode']|int
+      \n        or states('input_select.luxtronik_25_cl_operation_mode')|int != state_attr('sensor.luxtronik_25_param_state','parameters')['cooling_operation_mode']|int
+      \n   else false)\n}}\n"
+  actions:
+  - action: script.kuhlen_an
+    metadata: {}
+    data: {}
+  mode: single
+- id: '1752818858750'
+  alias: Monitoring TA Maximum und Schalten Kühlen AUS (Aus)
+  description: ''
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - sensor.luxtronik_ta_maximum
+    for:
+      hours: 12
+      minutes: 0
+      seconds: 0
+    below: 18
+  - trigger: numeric_state
+    entity_id:
+    - sensor.luxtronik_ta_maximum
+    for:
+      hours: 11
+      minutes: 0
+      seconds: 0
+    below: 17
+  - trigger: numeric_state
+    entity_id:
+    - sensor.luxtronik_ta_maximum
+    for:
+      hours: 10
+      minutes: 0
+      seconds: 0
+    below: 16
+  - trigger: numeric_state
+    entity_id:
+    - sensor.luxtronik_ta_maximum
+    for:
+      hours: 9
+      minutes: 0
+      seconds: 0
+    below: 15
+  - trigger: numeric_state
+    entity_id:
+    - sensor.luxtronik_ta_maximum
+    for:
+      hours: 8
+      minutes: 0
+      seconds: 0
+    below: 14
+  - trigger: numeric_state
+    entity_id:
+    - sensor.luxtronik_ta_maximum
+    for:
+      hours: 7
+      minutes: 0
+      seconds: 0
+    below: 13
+  conditions:
+  - condition: template
+    value_template: "{{\n  (true if states('input_select.luxtronik_19_cl_operation_mode')|int
+      != states('input_select.luxtronik_operation_mode_aus_cooling')|int\n        or
+      states('input_select.luxtronik_21_cl_operation_mode')|int != states('input_select.luxtronik_operation_mode_aus_cooling')|int\n
+      \       or states('input_select.luxtronik_23_cl_operation_mode')|int != states('input_select.luxtronik_operation_mode_aus_cooling')|int\n
+      \       or states('input_select.luxtronik_25_cl_operation_mode')|int != states('input_select.luxtronik_operation_mode_aus_cooling')|int\n
+      \       or states('input_select.luxtronik_19_cl_operation_mode')|int != state_attr('sensor.luxtronik_19_param_state','parameters')['cooling_operation_mode']|int
+      \n        or states('input_select.luxtronik_21_cl_operation_mode')|int != state_attr('sensor.luxtronik_21_param_state','parameters')['cooling_operation_mode']|int\n
+      \       or states('input_select.luxtronik_23_cl_operation_mode')|int != state_attr('sensor.luxtronik_23_param_state','parameters')['cooling_operation_mode']|int
+      \n        or states('input_select.luxtronik_25_cl_operation_mode')|int != state_attr('sensor.luxtronik_25_param_state','parameters')['cooling_operation_mode']|int
+      \n   else false)\n}}\n"
+  actions:
+  - action: script.kuhlen_aus
+    metadata: {}
+    data: {}
+  mode: single
+- id: '1758050016697'
+  alias: Melde Tür - Öffnung oder Lichtänderung im Heizungsraum
+  description: ''
+  triggers:
+  - type: opened
+    device_id: ee5db3dc21cb64f5f52c1a2408b51429
+    entity_id: f282fa75aa11eeeb32bae2a9e72b25af
+    domain: binary_sensor
+    trigger: device
+    id: hz19_door_opened
+  - type: opened
+    device_id: 5894bb5f418a311b5cbd2cacd0b9b963
+    entity_id: fec6a6f39d1a1b52a0e9cd4d39f07f87
+    domain: binary_sensor
+    trigger: device
+    id: hz21_door_opened
+  - type: opened
+    device_id: 4b5d22ecaa1123a88e6295f349aa48ef
+    entity_id: e44ffe86183663b66c900e64d7cf8438
+    domain: binary_sensor
+    trigger: device
+    id: hz23_door_opened
+  - type: opened
+    device_id: 03fb1f12ba56f4c8af79e1b104ab6cec
+    entity_id: 8a3b05c56f621d9f079940b229ef5d98
+    domain: binary_sensor
+    trigger: device
+    id: hz25_door_opened
+  - type: illuminance
+    device_id: ee5db3dc21cb64f5f52c1a2408b51429
+    entity_id: a0c98edf115e6367b205555ac88379a6
+    domain: sensor
+    trigger: device
+    above: 0
+    for:
+      hours: 2
+      minutes: 0
+      seconds: 0
+    id: hz19_room_light_2h
+  - type: illuminance
+    device_id: 5894bb5f418a311b5cbd2cacd0b9b963
+    entity_id: 3b80ad08a6d36ec9b83d59c343696ee1
+    domain: sensor
+    trigger: device
+    above: 0
+    for:
+      hours: 2
+      minutes: 0
+      seconds: 0
+    id: hz21_room_light_2h
+  - type: illuminance
+    device_id: 4b5d22ecaa1123a88e6295f349aa48ef
+    entity_id: 76e7a656d9e3c697d8049c912336fb60
+    domain: sensor
+    trigger: device
+    above: 0
+    for:
+      hours: 2
+      minutes: 0
+      seconds: 0
+    id: hz23_room_light_2h
+  - type: illuminance
+    device_id: 03fb1f12ba56f4c8af79e1b104ab6cec
+    entity_id: c1b8d5a30211721eed997136e3a5cf5e
+    domain: sensor
+    trigger: device
+    above: 0
+    for:
+      hours: 2
+      minutes: 0
+      seconds: 0
+    id: hz25_room_light_2h
+  - type: battery_level
+    device_id: ee5db3dc21cb64f5f52c1a2408b51429
+    entity_id: 035720f5f083a236112b1049907e842b
+    domain: sensor
+    trigger: device
+    below: 10
+    id: hz19_battery_below_10
+  - type: battery_level
+    device_id: 5894bb5f418a311b5cbd2cacd0b9b963
+    entity_id: 0de55f125bf02317bbde4a04cd724a1f
+    domain: sensor
+    trigger: device
+    below: 10
+    id: hz21_battery_below_10
+  - type: battery_level
+    device_id: 4b5d22ecaa1123a88e6295f349aa48ef
+    entity_id: 0c16b91f333a88287aa130c9f081458d
+    domain: sensor
+    trigger: device
+    below: 10
+    id: hz23_battery_below_10
+  - type: battery_level
+    device_id: 03fb1f12ba56f4c8af79e1b104ab6cec
+    entity_id: 6ae1f07f8ba5afbf28668b5a778cead1
+    domain: sensor
+    trigger: device
+    below: 10
+    id: hz25_battery_below_10
+  conditions: []
+  actions:
+  - action: notify.administrator_rotseepark
+    metadata: {}
+    data:
+      title: 'HA-Info Rotseepark - HZ Haus 19-25 - Geräte Trigger - {% if trigger
+        is defined and trigger.id is defined %}{{ trigger.id }}{% else %}undefiniert{%
+        endif %}
+
+        '
+      message: "{% if trigger is defined and trigger.platform is defined %}\n  Trigger
+        Plattform: {{ trigger.platform }}\n{% else %}\n  Trigger Plattform: undefiniert\n{%
+        endif %}\n{% if trigger is defined and trigger.entity_id is defined %}\n  Trigger
+        Entity: {{ trigger.entity_id }}\n{% else %}\n  Trigger Entity: undefiniert\n{%
+        endif %}\n{% if trigger is defined and trigger.id is defined %}\n  Trigger
+        ID: {{ trigger.id }}\n{% else %}\n  Trigger ID: undefiniert\n{% endif %}\n{%
+        if trigger is defined and trigger.type is defined %}\n  Trigger Type: {{ trigger.type
+        }}\n{% else %}\n  Trigger Type: undefiniert\n{% endif %}\n{% if trigger is
+        defined and trigger.from_state is defined %}\n  Trigger From: {{ trigger.from_state
+        }}\n{% else %}\n  Trigger From: undefiniert\n{% endif %}\n{% if trigger is
+        defined and trigger.to_state is defined %}\n  Trigger To: {{ trigger.to_state
+        }}\n{% else %}\n  Trigger To: undefiniert\n{% endif %}\n{% if trigger is defined
+        and trigger.for is defined %}\n  Trigger For: {{ trigger.for }}\n{% else %}\n
+        \ Trigger For: undefiniert\n{% endif %}\n{% if trigger is defined and trigger.above
+        is defined %}\n  Trigger Above: {{ trigger.above }}\n{% else %}\n  Trigger
+        Above: undefiniert\n{% endif %}\n{% if trigger is defined and trigger.below
+        is defined %}\n  Trigger Below: {{ trigger.below }}\n{% else %}\n  Trigger
+        Below: undefiniert\n{% endif %}\n"
+  mode: single
+- id: '1758866538480'
+  alias: ' Schalte WW - Produziere Warmwasser (Nachtmodus) - Oktober bis März'
+  description: ''
+  triggers:
+  - trigger: time
+    at: '22:20:00'
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sun
+  conditions: []
+  actions:
+  - alias: Verarbeite Haus 19, 21, 23 und 25 in Reihenfolge des Bedarfes
+    repeat:
+      count: 4
+      sequence:
+      - choose:
+        - conditions:
+          - alias: Vergleiche Haus 19 gegen die anderen Häuser
+            condition: and
+            conditions:
+            - alias: Prüfen, ob BPU von Haus 19 nicht läuft
+              condition: state
+              entity_id: binary_sensor.luxtronik19_bup_out
+              state: 'off'
+              enabled: true
+              for:
+                hours: 3
+                minutes: 0
+                seconds: 0
+            - condition: template
+              value_template: '{{states(''sensor.luxtronik19_tbw'') < states(''sensor.luxtronik21_tbw'')
+                or states(''binary_sensor.luxtronik21_bup_out'') == ''on'' }}'
+              alias: Prüfen, ob Haus 19 Boiler kälter als Haus 21 oder der Boiler
+                21 nicht schon läuft
+            - condition: template
+              value_template: '{{states(''sensor.luxtronik19_tbw'') < states(''sensor.luxtronik23_tbw'')
+                or states(''binary_sensor.luxtronik23_bup_out'') == ''on'' }}'
+              alias: Prüfen, ob Haus 19 Boiler kälter als Haus 23 oder der Boiler
+                23 nicht schon läuft
+            - condition: template
+              value_template: '{{states(''sensor.luxtronik19_tbw'') < states(''sensor.luxtronik25_tbw'')
+                or states(''binary_sensor.luxtronik25_bup_out'') == ''on'' }}'
+              alias: Prüfen, ob Haus 19 Boiler kälter als Haus 25 oder der Boiler
+                25 nicht schon läuft
+          sequence:
+          - action: notify.administrator_rotseepark
+            metadata: {}
+            data:
+              title: 'HA-Info Heatpump 19: Die Boiler Ladung wird gestartet (Nacht)'
+              message: Die Boiler Ladung in Haus 19 wird gestartet (Nacht)
+          - alias: Prüfe, ob die Hysterese 0 ergibt und falls ja, erhöhe die Solltemperatur
+            if:
+            - condition: template
+              value_template: "{{ (\n    (\n       states('sensor.luxtronik19_tbw_soll')|int
+                \n     - states('sensor.luxtronik19_tbw')|int \n     - 1 \n    )|int\n
+                \ ) <= 0 }}"
+            then:
+            - alias: Setzte Luxtronik Solltemperatur plus 2 Grad
+              data:
+                value: '{{states(''input_number.luxtronik_ww_normaltemperatur'')|int
+                  + 2 }}'
+              target:
+                entity_id: input_number.luxtronik_19_ww_solltemperatur
+              action: input_number.set_value
+            - delay:
+                hours: 0
+                minutes: 5
+                seconds: 0
+                milliseconds: 0
+          - data:
+              value: '{{ (states(''sensor.luxtronik19_tbw_soll'')|int - states(''sensor.luxtronik19_tbw'')|int
+                - 1 )|int }}'
+            target:
+              entity_id: input_number.luxtronik_19_ww_hysterese
+            action: input_number.set_value
+            alias: Setzte die Hysterese Haus 19, um die WW Produktion anzustossen
+          - alias: Verzögere, um der WP Zeit zu geben die Warmwasser Produktion zu
+              starten
+            delay:
+              hours: 0
+              minutes: 30
+              seconds: 0
+              milliseconds: 0
+          - data:
+              value: '{{ states(''input_number.luxtronik_ww_normalhysterese'')|int
+                }}'
+            target:
+              entity_id: input_number.luxtronik_19_ww_hysterese
+            action: input_number.set_value
+            alias: Setzte die Hysterese Haus 19 wieder zurück
+          - alias: Prüfe, ob die TBW Soll abweicht, d.h. umgestellt wurde
+            if:
+            - condition: template
+              value_template: "{{ states('sensor.luxtronik19_tbw_soll')|int \n   !=
+                \n   states('input_number.luxtronik_ww_normaltemperatur')|int }}"
+            then:
+            - alias: Setzte Luxtronik Solltemperatur zu Normal Temperatur
+              data:
+                value: '{{states(''input_number.luxtronik_ww_normaltemperatur'')|int}}'
+              target:
+                entity_id: input_number.luxtronik_19_ww_solltemperatur
+              action: input_number.set_value
+          - alias: Warten bis Brauchwasser Produktion endet
+            wait_for_trigger:
+            - entity_id:
+              - binary_sensor.luxtronik19_bup
+              from: 'on'
+              to: 'off'
+              trigger: state
+              for:
+                hours: 0
+                minutes: 5
+                seconds: 0
+            timeout:
+              hours: 1
+              minutes: 0
+              seconds: 0
+              milliseconds: 0
+        - conditions:
+          - alias: Vergleiche Haus 21 gegen die anderen Häuser
+            condition: and
+            conditions:
+            - alias: Prüfen, ob BPU von Haus 21 nicht läuft
+              condition: state
+              entity_id: binary_sensor.luxtronik21_bup_out
+              state: 'off'
+              enabled: true
+              for:
+                hours: 3
+                minutes: 0
+                seconds: 0
+            - condition: template
+              value_template: '{{states(''sensor.luxtronik21_tbw'') < states(''sensor.luxtronik19_tbw'')
+                or states(''binary_sensor.luxtronik19_bup_out'') == ''on'' }}'
+              alias: Prüfen, ob Haus 21 Boiler kälter als Haus 19 oder der Boiler
+                19 nicht schon läuft
+            - condition: template
+              value_template: '{{states(''sensor.luxtronik21_tbw'') < states(''sensor.luxtronik23_tbw'')
+                or states(''binary_sensor.luxtronik23_bup_out'') == ''on'' }}'
+              alias: Prüfen, ob Haus 21 Boiler kälter als Haus 23 oder der Boiler
+                23 nicht schon läuft
+            - condition: template
+              value_template: '{{states(''sensor.luxtronik21_tbw'') < states(''sensor.luxtronik25_tbw'')
+                or states(''binary_sensor.luxtronik25_bup_out'') == ''on'' }}'
+              alias: Prüfen, ob Haus 21 Boiler kälter als Haus 25 oder der Boiler
+                25 nicht schon läuft
+          sequence:
+          - action: notify.administrator_rotseepark
+            metadata: {}
+            data:
+              title: 'HA-Info Heatpump 21: Die Boiler Ladung wird gestartet (Nacht)'
+              message: Die Boiler Ladung in Haus 21 wird gestartet (Nacht)
+          - alias: Prüfe, ob die Hysterese 0 ergibt und falls ja, erhöhe die Solltemperatur
+            if:
+            - condition: template
+              value_template: "{{ (\n    (\n       states('sensor.luxtronik21_tbw_soll')|int
+                \n     - states('sensor.luxtronik21_tbw')|int \n     - 1 \n    )|int\n
+                \ ) <= 0 }}"
+            then:
+            - alias: Setzte Luxtronik Solltemperatur plus 2 Grad
+              data:
+                value: '{{states(''input_number.luxtronik_ww_normaltemperatur'')|int
+                  + 2 }}'
+              target:
+                entity_id: input_number.luxtronik_21_ww_solltemperatur
+              action: input_number.set_value
+            - delay:
+                hours: 0
+                minutes: 5
+                seconds: 0
+                milliseconds: 0
+          - data:
+              value: '{{ (states(''sensor.luxtronik21_tbw_soll'')|int - states(''sensor.luxtronik21_tbw'')|int
+                - 1 )|int }}'
+            target:
+              entity_id: input_number.luxtronik_21_ww_hysterese
+            action: input_number.set_value
+            alias: Setzte die Hysterese Haus 21, um die WW Produktion anzustossen
+          - alias: Verzögere, um der WP Zeit zu geben die Warmwasser Produktion zu
+              starten
+            delay:
+              hours: 0
+              minutes: 30
+              seconds: 0
+              milliseconds: 0
+          - data:
+              value: '{{ states(''input_number.luxtronik_ww_normalhysterese'')|int
+                }}'
+            target:
+              entity_id: input_number.luxtronik_21_ww_hysterese
+            action: input_number.set_value
+            alias: Setzte die Hysterese Haus 21 wieder zurück
+          - alias: Prüfe, ob die TBW Soll abweicht, d.h. umgestellt wurde
+            if:
+            - condition: template
+              value_template: "{{ states('sensor.luxtronik21_tbw_soll')|int \n   !=
+                \n   states('input_number.luxtronik_ww_normaltemperatur')|int }}"
+            then:
+            - alias: Setzte Luxtronik Solltemperatur zu Normal Temperatur
+              data:
+                value: '{{states(''input_number.luxtronik_ww_normaltemperatur'')|int}}'
+              target:
+                entity_id: input_number.luxtronik_21_ww_solltemperatur
+              action: input_number.set_value
+          - alias: Warten bis Brauchwasser Produktion endet
+            wait_for_trigger:
+            - entity_id:
+              - binary_sensor.luxtronik21_bup
+              from: 'on'
+              to: 'off'
+              trigger: state
+              for:
+                hours: 0
+                minutes: 5
+                seconds: 0
+            timeout:
+              hours: 1
+              minutes: 0
+              seconds: 0
+              milliseconds: 0
+        - conditions:
+          - alias: Vergleiche Haus 23 gegen die anderen Häuser
+            condition: and
+            conditions:
+            - alias: Prüfen, ob BPU von Haus 23 nicht läuft
+              condition: state
+              entity_id: binary_sensor.luxtronik23_bup_out
+              state: 'off'
+              enabled: true
+              for:
+                hours: 3
+                minutes: 0
+                seconds: 0
+            - condition: template
+              value_template: '{{states(''sensor.luxtronik23_tbw'') < states(''sensor.luxtronik19_tbw'')
+                or states(''binary_sensor.luxtronik19_bup_out'') == ''on'' }}'
+              alias: Prüfen, ob Haus 23 Boiler kälter als Haus 19 oder der Boiler
+                19 nicht schon läuft
+            - condition: template
+              value_template: '{{states(''sensor.luxtronik23_tbw'') < states(''sensor.luxtronik21_tbw'')
+                or states(''binary_sensor.luxtronik21_bup_out'') == ''on'' }}'
+              alias: Prüfen, ob Haus 23 Boiler kälter als Haus 21 oder der Boiler
+                21 nicht schon läuft
+            - condition: template
+              value_template: '{{states(''sensor.luxtronik23_tbw'') < states(''sensor.luxtronik25_tbw'')
+                or states(''binary_sensor.luxtronik25_bup_out'') == ''on'' }}'
+              alias: Prüfen, ob Haus 23 Boiler kälter als Haus 25 oder der Boiler
+                25 nicht schon läuft
+          sequence:
+          - action: notify.administrator_rotseepark
+            metadata: {}
+            data:
+              title: 'HA-Info Heatpump 23: Die Boiler Ladung wird gestartet (Nacht)'
+              message: Die Boiler Ladung in Haus 23 wird gestartet (Nacht)
+          - alias: Prüfe, ob die Hysterese 0 ergibt und falls ja, erhöhe die Solltemperatur
+            if:
+            - condition: template
+              value_template: "{{ (\n    (\n       states('sensor.luxtronik23_tbw_soll')|int
+                \n     - states('sensor.luxtronik23_tbw')|int \n     - 1 \n    )|int\n
+                \ ) <= 0 }}"
+            then:
+            - alias: Setzte Luxtronik Solltemperatur plus 2 Grad
+              data:
+                value: '{{states(''input_number.luxtronik_ww_normaltemperatur'')|int
+                  + 2 }}'
+              target:
+                entity_id: input_number.luxtronik_23_ww_solltemperatur
+              action: input_number.set_value
+            - delay:
+                hours: 0
+                minutes: 5
+                seconds: 0
+                milliseconds: 0
+          - data:
+              value: '{{ (states(''sensor.luxtronik23_tbw_soll'')|int - states(''sensor.luxtronik23_tbw'')|int
+                - 1 )|int }}'
+            target:
+              entity_id: input_number.luxtronik_23_ww_hysterese
+            action: input_number.set_value
+            alias: Setzte die Hysterese Haus 23, um die WW Produktion anzustossen
+          - alias: Verzögere, um der WP Zeit zu geben die Warmwasser Produktion zu
+              starten
+            delay:
+              hours: 0
+              minutes: 30
+              seconds: 0
+              milliseconds: 0
+          - data:
+              value: '{{ states(''input_number.luxtronik_ww_normalhysterese'')|int
+                }}'
+            target:
+              entity_id: input_number.luxtronik_23_ww_hysterese
+            action: input_number.set_value
+            alias: Setzte die Hysterese Haus 23 wieder zurück
+          - alias: Prüfe, ob die TBW Soll abweicht, d.h. umgestellt wurde
+            if:
+            - condition: template
+              value_template: "{{ states('sensor.luxtronik23_tbw_soll')|int \n   !=
+                \n   states('input_number.luxtronik_ww_normaltemperatur')|int }}"
+            then:
+            - alias: Setzte Luxtronik Solltemperatur zu Normal Temperatur
+              data:
+                value: '{{states(''input_number.luxtronik_ww_normaltemperatur'')|int}}'
+              target:
+                entity_id: input_number.luxtronik_23_ww_solltemperatur
+              action: input_number.set_value
+          - alias: Warten bis Brauchwasser Produktion endet
+            wait_for_trigger:
+            - entity_id:
+              - binary_sensor.luxtronik23_bup
+              from: 'on'
+              to: 'off'
+              trigger: state
+              for:
+                hours: 0
+                minutes: 5
+                seconds: 0
+            timeout:
+              hours: 1
+              minutes: 0
+              seconds: 0
+              milliseconds: 0
+        - conditions:
+          - alias: Vergleiche Haus 25 gegen die anderen Häuser
+            condition: and
+            conditions:
+            - alias: Prüfen, ob BPU von Haus 25 nicht läuft
+              condition: state
+              entity_id: binary_sensor.luxtronik25_bup_out
+              state: 'off'
+              enabled: true
+              for:
+                hours: 3
+                minutes: 0
+                seconds: 0
+            - condition: template
+              value_template: '{{states(''sensor.luxtronik25_tbw'') < states(''sensor.luxtronik19_tbw'')
+                or states(''binary_sensor.luxtronik19_bup_out'') == ''on'' }}'
+              alias: Prüfen, ob Haus 25 Boiler kälter als Haus 19 oder der Boiler
+                19 nicht schon läuft
+            - condition: template
+              value_template: '{{states(''sensor.luxtronik25_tbw'') < states(''sensor.luxtronik21_tbw'')
+                or states(''binary_sensor.luxtronik21_bup_out'') == ''on'' }}'
+              alias: Prüfen, ob Haus 25 Boiler kälter als Haus 21 oder der Boiler
+                21 nicht schon läuft
+            - condition: template
+              value_template: '{{states(''sensor.luxtronik25_tbw'') < states(''sensor.luxtronik23_tbw'')
+                or states(''binary_sensor.luxtronik23_bup_out'') == ''on'' }}'
+              alias: Prüfen, ob Haus 25 Boiler kälter als Haus 23 oder der Boiler
+                23 nicht schon läuft
+          sequence:
+          - action: notify.administrator_rotseepark
+            metadata: {}
+            data:
+              title: 'HA-Info Heatpump 25: Die Boiler Ladung wird gestartet (Nacht)'
+              message: Die Boiler Ladung in Haus 25 wird gestartet (Nacht)
+          - alias: Prüfe, ob die Hysterese 0 ergibt und falls ja, erhöhe die Solltemperatur
+            if:
+            - condition: template
+              value_template: "{{ (\n    (\n       states('sensor.luxtronik25_tbw_soll')|int
+                \n     - states('sensor.luxtronik25_tbw')|int \n     - 1 \n    )|int\n
+                \ ) <= 0 }}"
+            then:
+            - alias: Setzte Luxtronik Solltemperatur plus 2 Grad
+              data:
+                value: '{{states(''input_number.luxtronik_ww_normaltemperatur'')|int
+                  + 2 }}'
+              target:
+                entity_id: input_number.luxtronik_25_ww_solltemperatur
+              action: input_number.set_value
+            - delay:
+                hours: 0
+                minutes: 5
+                seconds: 0
+                milliseconds: 0
+          - data:
+              value: '{{ (states(''sensor.luxtronik25_tbw_soll'')|int - states(''sensor.luxtronik25_tbw'')|int
+                - 1 )|int }}'
+            target:
+              entity_id: input_number.luxtronik_25_ww_hysterese
+            action: input_number.set_value
+            alias: Setzte die Hysterese Haus 25, um die WW Produktion anzustossen
+          - alias: Verzögere, um der WP Zeit zu geben die Warmwasser Produktion zu
+              starten
+            delay:
+              hours: 0
+              minutes: 30
+              seconds: 0
+              milliseconds: 0
+          - data:
+              value: '{{ states(''input_number.luxtronik_ww_normalhysterese'')|int
+                }}'
+            target:
+              entity_id: input_number.luxtronik_25_ww_hysterese
+            action: input_number.set_value
+            alias: Setzte die Hysterese Haus 25 wieder zurück
+          - alias: Prüfe, ob die TBW Soll abweicht, d.h. umgestellt wurde
+            if:
+            - condition: template
+              value_template: "{{ states('sensor.luxtronik25_tbw_soll')|int \n   !=
+                \n   states('input_number.luxtronik_ww_normaltemperatur')|int }}"
+            then:
+            - alias: Setzte Luxtronik Solltemperatur zu Normal Temperatur
+              data:
+                value: '{{states(''input_number.luxtronik_ww_normaltemperatur'')|int}}'
+              target:
+                entity_id: input_number.luxtronik_25_ww_solltemperatur
+              action: input_number.set_value
+          - alias: Warten bis Brauchwasser Produktion endet
+            wait_for_trigger:
+            - entity_id:
+              - binary_sensor.luxtronik25_bup
+              from: 'on'
+              to: 'off'
+              trigger: state
+              for:
+                hours: 0
+                minutes: 5
+                seconds: 0
+            timeout:
+              hours: 1
+              minutes: 0
+              seconds: 0
+              milliseconds: 0
+  mode: single
+- id: '1758876867041'
+  alias: ' Schalte WW - Produziere Warmwasser (Tagmodus) - Oktober bis März'
+  description: ''
+  triggers:
+  - trigger: time
+    at: '11:20:00'
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  - trigger: time
+    at: '11:20:00'
+    weekday:
+    - sat
+  conditions: []
+  actions:
+  - alias: Verarbeite Haus 19, 21, 23 und 25 in Reihenfolge des Bedarfes
+    repeat:
+      count: 4
+      sequence:
+      - choose:
+        - conditions:
+          - alias: Vergleiche Haus 19 gegen die anderen Häuser
+            condition: and
+            conditions:
+            - alias: Prüfen, ob BPU von Haus 19 nicht läuft
+              condition: state
+              entity_id: binary_sensor.luxtronik19_bup_out
+              state: 'off'
+              enabled: true
+              for:
+                hours: 3
+                minutes: 0
+                seconds: 0
+            - condition: template
+              value_template: '{{states(''sensor.luxtronik19_tbw'') <= states(''sensor.luxtronik21_tbw'')
+                or states(''binary_sensor.luxtronik21_bup_out'') == ''on'' }}'
+              alias: Prüfen, ob Haus 19 Boiler kälter als Haus 21 oder der Boiler
+                21 nicht schon läuft
+            - condition: template
+              value_template: '{{states(''sensor.luxtronik19_tbw'') <= states(''sensor.luxtronik23_tbw'')
+                or states(''binary_sensor.luxtronik23_bup_out'') == ''on'' }}'
+              alias: Prüfen, ob Haus 19 Boiler kälter als Haus 23 oder der Boiler
+                23 nicht schon läuft
+            - condition: template
+              value_template: '{{states(''sensor.luxtronik19_tbw'') <= states(''sensor.luxtronik25_tbw'')
+                or states(''binary_sensor.luxtronik25_bup_out'') == ''on'' }}'
+              alias: Prüfen, ob Haus 19 Boiler kälter als Haus 25 oder der Boiler
+                25 nicht schon läuft
+          sequence:
+          - action: notify.administrator_rotseepark
+            metadata: {}
+            data:
+              title: 'HA-Info Heatpump 19: Die Boiler Ladung wird gestartet (Tag)'
+              message: Die Boiler Ladung in Haus 19 wird gestartet (Tag)
+          - alias: Prüfe, ob die Hysterese 0 ergibt und falls ja, erhöhe die Solltemperatur
+            if:
+            - condition: template
+              value_template: "{{ (\n    (\n       states('sensor.luxtronik19_tbw_soll')|int
+                \n     - states('sensor.luxtronik19_tbw')|int \n     - 1 \n    )|int\n
+                \ ) <= 0 }}"
+            then:
+            - alias: Setzte Luxtronik Solltemperatur plus 2 Grad
+              data:
+                value: '{{states(''input_number.luxtronik_ww_normaltemperatur'')|int
+                  + 2 }}'
+              target:
+                entity_id: input_number.luxtronik_19_ww_solltemperatur
+              action: input_number.set_value
+            - delay:
+                hours: 0
+                minutes: 5
+                seconds: 0
+                milliseconds: 0
+          - alias: Prüfe, ob aktuell Sperrzeit ist und falls ja, Schalte auf Party
+            if:
+            - condition: state
+              entity_id: schedule.luxtronik_zeitplan_sperrzeit_warmwasser
+              state: 'on'
+            then:
+            - data:
+                option: '{{ states(''input_select.luxtronik_operation_mode_party'')|int
+                  }}'
+              target:
+                entity_id: input_select.luxtronik_19_ww_operation_mode
+              action: input_select.select_option
+            - delay:
+                hours: 0
+                minutes: 5
+                seconds: 0
+                milliseconds: 0
+          - data:
+              value: '{{ (states(''sensor.luxtronik19_tbw_soll'')|int - states(''sensor.luxtronik19_tbw'')|int
+                - 1 )|int }}'
+            target:
+              entity_id: input_number.luxtronik_19_ww_hysterese
+            action: input_number.set_value
+            alias: Setzte die Hysterese Haus 19, um die WW Produktion anzustossen
+          - alias: Verzögere, um der WP Zeit zu geben die Warmwasser Produktion zu
+              starten
+            delay:
+              hours: 0
+              minutes: 30
+              seconds: 0
+              milliseconds: 0
+          - data:
+              value: '{{ states(''input_number.luxtronik_ww_normalhysterese'')|int
+                }}'
+            target:
+              entity_id: input_number.luxtronik_19_ww_hysterese
+            action: input_number.set_value
+            alias: Setzte die Hysterese Haus 19 wieder zurück
+          - alias: Prüfe, ob die TBW Soll abweicht, d.h. umgestellt wurde
+            if:
+            - condition: template
+              value_template: "{{ states('sensor.luxtronik19_tbw_soll')|int \n   !=
+                \n   states('input_number.luxtronik_ww_normaltemperatur')|int }}"
+            then:
+            - alias: Setzte Luxtronik Solltemperatur zu Normal Temperatur
+              data:
+                value: '{{states(''input_number.luxtronik_ww_normaltemperatur'')|int}}'
+              target:
+                entity_id: input_number.luxtronik_19_ww_solltemperatur
+              action: input_number.set_value
+          - wait_for_trigger:
+            - entity_id:
+              - binary_sensor.luxtronik19_bup
+              from: 'on'
+              to: 'off'
+              trigger: state
+              for:
+                hours: 0
+                minutes: 5
+                seconds: 0
+            timeout:
+              hours: 1
+              minutes: 0
+              seconds: 0
+              milliseconds: 0
+            alias: Warten bis Brauchwasser Produktion endet
+        - conditions:
+          - alias: Vergleiche Haus 21 gegen die anderen Häuser
+            condition: and
+            conditions:
+            - alias: Prüfen, ob BPU von Haus 21 nicht läuft
+              condition: state
+              entity_id: binary_sensor.luxtronik21_bup_out
+              state: 'off'
+              enabled: true
+              for:
+                hours: 3
+                minutes: 0
+                seconds: 0
+            - condition: template
+              value_template: '{{states(''sensor.luxtronik21_tbw'') <= states(''sensor.luxtronik19_tbw'')
+                or states(''binary_sensor.luxtronik19_bup_out'') == ''on'' }}'
+              alias: Prüfen, ob Haus 21 Boiler kälter als Haus 19 oder der Boiler
+                19 nicht schon läuft
+            - condition: template
+              value_template: '{{states(''sensor.luxtronik21_tbw'') <= states(''sensor.luxtronik23_tbw'')
+                or states(''binary_sensor.luxtronik23_bup_out'') == ''on'' }}'
+              alias: Prüfen, ob Haus 21 Boiler kälter als Haus 23 oder der Boiler
+                23 nicht schon läuft
+            - condition: template
+              value_template: '{{states(''sensor.luxtronik21_tbw'') <= states(''sensor.luxtronik25_tbw'')
+                or states(''binary_sensor.luxtronik25_bup_out'') == ''on'' }}'
+              alias: Prüfen, ob Haus 21 Boiler kälter als Haus 25 oder der Boiler
+                25 nicht schon läuft
+          sequence:
+          - action: notify.administrator_rotseepark
+            metadata: {}
+            data:
+              title: 'HA-Info Heatpump 21: Die Boiler Ladung wird gestartet (Tag)'
+              message: Die Boiler Ladung in Haus 21 wird gestartet (Tag)
+          - alias: Prüfe, ob die Hysterese 0 ergibt und falls ja, erhöhe die Solltemperatur
+            if:
+            - condition: template
+              value_template: "{{ (\n    (\n       states('sensor.luxtronik21_tbw_soll')|int
+                \n     - states('sensor.luxtronik21_tbw')|int \n     - 1 \n    )|int\n
+                \ ) <= 0 }}"
+            then:
+            - alias: Setzte Luxtronik Solltemperatur plus 2 Grad
+              data:
+                value: '{{states(''input_number.luxtronik_ww_normaltemperatur'')|int
+                  + 2 }}'
+              target:
+                entity_id: input_number.luxtronik_21_ww_solltemperatur
+              action: input_number.set_value
+            - delay:
+                hours: 0
+                minutes: 5
+                seconds: 0
+                milliseconds: 0
+          - alias: Prüfe, ob aktuell Sperrzeit ist und falls ja, Schalte auf Party
+            if:
+            - condition: state
+              entity_id: schedule.luxtronik_zeitplan_sperrzeit_warmwasser
+              state: 'on'
+            then:
+            - data:
+                option: '{{ states(''input_select.luxtronik_operation_mode_party'')|int
+                  }}'
+              target:
+                entity_id: input_select.luxtronik_21_ww_operation_mode
+              action: input_select.select_option
+            - delay:
+                hours: 0
+                minutes: 5
+                seconds: 0
+                milliseconds: 0
+          - data:
+              value: '{{ (states(''sensor.luxtronik21_tbw_soll'')|int - states(''sensor.luxtronik21_tbw'')|int
+                - 1 )|int }}'
+            target:
+              entity_id: input_number.luxtronik_21_ww_hysterese
+            action: input_number.set_value
+            alias: Setzte die Hysterese Haus 21, um die WW Produktion anzustossen
+          - delay:
+              hours: 0
+              minutes: 30
+              seconds: 0
+              milliseconds: 0
+            alias: Verzögere, um der WP Zeit zu geben die Warmwasser Produktion zu
+              starten
+          - data:
+              value: '{{ states(''input_number.luxtronik_ww_normalhysterese'')|int
+                }}'
+            target:
+              entity_id: input_number.luxtronik_21_ww_hysterese
+            action: input_number.set_value
+            alias: Setzte die Hysterese Haus 21 wieder zurück
+          - alias: Prüfe, ob die TBW Soll abweicht, d.h. umgestellt wurde
+            if:
+            - condition: template
+              value_template: "{{ states('sensor.luxtronik21_tbw_soll')|int \n   !=
+                \n   states('input_number.luxtronik_ww_normaltemperatur')|int }}"
+            then:
+            - alias: Setzte Luxtronik Solltemperatur zu Normal Temperatur
+              data:
+                value: '{{states(''input_number.luxtronik_ww_normaltemperatur'')|int}}'
+              target:
+                entity_id: input_number.luxtronik_21_ww_solltemperatur
+              action: input_number.set_value
+          - wait_for_trigger:
+            - entity_id:
+              - binary_sensor.luxtronik21_bup
+              from: 'on'
+              to: 'off'
+              trigger: state
+              for:
+                hours: 0
+                minutes: 5
+                seconds: 0
+            timeout:
+              hours: 1
+              minutes: 0
+              seconds: 0
+              milliseconds: 0
+            alias: Warten bis Brauchwasser Produktion endet
+        - conditions:
+          - alias: Vergleiche Haus 23 gegen die anderen Häuser
+            condition: and
+            conditions:
+            - alias: Prüfen, ob BPU von Haus 23 nicht läuft
+              condition: state
+              entity_id: binary_sensor.luxtronik23_bup_out
+              state: 'off'
+              enabled: true
+              for:
+                hours: 3
+                minutes: 0
+                seconds: 0
+            - condition: template
+              value_template: '{{states(''sensor.luxtronik23_tbw'') <= states(''sensor.luxtronik19_tbw'')
+                or states(''binary_sensor.luxtronik19_bup_out'') == ''on'' }}'
+              alias: Prüfen, ob Haus 23 Boiler kälter als Haus 19 oder der Boiler
+                19 nicht schon läuft
+            - condition: template
+              value_template: '{{states(''sensor.luxtronik23_tbw'') <= states(''sensor.luxtronik21_tbw'')
+                or states(''binary_sensor.luxtronik21_bup_out'') == ''on'' }}'
+              alias: Prüfen, ob Haus 23 Boiler kälter als Haus 21 oder der Boiler
+                21 nicht schon läuft
+            - condition: template
+              value_template: '{{states(''sensor.luxtronik23_tbw'') <= states(''sensor.luxtronik25_tbw'')
+                or states(''binary_sensor.luxtronik25_bup_out'') == ''on'' }}'
+              alias: Prüfen, ob Haus 23 Boiler kälter als Haus 25 oder der Boiler
+                25 nicht schon läuft
+          sequence:
+          - action: notify.administrator_rotseepark
+            metadata: {}
+            data:
+              title: 'HA-Info Heatpump 23: Die Boiler Ladung wird gestartet (Tag)'
+              message: Die Boiler Ladung in Haus 23 wird gestartet (Tag)
+          - alias: Prüfe, ob die Hysterese 0 ergibt und falls ja, erhöhe die Solltemperatur
+            if:
+            - condition: template
+              value_template: "{{ (\n    (\n       states('sensor.luxtronik23_tbw_soll')|int
+                \n     - states('sensor.luxtronik23_tbw')|int \n     - 1 \n    )|int\n
+                \ ) <= 0 }}"
+            then:
+            - alias: Setzte Luxtronik Solltemperatur plus 2 Grad
+              data:
+                value: '{{states(''input_number.luxtronik_ww_normaltemperatur'')|int
+                  + 2 }}'
+              target:
+                entity_id: input_number.luxtronik_23_ww_solltemperatur
+              action: input_number.set_value
+            - delay:
+                hours: 0
+                minutes: 5
+                seconds: 0
+                milliseconds: 0
+          - alias: Prüfe, ob aktuell Sperrzeit ist und falls ja, Schalte auf Party
+            if:
+            - condition: state
+              entity_id: schedule.luxtronik_zeitplan_sperrzeit_warmwasser
+              state: 'on'
+            then:
+            - data:
+                option: '{{ states(''input_select.luxtronik_operation_mode_party'')|int
+                  }}'
+              target:
+                entity_id: input_select.luxtronik_23_ww_operation_mode
+              action: input_select.select_option
+            - delay:
+                hours: 0
+                minutes: 5
+                seconds: 0
+                milliseconds: 0
+          - data:
+              value: '{{ (states(''sensor.luxtronik23_tbw_soll'')|int - states(''sensor.luxtronik23_tbw'')|int
+                - 1 )|int }}'
+            target:
+              entity_id: input_number.luxtronik_23_ww_hysterese
+            action: input_number.set_value
+            alias: Setzte die Hysterese Haus 23, um die WW Produktion anzustossen
+          - delay:
+              hours: 0
+              minutes: 30
+              seconds: 0
+              milliseconds: 0
+            alias: Verzögere, um der WP Zeit zu geben die Warmwasser Produktion zu
+              starten
+          - data:
+              value: '{{ states(''input_number.luxtronik_ww_normalhysterese'')|int
+                }}'
+            target:
+              entity_id: input_number.luxtronik_23_ww_hysterese
+            action: input_number.set_value
+            alias: Setzte die Hysterese Haus 23 wieder zurück
+          - alias: Prüfe, ob die TBW Soll abweicht, d.h. umgestellt wurde
+            if:
+            - condition: template
+              value_template: "{{ states('sensor.luxtronik23_tbw_soll')|int \n   !=
+                \n   states('input_number.luxtronik_ww_normaltemperatur')|int }}"
+            then:
+            - alias: Setzte Luxtronik Solltemperatur zu Normal Temperatur
+              data:
+                value: '{{states(''input_number.luxtronik_ww_normaltemperatur'')|int}}'
+              target:
+                entity_id: input_number.luxtronik_23_ww_solltemperatur
+              action: input_number.set_value
+          - wait_for_trigger:
+            - entity_id:
+              - binary_sensor.luxtronik23_bup
+              from: 'on'
+              to: 'off'
+              trigger: state
+              for:
+                hours: 0
+                minutes: 5
+                seconds: 0
+            timeout:
+              hours: 1
+              minutes: 0
+              seconds: 0
+              milliseconds: 0
+            alias: Warten bis Brauchwasser Produktion endet
+        - conditions:
+          - alias: Vergleiche Haus 25 gegen die anderen Häuser
+            condition: and
+            conditions:
+            - alias: Prüfen, ob BPU von Haus 25 nicht läuft
+              condition: state
+              entity_id: binary_sensor.luxtronik25_bup_out
+              state: 'off'
+              enabled: true
+              for:
+                hours: 3
+                minutes: 0
+                seconds: 0
+            - condition: template
+              value_template: '{{states(''sensor.luxtronik25_tbw'') <= states(''sensor.luxtronik19_tbw'')
+                or states(''binary_sensor.luxtronik19_bup_out'') == ''on'' }}'
+              alias: Prüfen, ob Haus 25 Boiler kälter als Haus 19 oder der Boiler
+                19 nicht schon läuft
+            - condition: template
+              value_template: '{{states(''sensor.luxtronik25_tbw'') <= states(''sensor.luxtronik21_tbw'')
+                or states(''binary_sensor.luxtronik21_bup_out'') == ''on'' }}'
+              alias: Prüfen, ob Haus 25 Boiler kälter als Haus 21 oder der Boiler
+                21 nicht schon läuft
+            - condition: template
+              value_template: '{{states(''sensor.luxtronik25_tbw'') <= states(''sensor.luxtronik23_tbw'')
+                or states(''binary_sensor.luxtronik23_bup_out'') == ''on'' }}'
+              alias: Prüfen, ob Haus 25 Boiler kälter als Haus 23 oder der Boiler
+                23 nicht schon läuft
+          sequence:
+          - action: notify.administrator_rotseepark
+            metadata: {}
+            data:
+              title: 'HA-Info Heatpump 25: Die Boiler Ladung wird gestartet (Tag)'
+              message: Die Boiler Ladung in Haus 25 wird gestartet (Tag)
+          - alias: Prüfe, ob die Hysterese 0 ergibt und falls ja, erhöhe die Solltemperatur
+            if:
+            - condition: template
+              value_template: "{{ (\n    (\n       states('sensor.luxtronik25_tbw_soll')|int
+                \n     - states('sensor.luxtronik25_tbw')|int \n     - 1 \n    )|int\n
+                \ ) <= 0 }}"
+            then:
+            - alias: Setzte Luxtronik Solltemperatur plus 2 Grad
+              data:
+                value: '{{states(''input_number.luxtronik_ww_normaltemperatur'')|int
+                  + 2 }}'
+              target:
+                entity_id: input_number.luxtronik_25_ww_solltemperatur
+              action: input_number.set_value
+            - delay:
+                hours: 0
+                minutes: 5
+                seconds: 0
+                milliseconds: 0
+          - alias: Prüfe, ob aktuell Sperrzeit ist und falls ja, Schalte auf Party
+            if:
+            - condition: state
+              entity_id: schedule.luxtronik_zeitplan_sperrzeit_warmwasser
+              state: 'on'
+            then:
+            - data:
+                option: '{{ states(''input_select.luxtronik_operation_mode_party'')|int
+                  }}'
+              target:
+                entity_id: input_select.luxtronik_25_ww_operation_mode
+              action: input_select.select_option
+            - delay:
+                hours: 0
+                minutes: 5
+                seconds: 0
+                milliseconds: 0
+          - data:
+              value: '{{ (states(''sensor.luxtronik25_tbw_soll'')|int - states(''sensor.luxtronik25_tbw'')|int
+                - 1 )|int }}'
+            target:
+              entity_id: input_number.luxtronik_25_ww_hysterese
+            action: input_number.set_value
+            alias: Setzte die Hysterese Haus 25, um die WW Produktion anzustossen
+          - delay:
+              hours: 0
+              minutes: 30
+              seconds: 0
+              milliseconds: 0
+            alias: Verzögere, um der WP Zeit zu geben die Warmwasser Produktion zu
+              starten
+          - data:
+              value: '{{ states(''input_number.luxtronik_ww_normalhysterese'')|int
+                }}'
+            target:
+              entity_id: input_number.luxtronik_25_ww_hysterese
+            action: input_number.set_value
+            alias: Setzte die Hysterese Haus 25 wieder zurück
+          - alias: Prüfe, ob die TBW Soll abweicht, d.h. umgestellt wurde
+            if:
+            - condition: template
+              value_template: "{{ states('sensor.luxtronik25_tbw_soll')|int \n   !=
+                \n   states('input_number.luxtronik_ww_normaltemperatur')|int }}"
+            then:
+            - alias: Setzte Luxtronik Solltemperatur zu Normal Temperatur
+              data:
+                value: '{{states(''input_number.luxtronik_ww_normaltemperatur'')|int}}'
+              target:
+                entity_id: input_number.luxtronik_25_ww_solltemperatur
+              action: input_number.set_value
+          - wait_for_trigger:
+            - entity_id:
+              - binary_sensor.luxtronik25_bup
+              from: 'on'
+              to: 'off'
+              trigger: state
+              for:
+                hours: 0
+                minutes: 5
+                seconds: 0
+            timeout:
+              hours: 1
+              minutes: 0
+              seconds: 0
+              milliseconds: 0
+            alias: Warten bis Brauchwasser Produktion endet
+  mode: single
+- id: '1759490971198'
+  alias: Melde Ruhestörung im Militärmuseum
+  description: ''
+  triggers:
+  - trigger: time_pattern
+    minutes: /10
+  conditions:
+  - condition: state
+    entity_id: schedule.ruhezeiten_militarmuseum
+    state: 'on'
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+  - condition: numeric_state
+    entity_id: sensor.gplugde_haus_21_schutzraume_meter_wirkleistung_cons_w
+    above: 600
+  actions:
+  - action: notify.administrator_rotseepark
+    metadata: {}
+    data:
+      title: HA-Info Rotseepark - HZ Haus 19-25 - Militärmuseum Ruhestörung {{ states('sensor.gplugde_haus_21_allgemein_meter_wirkleistung_cons_w')
+        }} Watt
+      message: '{{ states(''sensor.gplugde_haus_21_allgemein_meter_wirkleistung_cons_w'')
+        }} Watt Stromverbrauch
+
+        '
+  - alias: Benachrichtigung senden an pichler.melanie@gmail.com und irenehodel@hotmail.com
+    action: notify.administrator_rotseepark
+    metadata: {}
+    data:
+      title: HA-Info Rotseepark - mögliche Ruhestörung Militärmuseum {{ states('sensor.gplugde_haus_21_allgemein_meter_wirkleistung_cons_w')
+        }} Watt
+      message: "{{ states('sensor.gplugde_haus_21_allgemein_meter_wirkleistung_cons_w')
+        }} Watt Stromverbrauch\n\nLiebe Melanie, Liebe Irene\n\nDieses Mail wurde
+        automatisch von unserer Haus Automatisierung erstellt. Ich messe den Stromverbrauch
+        im Militärmuseum und wenn er > 600 Watt ist, dann liegt vermutlich eine Ruhestörung
+        vor, weil Musik gespielt wird. \n\nIch würde das gerne mal so laufen lassen
+        und bin euch dankbar, wenn ihr mir kurz bestätigen könnt, ob wirklich Musik
+        hörbar war. So können wir Daten sammeln und dann ganz konkret die Vorfälle
+        melden, damit die Ruhezeiten auch wirklich immer eingehalten werden. \n\nen
+        Gruess\nStephan "
+      target: pichler.melanie@gmail.com,irenehodel@hotmail.com
+  mode: single

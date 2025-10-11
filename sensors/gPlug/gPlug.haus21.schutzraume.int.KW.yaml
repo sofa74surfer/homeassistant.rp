@@ -1,0 +1,10 @@
+# ####### ############################################ #######
+# ####### Integration Sensor gPlug Haus 21 Schutzräume #######
+# ####### ############################################ #######
+
+# Ableitung von Template Sensor gPlug.haus21.schutzraume.tpl.W.yaml
+platform: integration
+source: sensor.gplug_haus_21_schutzraume_power
+name: "gPlug Haus 21 Schutzräume Power Consumption"
+unit_prefix: k
+round: 3

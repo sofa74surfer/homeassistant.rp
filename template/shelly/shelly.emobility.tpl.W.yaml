@@ -1,0 +1,16 @@
+# ####### ####################### #######
+# ####### Wattage Sensoren Shelly #######
+# ####### ####################### #######
+
+- sensor:
+    - name: "Shelly eMobility Power"
+      state: "{{ (0
+      +(0 if states('sensor.shelly_e_mobilitat_total_active_power') == 'unknown' 
+          or states('sensor.shelly_e_mobilitat_total_active_power') == 'unavailable'
+        else states('sensor.shelly_e_mobilitat_total_active_power')|float)
+    )|round(0) }}"
+      device_class: power
+      unit_of_measurement: "W"
+      attributes:
+        last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
+      unique_id: template.sensor_shelly_emobility_power

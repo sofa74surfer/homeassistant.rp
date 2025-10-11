@@ -28,3 +28,4 @@ code.txt
 jinja/
 *.jinja
 onlineBackupsData/
+.ha_run.lock
