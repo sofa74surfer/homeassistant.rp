@@ -5,17 +5,17 @@
 - sensor:
     - name: "Zaptec Power"
       state: "{{ (
-      (0 if states('binary_sensor.zaptec_charger_pp_a3_charger') == ('unknown' or 'unavailable') else state_attr('binary_sensor.zaptec_charger_pp_a3_charger', 'total_charge_power')|float) +
-      (0 if states('binary_sensor.zaptec_charger_pp_02_charger') == ('unknown' or 'unavailable') else state_attr('binary_sensor.zaptec_charger_pp_02_charger', 'total_charge_power')|float) +
-      (0 if states('binary_sensor.zaptec_charger_pp_19_charger') == ('unknown' or 'unavailable') else state_attr('binary_sensor.zaptec_charger_pp_19_charger', 'total_charge_power')|float) +
-      (0 if states('binary_sensor.zaptec_charger_pp_24_charger') == ('unknown' or 'unavailable') else state_attr('binary_sensor.zaptec_charger_pp_24_charger', 'total_charge_power')|float) +
-      (0 if states('binary_sensor.zaptec_charger_pp_29_charger') == ('unknown' or 'unavailable') else state_attr('binary_sensor.zaptec_charger_pp_29_charger', 'total_charge_power')|float) +
-      (0 if states('binary_sensor.zaptec_charger_pp_33_charger') == ('unknown' or 'unavailable') else state_attr('binary_sensor.zaptec_charger_pp_33_charger', 'total_charge_power')|float) +
-      (0 if states('binary_sensor.zaptec_charger_pp_46_charger') == ('unknown' or 'unavailable') else state_attr('binary_sensor.zaptec_charger_pp_46_charger', 'total_charge_power')|float) +
-      (0 if states('binary_sensor.zaptec_charger_pp_65_charger') == ('unknown' or 'unavailable') else state_attr('binary_sensor.zaptec_charger_pp_65_charger', 'total_charge_power')|float) +
-      (0 if states('binary_sensor.zaptec_charger_pp_80_charger') == ('unknown' or 'unavailable') else state_attr('binary_sensor.zaptec_charger_pp_80_charger', 'total_charge_power')|float) +
-      (0 if states('binary_sensor.zaptec_charger_pp_85_charger') == ('unknown' or 'unavailable') else state_attr('binary_sensor.zaptec_charger_pp_85_charger', 'total_charge_power')|float) 
-    )|round(0) }}"
+        (0 if states('binary_sensor.zaptec_charger_pp_a3_charger') == ('unknown' or 'unavailable') else state_attr('binary_sensor.zaptec_charger_pp_a3_charger', 'total_charge_power')|float) +
+        (0 if states('binary_sensor.zaptec_charger_pp_02_charger') == ('unknown' or 'unavailable') else state_attr('binary_sensor.zaptec_charger_pp_02_charger', 'total_charge_power')|float) +
+        (0 if states('binary_sensor.zaptec_charger_pp_19_charger') == ('unknown' or 'unavailable') else state_attr('binary_sensor.zaptec_charger_pp_19_charger', 'total_charge_power')|float) +
+        (0 if states('binary_sensor.zaptec_charger_pp_24_charger') == ('unknown' or 'unavailable') else state_attr('binary_sensor.zaptec_charger_pp_24_charger', 'total_charge_power')|float) +
+        (0 if states('binary_sensor.zaptec_charger_pp_29_charger') == ('unknown' or 'unavailable') else state_attr('binary_sensor.zaptec_charger_pp_29_charger', 'total_charge_power')|float) +
+        (0 if states('binary_sensor.zaptec_charger_pp_33_charger') == ('unknown' or 'unavailable') else state_attr('binary_sensor.zaptec_charger_pp_33_charger', 'total_charge_power')|float) +
+        (0 if states('binary_sensor.zaptec_charger_pp_46_charger') == ('unknown' or 'unavailable') else state_attr('binary_sensor.zaptec_charger_pp_46_charger', 'total_charge_power')|float) +
+        (0 if states('binary_sensor.zaptec_charger_pp_65_charger') == ('unknown' or 'unavailable') else state_attr('binary_sensor.zaptec_charger_pp_65_charger', 'total_charge_power')|float) +
+        (0 if states('binary_sensor.zaptec_charger_pp_80_charger') == ('unknown' or 'unavailable') else state_attr('binary_sensor.zaptec_charger_pp_80_charger', 'total_charge_power')|float) +
+        (0 if states('binary_sensor.zaptec_charger_pp_85_charger') == ('unknown' or 'unavailable') else state_attr('binary_sensor.zaptec_charger_pp_85_charger', 'total_charge_power')|float) 
+        )|round(0) }}"
       device_class: power
       unit_of_measurement: "W"
       attributes:

@@ -1,0 +1,287 @@
+# ####### Wattage Sensoren Solar Produktion #######
+# ####### Wattage Sensoren Solar Eigenverbrauch #######
+# ####### Wattage Sensoren Solar Heizung nach Betriebsart #######
+
+# ####### ################################# #######
+# ####### Wattage Sensoren Solar Produktion #######
+# ####### ################################# #######
+
+- sensor:
+
+  # Solar Produktion
+    - name: "Solar Power 23"
+      # friendly_name: "Solar Power 23 W"
+      unique_id: template.sensor_solar_power_23
+      device_class: power
+      unit_of_measurement: "W"
+      state: >
+        {{ 0 if states('sensor.solarlog_23_power_ac') == 'unknown' 
+           or states('sensor.solarlog_23_power_ac') == 'unavailable' 
+           else states('sensor.solarlog_23_power_ac')|float|round(0)
+        }}
+      attributes:
+        last_updated: "{{ now().strftime('%d.%m.%Y %H:%M') }}"
+
+  # Solar Produktion Tag
+    - name: "Solar Yield 23 Day"
+      # friendly_name: "Solar Yield 23 Day kWh"
+      unique_id: template.sensor_solar_yield_23_day
+      device_class: power
+      unit_of_measurement: "kWh"
+      state: >
+        {{ 0 if states('sensor.solarlog_23_yield_day') == 'unknown' 
+           or states('sensor.solarlog_23_yield_day') == 'unavailable' 
+           else states('sensor.solarlog_23_yield_day')|float|round(0)
+        }}
+      attributes:
+        last_updated: "{{ now().strftime('%d.%m.%Y %H:%M') }}"
+
+  # Solar Produktion Vortag
+    - name: "Solar Yield 23 Yesterday"
+      # friendly_name: "Solar Yield 23 Yesterday kWh"
+      unique_id: template.sensor_solar_yield_23_yesterday
+      device_class: power
+      unit_of_measurement: "kWh"
+      state: >
+        {{ 0 if states('sensor.solarlog_23_yield_yesterday') == 'unknown' 
+           or states('sensor.solarlog_23_yield_yesterday') == 'unavailable' 
+           else states('sensor.solarlog_23_yield_yesterday')|float|round(0)
+        }}
+      attributes:
+        last_updated: "{{ now().strftime('%d.%m.%Y %H:%M') }}"
+
+  # Solar Produktion Monat
+    - name: "Solar Yield 23 Month"
+      # friendly_name: "Solar Yield 23 Month kWh"
+      unique_id: template.sensor_solar_yield_23_month
+      device_class: power
+      unit_of_measurement: "kWh"
+      state: >
+        {{ 0 if states('sensor.solarlog_23_yield_month') == 'unknown' 
+           or states('sensor.solarlog_23_yield_month') == 'unavailable'
+           else states('sensor.solarlog_23_yield_month')|float|round(0)
+        }}
+      attributes:
+        last_updated: "{{ now().strftime('%d.%m.%Y %H:%M') }}"
+
+  # Solar Produktion Jahr
+    - name: "Solar Yield 23 Year"
+      # friendly_name: "Solar Yield 23 Year kWh"
+      unique_id: template.sensor_solar_yield_23_year
+      device_class: power
+      unit_of_measurement: "kWh"
+      state: >
+        {{ 0 if states('sensor.solarlog_23_yield_year') == 'unknown' 
+           or states('sensor.solarlog_23_yield_year') == 'unavailable'
+           else states('sensor.solarlog_23_yield_year')|float|round(0)
+        }}
+      attributes:
+        last_updated: "{{ now().strftime('%d.%m.%Y %H:%M') }}"
+
+# Wattage Sensoren Solar Eigenverbrauch
+# ####### ##################################### #######
+# ####### Wattage Sensoren Solar Eigenverbrauch #######
+# ####### ##################################### #######
+  # Solar Eigenverbrauch
+    - name: "Solar Consumption 23"
+      # friendly_name: "Solar Consumption 23 W"
+      unique_id: template.sensor_solar_consumption_23
+      device_class: power
+      unit_of_measurement: "W"
+      state: >
+        {{ 0 if states('sensor.solarlog_23_consumption_ac') == 'unknown' 
+           or states('sensor.solarlog_23_consumption_ac') == 'unavailable'
+           else states('sensor.solarlog_23_consumption_ac')|float|round(0)
+        }}
+      attributes:
+        last_updated: "{{ now().strftime('%d.%m.%Y %H:%M') }}"
+
+  # Solar Eigenverbrauch Tag
+    - name: "Solar Consumption 23 Day"
+      # friendly_name: "Solar Consumption 23 Day kWh"
+      unique_id: template.sensor_solar_consumption_23_day
+      device_class: power
+      unit_of_measurement: "kWh"
+      state: >
+        {{ 0 if states('sensor.solarlog_23_consumption_day') == 'unknown' 
+           or states('sensor.solarlog_23_consumption_day') == 'unavailable'
+           else states('sensor.solarlog_23_consumption_day')|float|round(0)
+        }}
+      attributes:
+        last_updated: "{{ now().strftime('%d.%m.%Y %H:%M') }}"
+
+  # Solar Eigenverbrauch Vortag
+    - name: "Solar Consumption 23 Yesterday"
+      # friendly_name: "Solar Consumption 23 Yesterday kWh"
+      unique_id: template.sensor_solar_consumption_23_yesterday
+      device_class: power
+      unit_of_measurement: "kWh"
+      state: >
+        {{ 0 if states('sensor.solarlog_23_consumption_yesterday') == 'unknown' 
+           or states('sensor.solarlog_23_consumption_yesterday') == 'unavailable'
+           else states('sensor.solarlog_23_consumption_yesterday')|float|round(0)
+        }}
+      attributes:
+        last_updated: "{{ now().strftime('%d.%m.%Y %H:%M') }}"
+
+  # Solar Eigenverbrauch Monat
+    - name: "Solar Consumption 23 Month"
+      # friendly_name: "Solar Consumption 23 Month kWh"
+      unique_id: template.sensor_solar_consumption_23_month
+      device_class: power
+      unit_of_measurement: "kWh"
+      state: >
+        {{ 0 if states('sensor.solarlog_23_consumption_month') == 'unknown' 
+           or states('sensor.solarlog_23_consumption_month') == 'unavailable'
+           else states('sensor.solarlog_23_consumption_month')|float|round(0)
+        }}
+      attributes:
+        last_updated: "{{ now().strftime('%d.%m.%Y %H:%M') }}"
+
+  # Solar Eigenverbrauch Jahr
+    - name: "Solar Consumption 23 Year"
+      # friendly_name: "Solar Consumption 23 Year kWh"
+      unique_id: template.sensor_solar_consumption_23_year
+      device_class: power
+      unit_of_measurement: "kWh"
+      state: >
+        {{ 0 if states('sensor.solarlog_23_consumption_year') == 'unknown' 
+           or states('sensor.solarlog_23_consumption_year') == 'unavailable'
+           else states('sensor.solarlog_23_consumption_year')|float|round(0)
+        }}
+      attributes:
+        last_updated: "{{ now().strftime('%d.%m.%Y %H:%M') }}"
+
+# Wattage Sensoren Solar Heizung nach Betriebsart
+  # Warmwasserbetrieb
+    - name: "Solar Consumption 23 Ww"
+      # friendly_name: "Solar Consumption 23 WW W"
+      unique_id: template.sensor_solar_consumption_23_ww
+      device_class: power
+      unit_of_measurement: "W"
+      state: >
+        {{ ((
+          (0 if states('sensor.solar_consumption_23_ww_wp') == 'unknown' 
+             or states('sensor.solar_consumption_23_ww_wp') == 'unavailable'
+             else states('sensor.solar_consumption_23_ww_wp')|float) +
+          (0 if states('sensor.solar_consumption_23_ww_el') == 'unknown' 
+             or states('sensor.solar_consumption_23_ww_el') == 'unavailable'
+             else states('sensor.solar_consumption_23_ww_el')|float) 
+        ))|round(0) }}
+      attributes:
+        last_updated: "{{ now().strftime('%d.%m.%Y %H:%M') }}"
+
+  # Warmwasserbetrieb Wärmepumpe
+    - name: "Solar Consumption 23 Ww Wp"
+      # friendly_name: "Solar Consumption 23 WW WP W"
+      unique_id: template.sensor_solar_consumption_23_ww_wp
+      device_class: power
+      unit_of_measurement: "W"
+      state: >
+        {{ (0
+        if states('sensor.luxtronik23_bz') == 'unknown' 
+        or states('sensor.luxtronik23_bz') == 'unavailable'
+        or states('sensor.solarlog_23_consumption_ac') == 'unknown' 
+        or states('sensor.solarlog_23_consumption_ac') == 'unavailable'
+        else (states('sensor.solarlog_23_consumption_ac') 
+              if states('sensor.luxtronik23_bz')|int == 1 
+              and (   states('sensor.luxtronik23_hs3')|int == 5 
+                   or states('sensor.luxtronik23_hs3')|int == 9
+                  )
+              else 0)
+        )|float|round(0) }}
+      attributes:
+        last_updated: "{{ now().strftime('%d.%m.%Y %H:%M') }}"
+
+  # Warmwasserbetrieb Elektro
+    - name: "Solar Consumption 23 Ww El"
+      # friendly_name: "Solar Consumption 23 WW EL W"
+      unique_id: template.sensor_solar_consumption_23_ww_el
+      device_class: power
+      unit_of_measurement: "W"
+      state: >
+        {{ (0
+        if states('sensor.luxtronik23_bz') == 'unknown' 
+        or states('sensor.luxtronik23_bz') == 'unavailable'
+        or states('sensor.solarlog_23_consumption_ac') == 'unknown' 
+        or states('sensor.solarlog_23_consumption_ac') == 'unavailable'
+        else (states('sensor.solarlog_23_consumption_ac') 
+              if   states('sensor.luxtronik23_bz')|int == 5 
+              and (        states('sensor.luxtronik23_hs3')|int == 9 
+                   or (    states('sensor.luxtronik23_hs3')|int == 10 
+                       and states('binary_sensor.luxtronik23_zw2sst') == 'on'
+                      )
+                  )
+              and states('sensor.solarlog_23_consumption_ac')|int >= 15000
+              else 0)
+        )|float|round(0) }}
+      attributes:
+        last_updated: "{{ now().strftime('%d.%m.%Y %H:%M') }}"
+
+  # Standbybetrieb
+    - name: "Solar Consumption 23 Standby"
+      # friendly_name: "Solar Consumption 23 Standby W"
+      unique_id: template.sensor_solar_consumption_23_standby
+      device_class: power
+      unit_of_measurement: "W"
+      state: >
+        {{ (0
+        if states('sensor.luxtronik23_bz') == 'unknown' 
+        or states('sensor.luxtronik23_bz') == 'unavailable'
+        or states('sensor.solarlog_23_consumption_ac') == 'unknown' 
+        or states('sensor.solarlog_23_consumption_ac') == 'unavailable'
+        else (states('sensor.solarlog_23_consumption_ac') 
+              if states('sensor.luxtronik23_bz')|int != 0 
+              and states('sensor.luxtronik23_bz')|int != 1 
+              and states('sensor.luxtronik23_hs3')|int != 9
+              and states('sensor.solarlog_23_consumption_ac')|int <= 250
+              else 0)
+        )|float|round(0) }}
+      attributes:
+        last_updated: "{{ now().strftime('%d.%m.%Y %H:%M') }}"
+
+  # Heizbetrieb
+    - name: "Solar Consumption 23 Hz"
+      # friendly_name: "Solar Consumption 23 HZ W"
+      unique_id: template.sensor_solar_consumption_23_hz
+      device_class: power
+      unit_of_measurement: "W"
+      state: >
+        {{ (0
+        if states('sensor.luxtronik23_bz') == 'unknown' 
+        or states('sensor.luxtronik23_bz') == 'unavailable'
+        or states('sensor.solarlog_23_consumption_ac') == 'unknown' 
+        or states('sensor.solarlog_23_consumption_ac') == 'unavailable'
+        else (states('sensor.solarlog_23_consumption_ac') 
+              if states('sensor.luxtronik23_bz')|int == 0 
+              and states('input_boolean.luxtronik_heizphase_haus_23')
+              else 0)
+        )|float|round(0) }}
+      attributes:
+        last_updated: "{{ now().strftime('%d.%m.%Y %H:%M') }}"
+
+  # Kühlbetrieb
+    - name: "Solar Consumption 23 Co"
+      # friendly_name: "Solar Consumption 23 CO W"
+      unique_id: template.sensor_solar_consumption_23_co
+      device_class: power
+      unit_of_measurement: "W"
+      state: >
+        {{ (0 
+        if states('sensor.luxtronik23_bz') == 'unknown' 
+        or states('sensor.luxtronik23_bz') == 'unavailable'
+        or states('sensor.solarlog_23_consumption_ac') == 'unknown' 
+        or states('sensor.solarlog_23_consumption_ac') == 'unavailable'
+        else (states('sensor.solarlog_23_consumption_ac') 
+              if  states('sensor.luxtronik23_bz')|int == 5 
+              and states('input_boolean.luxtronik_kuhlphase_haus_23')
+              and states('sensor.luxtronik23_hs3')|int == 10 
+              and (    states('binary_sensor.luxtronik23_zw2sst') == 'off'
+                   or (    states('binary_sensor.luxtronik23_zw2sst') == 'on'
+                       and states('sensor.solarlog_23_consumption_ac')|int <= 1000
+                      )
+                  )
+              else 0)
+        )|float|round(0) }}
+      attributes:
+        last_updated: "{{ now().strftime('%d.%m.%Y %H:%M') }}"

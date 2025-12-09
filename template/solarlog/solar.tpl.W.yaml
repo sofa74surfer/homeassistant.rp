@@ -1,0 +1,27 @@
+# ####### ###################### #######
+# ####### Wattage Sensoren Solar #######
+# ####### ###################### #######
+
+- sensor:
+    - name: "Solar Power"
+      # friendly_name: "Solar W"
+      unique_id: template.sensor_solar_power
+      device_class: power
+      unit_of_measurement: "W"
+      state: >
+        {{ ((
+          (0 if states('sensor.solar_power_19') == 'unknown' 
+             or states('sensor.solar_power_19') == 'unavailable'
+             else states('sensor.solar_power_19')|float) +
+          (0 if states('sensor.solar_power_21') == 'unknown' 
+             or states('sensor.solar_power_21') == 'unavailable'
+             else states('sensor.solar_power_21')|float) +
+          (0 if states('sensor.solar_power_23') == 'unknown' 
+             or states('sensor.solar_power_23') == 'unavailable'
+             else states('sensor.solar_power_23')|float) +
+          (0 if states('sensor.solar_power_25') == 'unknown' 
+             or states('sensor.solar_power_25') == 'unavailable'
+             else states('sensor.solar_power_25')|float) 
+        ))|round(0) }}
+      attributes:
+        last_updated: "{{ now().strftime('%d.%m.%Y %H:%M') }}"

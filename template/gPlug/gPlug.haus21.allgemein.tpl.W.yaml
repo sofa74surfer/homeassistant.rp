@@ -11,6 +11,6 @@
     )|round(0) }}"
       device_class: power
       unit_of_measurement: "W"
-      attributes:
-        last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
+#      attributes:
+#        last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
       unique_id: template.sensor_gPlug_haus_21_allgemein_power

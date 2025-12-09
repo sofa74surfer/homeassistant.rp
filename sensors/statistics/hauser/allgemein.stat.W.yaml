@@ -1,0 +1,12 @@
+# ####### ########################## #######
+# ####### Statistik Sensor Allgemein #######
+# ####### ########################## #######
+
+# Ableitung von Template Sensor allgemein.tpl.yaml
+platform: statistics
+unique_id: energy_statistic_allgemein_power
+entity_id: sensor.allgemein_power
+name: "Energy Statistic Allgemein W"
+state_characteristic: mean
+sampling_size: 5
+precision: 0

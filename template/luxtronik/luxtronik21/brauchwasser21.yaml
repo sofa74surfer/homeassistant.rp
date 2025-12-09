@@ -6,11 +6,15 @@
 
 # Temperatur Brauchwasser
     - name: "Luxtronik21 TBW"
-      state: "{% if states('sensor.luxtronik_21_value_state') == 'OK' -%}
-        {{ state_attr('sensor.luxtronik_21_value_state', 'values')['temperature_hot_water'] }}
-      {%- else -%}
-        {{ states('sensor.luxtronik21_tbw') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_21_value_state', 'values') %}
+{% if states('sensor.luxtronik_21_value_state') == 'OK' 
+  and luxtronik_values
+  and 'temperature_hot_water' in luxtronik_values 
+-%}
+  {{ luxtronik_values['temperature_hot_water'] }}
+{%- else -%}
+  {{ states('sensor.luxtronik21_tbw') }}
+{%- endif %}"
       device_class: temperature
       state_class: measurement
       unit_of_measurement: "°C"
@@ -18,33 +22,48 @@
 
 # Temperatur Brauchwasser Ziel
     - name: "Luxtronik21 TBW soll"
-      state: "{% if states('sensor.luxtronik_21_value_state') == 'OK' -%}
-        {{ state_attr('sensor.luxtronik_21_value_state', 'values')['temperature_hot_water_target'] }}
-      {%- else -%}
-        {{ states('sensor.luxtronik21_tbw_soll') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_21_value_state', 'values') %}
+{% if states('sensor.luxtronik_21_value_state') == 'OK' 
+  and luxtronik_values
+  and 'temperature_hot_water_target' in luxtronik_values 
+-%}
+  {{ luxtronik_values['temperature_hot_water_target'] }}
+{%- else -%}
+  {{ states('sensor.luxtronik21_tbw_soll') }}
+{%- endif %}"
       device_class: temperature
       unit_of_measurement: "°C"
       unique_id: template.sensor_luxtronik21_tbw_soll
 
 # Temperatur Brauchwasser Minimal
     - name: "Luxtronik21 TBW min"
-      state: "{% if states('sensor.luxtronik_21_value_state') == 'OK' and states('sensor.luxtronik_21_param_state') == 'OK' -%}
-        {{ state_attr('sensor.luxtronik_21_value_state', 'values')['temperature_hot_water_target'] - state_attr('sensor.luxtronik_21_param_state', 'parameters')['hotWaterTemperatureHysteresis'] }}
-      {%- else -%}
-        {{ states('sensor.luxtronik21_tbw_min') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_21_value_state', 'values') %}{% set luxtronik_param = state_attr('sensor.luxtronik_21_param_state', 'parameters') %}
+{% if states('sensor.luxtronik_21_value_state') == 'OK' and states('sensor.luxtronik_21_param_state') == 'OK' 
+  and luxtronik_values
+  and luxtronik_param
+  and 'temperature_hot_water_target' in luxtronik_values 
+  and 'hotWaterTemperatureHysteresis' in luxtronik_param 
+-%}
+  {{ luxtronik_values['temperature_hot_water_target']
+    -luxtronik_param['hotWaterTemperatureHysteresis'] }}
+{%- else -%}
+  {{ states('sensor.luxtronik21_tbw_min') }}
+{%- endif %}"
       device_class: temperature
       unit_of_measurement: "°C"
       unique_id: template.sensor_luxtronik21_tbw_min
 
 # Hysterese Brauchwasser 
     - name: "Luxtronik21 Hyst WW"
-      state: "{% if states('sensor.luxtronik_21_param_state') == 'OK' -%}
-        {{ state_attr('sensor.luxtronik_21_param_state', 'parameters')['hotWaterTemperatureHysteresis'] }}
-      {%- else -%}
-        {{ states('sensor.luxtronik21_hyst_ww') }}
-      {%- endif %}"
+      state: "{% set luxtronik_param = state_attr('sensor.luxtronik_21_param_state', 'parameters') %}
+{% if states('sensor.luxtronik_21_param_state') == 'OK' 
+  and luxtronik_param
+  and 'hotWaterTemperatureHysteresis' in luxtronik_param 
+-%}
+  {{ luxtronik_param['hotWaterTemperatureHysteresis'] }}
+{%- else -%}
+  {{ states('sensor.luxtronik21_hyst_ww') }}
+{%- endif %}"
       device_class: temperature
       unit_of_measurement: "°C"
       unique_id: template.sensor_luxtronik21_hyst_ww

@@ -1,0 +1,10 @@
+# ####### ############################ #######
+# ####### Integration Sensor Allgemein #######
+# ####### ############################ #######
+
+# Ableitung von Template Sensor allgemein.tpl.yaml
+platform: integration
+source: sensor.allgemein_power
+name: "Allgemein Power Consumption"
+unit_prefix: k
+round: 3

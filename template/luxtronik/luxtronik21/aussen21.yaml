@@ -6,11 +6,15 @@
 
 # Temperatur Aussen
     - name: "Luxtronik21 TA"
-      state: "{% if states('sensor.luxtronik_21_value_state') == 'OK' -%}
-        {{ state_attr('sensor.luxtronik_21_value_state', 'values')['temperature_outside'] }}
-      {%- else -%}
-        {{ states('sensor.luxtronik21_ta') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_21_value_state', 'values') %}
+{% if states('sensor.luxtronik_21_value_state') == 'OK' 
+  and luxtronik_values
+  and 'temperature_outside' in luxtronik_values 
+-%}
+  {{ luxtronik_values['temperature_outside'] }}
+{%- else -%}
+  {{ states('sensor.luxtronik21_ta') }}
+{%- endif %}"
       device_class: temperature
       state_class: measurement
       unit_of_measurement: "°C"
@@ -18,11 +22,15 @@
 
 # Temperatur Aussen Mittelwert
     - name: "Luxtronik21 TA mittel"
-      state: "{% if states('sensor.luxtronik_21_value_state') == 'OK' -%}
-        {{ state_attr('sensor.luxtronik_21_value_state', 'values')['temperature_outside_avg'] }}
-      {%- else -%}
-        {{ states('sensor.luxtronik21_ta_mittel') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_21_value_state', 'values') %}
+{% if states('sensor.luxtronik_21_value_state') == 'OK' 
+  and luxtronik_values
+  and 'temperature_outside_avg' in luxtronik_values 
+-%}
+  {{ luxtronik_values['temperature_outside_avg'] }}
+{%- else -%}
+  {{ states('sensor.luxtronik21_ta_mittel') }}
+{%- endif %}"
       device_class: temperature
       state_class: measurement
       unit_of_measurement: "°C"

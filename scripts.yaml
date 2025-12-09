@@ -19,11 +19,13 @@ schalte_heizung_operation_mode:
 schalte_warmwasser_hysterese:
   alias: Schalte Warmwasser Hysterese
   sequence:
-  - data:
+  - alias: Führe Rest Command aus für Parameter hotwater_temperature_hysteresis
+    continue_on_error: true
+    action: rest_command.luxtronik_set_parameter
+    data:
       heatpump: '{{ heatpump }}'
       parameter: hotwater_temperature_hysteresis
       value: '{{ value }}'
-    action: rest_command.luxtronik_set_parameter
   mode: parallel
   max: 10
 schalte_warmwasser_operation_mode:
@@ -39,11 +41,13 @@ schalte_warmwasser_operation_mode:
 schalte_heizung_hysterese:
   alias: Schalte Heizung Hysterese
   sequence:
-  - data:
+  - alias: Führe Rest Command aus für Parameter return_temperature_hysteresis
+    continue_on_error: true
+    action: rest_command.luxtronik_set_parameter
+    data:
       heatpump: '{{ heatpump }}'
       parameter: return_temperature_hysteresis
       value: '{{ value }}'
-    action: rest_command.luxtronik_set_parameter
   mode: parallel
   max: 10
 schalte_warmwasser_temperatur_vorlauf_vd2:
@@ -500,3 +504,52 @@ kuhlen_an:
       action: notify.administrator_rotseepark
   alias: Kühlen AN
   description: ''
+send_a_notification_to_administrator_rotseepark:
+  alias: Send a notification to administrator_rotseepark
+  sequence:
+  - alias: Send E-Mail to administrator_rotseepark and Continue On Error
+    continue_on_error: true
+    action: notify.administrator_rotseepark
+    data:
+      title: '{{ title }}'
+      message: '{{ message }}'
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''notify.administrator_rotseepark'') == ''error''
+          }}'
+      sequence:
+      - alias: Persistente Meldung ausgeben
+        continue_on_error: true
+        action: persistent_notification.create
+        data:
+          title: '{{ title }}'
+          message: '{{ message }}'
+  - alias: Persistente Meldung ausgeben
+    continue_on_error: true
+    action: persistent_notification.create
+    data:
+      title: '{{ title }}'
+      message: '{{ message }}'
+    enabled: false
+  description: ''
+  mode: queued
+  max: 50
+  trace:
+    stored_traces: 50
+  fields: {}
+send_a_notification_to_recipient_keller_25:
+  sequence:
+  - data:
+      title: '{{ title }}'
+      message: '{{ message }}'
+      target:
+      - administrator@rotseepark.ch
+      - cornel.schuler@gmail.com
+      - ms_ruefenacht@bluewin.ch
+      - andreasbaenziger@gmx.net
+    action: notify.administrator_rotseepark
+  alias: Send a notification to recipient keller 25
+  description: ''
+  mode: queued
+  max: 10

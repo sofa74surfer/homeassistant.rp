@@ -1,0 +1,57 @@
+# ####### ################### #######
+# ####### Helper Input Number #######
+# ####### ################### #######
+
+minute_hauser_power_value:
+    name: Minute Hauser Power Value
+    initial: "0"
+    max: 20
+    mode: text
+
+minute_allgemein_power_value:
+    name: Minute Allgemein Power Value
+    initial: "0"
+    max: 20
+    mode: text
+
+minute_luftung_power_value:
+    name: Minute Luftung Power Value
+    initial: "0"
+    max: 20
+    mode: text
+
+minute_cooling_power_value:
+    name: Minute Cooling Power Value
+    initial: "0"
+    max: 20
+    mode: text
+
+minute_warmwasser_power_value:
+    name: Minute Warmwasser Power Value
+    initial: "0"
+    max: 20
+    mode: text
+
+minute_heizung_power_value:
+    name: Minute Heizung Power Value
+    initial: "0"
+    max: 20
+    mode: text
+
+minute_emobilitat_power_value:
+    name: Minute eMobilitat Power Value
+    initial: "0"
+    max: 20
+    mode: text
+
+minute_secomat_power_value:
+    name: Minute Secomat Power Value
+    initial: "0"
+    max: 20
+    mode: text
+
+minute_solar_power_value:
+    name: Minute Solar Power Value
+    initial: "0"
+    max: 20
+    mode: text

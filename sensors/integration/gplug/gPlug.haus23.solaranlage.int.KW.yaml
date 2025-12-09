@@ -1,0 +1,10 @@
+# ####### ############################################ #######
+# ####### Integration Sensor gPlug Haus 23 Solaranlage #######
+# ####### ############################################ #######
+
+# Ableitung von Template Sensor gPlug.haus23.solaranlage.tpl.W.yaml
+platform: integration
+source: sensor.gplug_haus_23_solaranlage_production
+name: "gPlug Haus 23 Solaranlage Power Production"
+unit_prefix: k
+round: 3

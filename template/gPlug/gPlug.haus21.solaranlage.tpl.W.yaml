@@ -1,0 +1,16 @@
+# ####### ########################################## #######
+# ####### Wattage Sensoren gPlug Haus 21 Solaranlage #######
+# ####### ########################################## #######
+
+- sensor:
+    - name: "gPlug Haus 21 Solaranlage Production"
+      state: "{{ (0
+      +(0 if states('sensor.gplugde_haus_21_solaranlage_meter_wirkleistung_prod_w') == 'unknown' 
+          or states('sensor.gplugde_haus_21_solaranlage_meter_wirkleistung_prod_w') == 'unavailable'
+        else states('sensor.gplugde_haus_21_solaranlage_meter_wirkleistung_prod_w')|float)
+    )|round(0) }}"
+      device_class: power
+      unit_of_measurement: "W"
+#      attributes:
+#        last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
+      unique_id: template.sensor_gPlug_haus_21_solaranlage_production

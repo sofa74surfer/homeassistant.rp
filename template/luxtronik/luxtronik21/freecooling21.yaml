@@ -2,16 +2,21 @@
 # ####### Luxtronik Sensoren 21 Free Cooling #######
 # ####### ################################## #######
 
+- sensor:
+
 # Free Cooling Operation Mode
 # param_state/cooling_operation_mode: 1
 
-- sensor:
     - name: "Luxtronik 21 Cooling Operation Mode"
-      state: "{% if states('sensor.luxtronik_21_param_state') == 'OK' -%}
-                {{ state_attr('sensor.luxtronik_21_param_state', 'parameters')['cooling_operation_mode'] }}
-              {%- else -%}
-                {{ states('sensor.luxtronik21_cooling_operation_mode') }}
-              {%- endif %}"
+      state: "{% set luxtronik_param = state_attr('sensor.luxtronik_21_param_state', 'parameters') %}
+{% if states('sensor.luxtronik_21_param_state') == 'OK' 
+  and luxtronik_param
+  and 'cooling_operation_mode' in luxtronik_param 
+-%}
+  {{ luxtronik_param['cooling_operation_mode'] }}
+{%- else -%}
+  {{ states('sensor.luxtronik21_cooling_operation_mode') }}
+{%- endif %}"
       unique_id: template.sensor_luxtronik_21_cooling_operation_mode
 
 # Free Cooling Freigabe Temperatur
@@ -36,13 +41,16 @@
 
 # Free Cooling Mixer2 Temperatur
 # param_state/temperature_mixer2_flow: 21
-- sensor:
     - name: "Luxtronik 21 M2F °C"
-      state: "{% if states('sensor.luxtronik_21_value_state') == 'OK' -%}
-                {{ state_attr('sensor.luxtronik_21_value_state', 'values')['temperature_mixer2_flow'] }}
-              {%- else -%}
-                {{ states('sensor.luxtronik21_m2f_c') }}
-              {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_21_value_state', 'values') %}
+{% if states('sensor.luxtronik_21_value_state') == 'OK' 
+  and luxtronik_values
+  and 'temperature_mixer2_flow' in luxtronik_values 
+-%}
+  {{ luxtronik_values['temperature_mixer2_flow'] }}
+{%- else -%}
+  {{ states('sensor.luxtronik21_m2f_c') }}
+{%- endif %}"
       device_class: temperature
       state_class: measurement
       unit_of_measurement: "°C"

@@ -1,0 +1,12 @@
+# ####### ########################################## #######
+# ####### Statistik Sensor gPlug Haus 23 Solaranlage #######
+# ####### ########################################## #######
+
+# Ableitung von Template Sensor gPlug.haus23.solaranlage.tpl.W.yaml
+platform: statistics
+unique_id: energy_statistic_gplug_haus_23_solaranlage_production
+entity_id: sensor.gplug_haus_23_solaranlage_production
+name: "Energy Statistic gPlug Haus 23 Solaranlage W"
+state_characteristic: mean
+sampling_size: 5
+precision: 0

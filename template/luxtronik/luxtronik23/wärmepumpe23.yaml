@@ -6,115 +6,163 @@
 
 # Hyst Heizungsregler 
     - name: "Luxtronik23 Hyst HR"
-      state: "{% if states('sensor.luxtronik_23_param_state') == 'OK' -%}
-        {{ state_attr('sensor.luxtronik_23_param_state', 'parameters')['returnTemperatureHysteresis'] }}
-      {%- else -%}
-        {{ states('sensor.luxtronik23_hyst_hr') }}
-      {%- endif %}"
+      state: "{% set luxtronik_param = state_attr('sensor.luxtronik_23_param_state', 'parameters') %}
+{% if states('sensor.luxtronik_23_param_state') == 'OK' 
+  and luxtronik_param
+  and 'returnTemperatureHysteresis' in luxtronik_param 
+-%}
+  {{ luxtronik_param['returnTemperatureHysteresis'] }}
+{%- else -%}
+  {{ states('sensor.luxtronik23_hyst_hr') }}
+{%- endif %}"
       device_class: temperature
       unit_of_measurement: "°C"
       unique_id: template.sensor_luxtronik23_hyst_hr
 
 # Heizgrenze 
     - name: "Luxtronik23 Heizgrenze"
-      state: "{% if states('sensor.luxtronik_23_param_state') == 'OK' -%}
-        {{ state_attr('sensor.luxtronik_23_param_state', 'parameters')['thresholdHeatingLimit'] }}
-      {%- else -%}
-        {{ states('sensor.luxtronik23_heizgrenze') }}
-      {%- endif %}"
+      state: "{% set luxtronik_param = state_attr('sensor.luxtronik_23_param_state', 'parameters') %}
+{% if states('sensor.luxtronik_23_param_state') == 'OK' 
+  and luxtronik_param
+  and 'thresholdHeatingLimit' in luxtronik_param 
+-%}
+  {{ luxtronik_param['thresholdHeatingLimit'] }}
+{%- else -%}
+  {{ states('sensor.luxtronik23_heizgrenze') }}
+{%- endif %}"
       device_class: temperature
       unit_of_measurement: "°C"
       unique_id: template.sensor_luxtronik23_heizgrenze
 
 # Temperatur Heissgas
     - name: "Luxtronik23 HG"
-      state: "{% if states('sensor.luxtronik_23_value_state') == 'OK' -%}
-        {{ state_attr('sensor.luxtronik_23_value_state', 'values')['temperature_hot_gas'] }}
-      {%- else -%}
-        {{ states('sensor.luxtronik23_hg') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_23_value_state', 'values') %}
+{% if states('sensor.luxtronik_23_value_state') == 'OK' 
+  and luxtronik_values
+  and 'temperature_hot_gas' in luxtronik_values 
+-%}
+  {{ luxtronik_values['temperature_hot_gas'] }}
+{%- else -%}
+  {{ states('sensor.luxtronik23_hg') }}
+{%- endif %}"
       device_class: temperature
       unit_of_measurement: "°C"
       unique_id: template.sensor_luxtronik23_hg
 
 # Bivalenz Level
     - name: "Luxtronik23 BIV"
-      state: "{% if states('sensor.luxtronik_23_value_state') == 'OK' -%}
-        {{ state_attr('sensor.luxtronik_23_value_state', 'values')['bivalentLevel'] }}
-      {%- else -%}
-        {{ states('sensor.luxtronik23_biv') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_23_value_state', 'values') %}
+{% if states('sensor.luxtronik_23_value_state') == 'OK' 
+  and luxtronik_values
+  and 'bivalentLevel' in luxtronik_values 
+-%}
+  {{ luxtronik_values['bivalentLevel'] }}
+{%- else -%}
+  {{ states('sensor.luxtronik23_biv') }}
+{%- endif %}"
       unique_id: template.sensor_luxtronik23_biv
 
 # Betriebszustand aktuell
     - name: "Luxtronik23 BZ"
-      state: "{% if states('sensor.luxtronik_23_value_state') == 'OK' -%}
-        {{ state_attr('sensor.luxtronik_23_value_state', 'values')['WP_BZ_akt'] }}
-      {%- else -%}
-        {{ states('sensor.luxtronik23_bz') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_23_value_state', 'values') %}
+{% if states('sensor.luxtronik_23_value_state') == 'OK' 
+  and luxtronik_values
+  and 'WP_BZ_akt' in luxtronik_values 
+-%}
+  {{ luxtronik_values['WP_BZ_akt'] }}
+{%- else -%}
+  {{ states('sensor.luxtronik23_bz') }}
+{%- endif %}"
       unique_id: template.sensor_luxtronik23_bz
 
 # hs1 heatpump_state1 Haus 23
     - name: "Luxtronik23 hs1"
-      state: "{% if states('sensor.luxtronik_23_value_state') == 'OK' -%}
-        {{ state_attr('sensor.luxtronik_23_value_state', 'values')['heatpump_state1'] }}
-      {%- else -%}
-        {{ states('sensor.luxtronik23_hs1') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_23_value_state', 'values') %}
+{% if states('sensor.luxtronik_23_value_state') == 'OK' 
+  and luxtronik_values
+  and 'heatpump_state1' in luxtronik_values 
+-%}
+  {{ luxtronik_values['heatpump_state1'] }}
+{%- else -%}
+  {{ states('sensor.luxtronik23_hs1') }}
+{%- endif %}"
       unique_id: template.sensor_luxtronik23_hs1
 
 # hs2 heatpump_state2 Haus 23
     - name: "Luxtronik23 hs2"
-      state: "{% if states('sensor.luxtronik_23_value_state') == 'OK' -%}
-        {{ state_attr('sensor.luxtronik_23_value_state', 'values')['heatpump_state2'] }}
-      {%- else -%}
-        {{ states('sensor.luxtronik23_hs2') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_23_value_state', 'values') %}
+{% if states('sensor.luxtronik_23_value_state') == 'OK' 
+  and luxtronik_values
+  and 'heatpump_state2' in luxtronik_values 
+-%}
+  {{ luxtronik_values['heatpump_state2'] }}
+{%- else -%}
+  {{ states('sensor.luxtronik23_hs2') }}
+{%- endif %}"
       unique_id: template.sensor_luxtronik23_hs2
 
 # hs3 heatpump_state3 Haus 23
     - name: "Luxtronik23 hs3"
-      state: "{% if states('sensor.luxtronik_23_value_state') == 'OK' -%}
-        {{ state_attr('sensor.luxtronik_23_value_state', 'values')['heatpump_state3'] }}
-      {%- else -%}
-        {{ states('sensor.luxtronik23_hs3') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_23_value_state', 'values') %}
+{% if states('sensor.luxtronik_23_value_state') == 'OK' 
+  and luxtronik_values
+  and 'heatpump_state3' in luxtronik_values 
+-%}
+  {{ luxtronik_values['heatpump_state3'] }}
+{%- else -%}
+  {{ states('sensor.luxtronik23_hs3') }}
+{%- endif %}"
       unique_id: template.sensor_luxtronik23_hs3
 
 # osh opStateHeating Haus 23
     - name: "Luxtronik23 osh"
-      state: "{% if states('sensor.luxtronik_23_value_state') == 'OK' -%}
-        {{ state_attr('sensor.luxtronik_23_value_state', 'values')['opStateHeating'] }}
-      {%- else -%}
-        {{ states('sensor.luxtronik23_osh') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_23_value_state', 'values') %}
+{% if states('sensor.luxtronik_23_value_state') == 'OK' 
+  and luxtronik_values
+  and 'opStateHeating' in luxtronik_values 
+-%}
+  {{ luxtronik_values['opStateHeating'] }}
+{%- else -%}
+  {{ states('sensor.luxtronik23_osh') }}
+{%- endif %}"
       unique_id: template.sensor_luxtronik23_osh
 
 # osm1 opStateMixer1 Haus 23
     - name: "Luxtronik23 osm1"
-      state: "{% if states('sensor.luxtronik_23_value_state') == 'OK' -%}
-        {{ state_attr('sensor.luxtronik_23_value_state', 'values')['opStateMixer1'] }}
-      {%- else -%}
-        {{ states('sensor.luxtronik23_osm1') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_23_value_state', 'values') %}
+{% if states('sensor.luxtronik_23_value_state') == 'OK' 
+  and luxtronik_values
+  and 'opStateMixer1' in luxtronik_values 
+-%}
+  {{ luxtronik_values['opStateMixer1'] }}
+{%- else -%}
+  {{ states('sensor.luxtronik23_osm1') }}
+{%- endif %}"
       unique_id: template.sensor_luxtronik23_osm1
 
 # osm2 opStateMixer2 Haus 23
     - name: "Luxtronik23 osm2"
-      state: "{% if states('sensor.luxtronik_23_value_state') == 'OK' -%}
-        {{ state_attr('sensor.luxtronik_23_value_state', 'values')['opStateMixer2'] }}
-      {%- else -%}
-        {{ states('sensor.luxtronik23_osm2') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_23_value_state', 'values') %}
+{% if states('sensor.luxtronik_23_value_state') == 'OK' 
+  and luxtronik_values
+  and 'opStateMixer2' in luxtronik_values 
+-%}
+  {{ luxtronik_values['opStateMixer2'] }}
+{%- else -%}
+  {{ states('sensor.luxtronik23_osm2') }}
+{%- endif %}"
       unique_id: template.sensor_luxtronik23_osm2
 
 # osm3 opStateMixer3 Haus 23
     - name: "Luxtronik23 osm3"
-      state: "{% if states('sensor.luxtronik_23_value_state') == 'OK' -%}
-        {{ state_attr('sensor.luxtronik_23_value_state', 'values')['opStateMixer3'] }}
-      {%- else -%}
-        {{ states('sensor.luxtronik23_osm3') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_23_value_state', 'values') %}
+{% if states('sensor.luxtronik_23_value_state') == 'OK' 
+  and luxtronik_values
+  and 'opStateMixer3' in luxtronik_values 
+-%}
+  {{ luxtronik_values['opStateMixer3'] }}
+{%- else -%}
+  {{ states('sensor.luxtronik23_osm3') }}
+{%- endif %}"
       unique_id: template.sensor_luxtronik23_osm3
 

@@ -19,6 +19,18 @@ notify:
     recipient:
       - !secret notify_mailaddress
     sender_name: !secret notify_name
+  - name: !secret notify_ha_name
+    platform: smtp
+    server: !secret notify_ha_server
+    port: 587
+    timeout: 15
+    sender: !secret notify_ha_sender
+    encryption: starttls
+    username: !secret notify_ha_sender
+    password: !secret notify_ha_password
+    recipient:
+      - !secret notify_ha_recipient
+    sender_name: !secret notify_ha_name
 
 # Load frontend themes from the themes folder
 frontend:
@@ -32,6 +44,8 @@ shell_command:
   luxtronik23_to_ha: !secret shell_luxtronik23_to_ha
   luxtronik25_to_ha: !secret shell_luxtronik25_to_ha
   ha_to_rotseepark: !secret shell_ha_to_rotseepark
+  write_line_to_file: "/config/scripts/write_to_file.sh '{{ mode }}' '{{ file }}' '{{ value }}'"
+  file_action: "/config/scripts/file_action.sh '{{ mode }}' '{{ file1 }}' '{{ file2 }}'"
 
 recorder:
   purge_keep_days: 17                    # Ich behalte 2 Wochen und 3 Tage
@@ -69,6 +83,7 @@ recorder:
       - sensor.forecast*_6               # Forecast Sensoren "Unavailable" Schutz
       - sensor.forecast*_7               # Forecast Sensoren "Unavailable" Schutz
       - sensor.forecast*_8               # Forecast Sensoren "Unavailable" Schutz
+      - sensor.gplugde                   # gplugde (nur abgeleitete Sensoren)
  
 #homeassistant:
 #  auth_providers:
@@ -90,7 +105,7 @@ sql: !include_dir_merge_list sql/
 
 ########### INCLUDES ##### Additional Dir List
 sensor: !include_dir_list sensors/
-binary_sensor: !include_dir_list binary_sensors/
+#binary_sensor: !include_dir_list binary_sensors/
 rest_command: !include_dir_merge_named rest_commands/
 template: !include_dir_merge_list template/
 
@@ -99,31 +114,32 @@ counter: !include helpers/counter.yaml
 input_boolean: !include helpers/input_boolean.yaml
 input_number: !include helpers/input_number.yaml
 input_select: !include helpers/input_select.yaml
+input_text: !include helpers/input_text.yaml
 
 # Influx DB mit Daten füllen
-influxdb:
-  host: !secret influx_db_host
-  port: !secret influx_db_port
-  database: !secret influx_db_database
-  username: !secret influx_db_username
-  password: !secret influx_db_password
-  max_retries: 3
-  default_measurement: state
-  include:
-    entity_globs:
-      - sensor.gwf_*_*_*_diff
-      - sensor.gwf_*_*_*_helper
-      - input_boolean.luxtronik_*_haus_*
-      - sensor.heatpump*power_consumption
-      - sensor.solar_power_production*
-      - sensor.shelly_emobility_power_consumption
-      - sensor.janitza_umg604_power_consumption
-      - sensor.luxtronik*_bz
-      - sensor.luxtronik*_hs3
-      - sensor.luxtronik*_vd*
-      - sensor.luxtronik*_tbw
-      - sensor.sql_*
-  exclude:
-    entity_globs:
-      - sensor.heatpump*power_consumption_*
-      - sensor.shelly_emobility_power_consumption_*
+# influxdb:
+#   host: !secret influx_db_host
+#   port: !secret influx_db_port
+#   database: !secret influx_db_database
+#   username: !secret influx_db_username
+#   password: !secret influx_db_password
+#   max_retries: 3
+#   default_measurement: state
+#   include:
+#     entity_globs:
+#       - sensor.gwf_*_*_*_diff
+#       - sensor.gwf_*_*_*_helper
+#       - input_boolean.luxtronik_*_haus_*
+#       - sensor.heatpump*power_consumption
+#       - sensor.solar_power_production*
+#       - sensor.shelly_emobility_power_consumption
+#       - sensor.janitza_umg604_power_consumption
+#       - sensor.luxtronik*_bz
+#       - sensor.luxtronik*_hs3
+#       - sensor.luxtronik*_vd*
+#       - sensor.luxtronik*_tbw
+#       - sensor.sql_*
+#   exclude:
+#     entity_globs:
+#       - sensor.heatpump*power_consumption_*
+#       - sensor.shelly_emobility_power_consumption_*

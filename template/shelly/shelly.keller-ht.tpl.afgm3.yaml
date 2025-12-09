@@ -1,0 +1,289 @@
+# ####### ########################### #######
+# ####### Absolute Feuchte Shelly     #######
+# ####### ########################### #######
+
+- sensor:
+    - name: "Shelly H T Keller 001 Kunz Absolute Feuchte"
+      unique_id: template.shelly_h_t_keller_001_kunz_absolute_feuchte
+      device_class: weight
+      unit_of_measurement: "g"
+      state: >
+        {% set humidity = states('sensor.shelly_h_t_keller_001_kunz_humidity') %}
+        {% set temperature = states('sensor.shelly_h_t_keller_001_kunz_temperature') %}
+        {% if humidity is number and temperature is number %}
+          {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
+              10**((7.5 * temperature) / (237.3 + temperature)) / 
+              (temperature + 273.15))|round(1)) }}
+        {% else %}
+          {{ states('sensor.shelly_h_t_keller_001_kunz_absolute_feuchte') }}
+        {% endif %}
+
+    - name: "Shelly H T Keller 002 Busslinger Absolute Feuchte"
+      unique_id: template.shelly_h_t_keller_002_busslinger_absolute_feuchte
+      device_class: weight
+      unit_of_measurement: "g"
+      state: >
+        {% set humidity = states('sensor.shelly_h_t_keller_002_busslinger_humidity') %}
+        {% set temperature = states('sensor.shelly_h_t_keller_002_busslinger_temperature') %}
+        {% if humidity is number and temperature is number %}
+          {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
+              10**((7.5 * temperature) / (237.3 + temperature)) / 
+              (temperature + 273.15))|round(1)) }}
+        {% else %}
+          {{ states('sensor.shelly_h_t_keller_002_busslinger_absolute_feuchte') }}
+        {% endif %}
+
+    - name: "Shelly H T Keller 003 Renggli Absolute Feuchte"
+      unique_id: template.shelly_h_t_keller_003_renggli_absolute_feuchte
+      device_class: weight
+      unit_of_measurement: "g"
+      state: >
+        {% set humidity = states('sensor.shelly_h_t_keller_003_renggli_humidity') %}
+        {% set temperature = states('sensor.shelly_h_t_keller_003_renggli_temperature') %}
+        {% if humidity is number and temperature is number %}
+          {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
+              10**((7.5 * temperature) / (237.3 + temperature)) / 
+              (temperature + 273.15))|round(1)) }}
+        {% else %}
+          {{ states('sensor.shelly_h_t_keller_003_renggli_absolute_feuchte') }}
+        {% endif %}
+
+    - name: "Shelly H T Keller 004 Gang 21 Absolute Feuchte"
+      unique_id: template.shelly_h_t_keller_004_gang_21_absolute_feuchte
+      device_class: weight
+      unit_of_measurement: "g"
+      state: >
+        {% set humidity = states('sensor.shelly_h_t_keller_004_gang_21_humidity') %}
+        {% set temperature = states('sensor.shelly_h_t_keller_004_gang_21_temperature') %}
+        {% if humidity is number and temperature is number %}
+          {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
+              10**((7.5 * temperature) / (237.3 + temperature)) / 
+              (temperature + 273.15))|round(1)) }}
+        {% else %}
+          {{ states('sensor.shelly_h_t_keller_004_gang_21_absolute_feuchte') }}
+        {% endif %}
+
+    - name: "Shelly H T Keller 005 Gang 25 Absolute Feuchte"
+      unique_id: template.shelly_h_t_keller_005_gang_25_absolute_feuchte
+      device_class: weight
+      unit_of_measurement: "g"
+      state: >
+        {% set humidity = states('sensor.shelly_h_t_keller_005_gang_25_humidity') %}
+        {% set temperature = states('sensor.shelly_h_t_keller_005_gang_25_temperature') %}
+        {% if humidity is number and temperature is number %}
+          {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
+              10**((7.5 * temperature) / (237.3 + temperature)) / 
+              (temperature + 273.15))|round(1)) }}
+        {% else %}
+          {{ states('sensor.shelly_h_t_keller_005_gang_25_absolute_feuchte') }}
+        {% endif %}
+
+    - name: "Shelly H T Keller 006 Gang 23 Absolute Feuchte"
+      unique_id: template.shelly_h_t_keller_006_gang_23_absolute_feuchte
+      device_class: weight
+      unit_of_measurement: "g"
+      state: >
+        {% set humidity = states('sensor.shelly_h_t_keller_006_gang_23_humidity') %}
+        {% set temperature = states('sensor.shelly_h_t_keller_006_gang_23_temperature') %}
+        {% if humidity is number and temperature is number %}
+          {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
+              10**((7.5 * temperature) / (237.3 + temperature)) / 
+              (temperature + 273.15))|round(1)) }}
+        {% else %}
+          {{ states('sensor.shelly_h_t_keller_006_gang_23_absolute_feuchte') }}
+        {% endif %}
+
+    - name: "Shelly H T Keller 007 Dispo SA Absolute Feuchte"
+      unique_id: template.shelly_h_t_keller_007_dispo_sa_absolute_feuchte
+      device_class: weight
+      unit_of_measurement: "g"
+      state: >
+        {% set humidity = states('sensor.shelly_h_t_keller_007_dispo_sa_humidity') %}
+        {% set temperature = states('sensor.shelly_h_t_keller_007_dispo_sa_temperature') %}
+        {% if humidity is number and temperature is number %}
+          {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
+              10**((7.5 * temperature) / (237.3 + temperature)) / 
+              (temperature + 273.15))|round(1)) }}
+        {% else %}
+          {{ states('sensor.shelly_h_t_keller_007_dispo_sa_absolute_feuchte') }}
+        {% endif %}
+
+    - name: "Shelly H T Keller 008 Gang 19 Absolute Feuchte"
+      unique_id: template.shelly_h_t_keller_008_gang_19_absolute_feuchte
+      device_class: weight
+      unit_of_measurement: "g"
+      state: >
+        {% set humidity = states('sensor.shelly_h_t_keller_008_gang_19_humidity') %}
+        {% set temperature = states('sensor.shelly_h_t_keller_008_gang_19_temperature') %}
+        {% if humidity is number and temperature is number %}
+          {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
+              10**((7.5 * temperature) / (237.3 + temperature)) / 
+              (temperature + 273.15))|round(1)) }}
+        {% else %}
+          {{ states('sensor.shelly_h_t_keller_008_gang_19_absolute_feuchte') }}
+        {% endif %}
+
+    - name: "Shelly H T Keller 009 Gang 21 19 Absolute Feuchte"
+      unique_id: template.shelly_h_t_keller_009_gang_21_19_absolute_feuchte
+      device_class: weight
+      unit_of_measurement: "g"
+      state: >
+        {% set humidity = states('sensor.shelly_h_t_keller_009_gang_21_19_humidity') %}
+        {% set temperature = states('sensor.shelly_h_t_keller_009_gang_21_19_temperature') %}
+        {% if humidity is number and temperature is number %}
+          {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
+              10**((7.5 * temperature) / (237.3 + temperature)) / 
+              (temperature + 273.15))|round(1)) }}
+        {% else %}
+          {{ states('sensor.shelly_h_t_keller_009_gang_21_19_absolute_feuchte') }}
+        {% endif %}
+
+    - name: "Shelly H T Keller 010 Trosch Absolute Feuchte"
+      unique_id: template.shelly_h_t_keller_010_trosch_absolute_feuchte
+      device_class: weight
+      unit_of_measurement: "g"
+      state: >
+        {% set humidity = states('sensor.shelly_h_t_keller_010_trosch_humidity') %}
+        {% set temperature = states('sensor.shelly_h_t_keller_010_trosch_temperature') %}
+        {% if humidity is number and temperature is number %}
+          {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
+              10**((7.5 * temperature) / (237.3 + temperature)) / 
+              (temperature + 273.15))|round(1)) }}
+        {% else %}
+          {{ states('sensor.shelly_h_t_keller_010_trosch_absolute_feuchte') }}
+        {% endif %}
+
+    - name: "Shelly H T Keller 011 Frei Absolute Feuchte"
+      unique_id: template.shelly_h_t_keller_011_frei_absolute_feuchte
+      device_class: weight
+      unit_of_measurement: "g"
+      state: >
+        {% set humidity = states('sensor.shelly_h_t_keller_011_frei_humidity') %}
+        {% set temperature = states('sensor.shelly_h_t_keller_011_frei_temperature') %}
+        {% if humidity is number and temperature is number %}
+          {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
+              10**((7.5 * temperature) / (237.3 + temperature)) / 
+              (temperature + 273.15))|round(1)) }}
+        {% else %}
+          {{ states('sensor.shelly_h_t_keller_011_frei_absolute_feuchte') }}
+        {% endif %}
+
+    - name: "Shelly H T Keller 012 Muller Absolute Feuchte"
+      unique_id: template.shelly_h_t_keller_012_muller_absolute_feuchte
+      device_class: weight
+      unit_of_measurement: "g"
+      state: >
+        {% set humidity = states('sensor.shelly_h_t_keller_012_muller_humidity') %}
+        {% set temperature = states('sensor.shelly_h_t_keller_012_muller_temperature') %}
+        {% if humidity is number and temperature is number %}
+          {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
+              10**((7.5 * temperature) / (237.3 + temperature)) / 
+              (temperature + 273.15))|round(1)) }}
+        {% else %}
+          {{ states('sensor.shelly_h_t_keller_012_muller_absolute_feuchte') }}
+        {% endif %}
+
+    - name: "Shelly H T Keller 013 Zollig Absolute Feuchte"
+      unique_id: template.shelly_h_t_keller_013_zollig_absolute_feuchte
+      device_class: weight
+      unit_of_measurement: "g"
+      state: >
+        {% set humidity = states('sensor.shelly_h_t_keller_013_zollig_humidity') %}
+        {% set temperature = states('sensor.shelly_h_t_keller_013_zollig_temperature') %}
+        {% if humidity is number and temperature is number %}
+          {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
+              10**((7.5 * temperature) / (237.3 + temperature)) / 
+              (temperature + 273.15))|round(1)) }}
+        {% else %}
+          {{ states('sensor.shelly_h_t_keller_013_zollig_absolute_feuchte') }}
+        {% endif %}
+
+    - name: "Shelly H T Keller 014 Arregger Absolute Feuchte"
+      unique_id: template.shelly_h_t_keller_014_arregger_absolute_feuchte
+      device_class: weight
+      unit_of_measurement: "g"
+      state: >
+        {% set humidity = states('sensor.shelly_h_t_keller_014_arregger_humidity') %}
+        {% set temperature = states('sensor.shelly_h_t_keller_014_arregger_temperature') %}
+        {% if humidity is number and temperature is number %}
+          {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
+              10**((7.5 * temperature) / (237.3 + temperature)) / 
+              (temperature + 273.15))|round(1)) }}
+        {% else %}
+          {{ states('sensor.shelly_h_t_keller_014_arregger_absolute_feuchte') }}
+        {% endif %}
+
+    - name: "Shelly H T Keller 015 Hartmann Absolute Feuchte"
+      unique_id: template.shelly_h_t_keller_015_hartmann_absolute_feuchte
+      device_class: weight
+      unit_of_measurement: "g"
+      state: >
+        {% set humidity = states('sensor.shelly_h_t_keller_015_hartmann_humidity') %}
+        {% set temperature = states('sensor.shelly_h_t_keller_015_hartmann_temperature') %}
+        {% if humidity is number and temperature is number %}
+          {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
+              10**((7.5 * temperature) / (237.3 + temperature)) / 
+              (temperature + 273.15))|round(1)) }}
+        {% else %}
+          {{ states('sensor.shelly_h_t_keller_015_hartmann_absolute_feuchte') }}
+        {% endif %}
+
+    - name: "Shelly H T Keller 016 Iten Absolute Feuchte"
+      unique_id: template.shelly_h_t_keller_016_iten_absolute_feuchte
+      device_class: weight
+      unit_of_measurement: "g"
+      state: >
+        {% set humidity = states('sensor.shelly_h_t_keller_016_iten_humidity') %}
+        {% set temperature = states('sensor.shelly_h_t_keller_016_iten_temperature') %}
+        {% if humidity is number and temperature is number %}
+          {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
+              10**((7.5 * temperature) / (237.3 + temperature)) / 
+              (temperature + 273.15))|round(1)) }}
+        {% else %}
+          {{ states('sensor.shelly_h_t_keller_016_iten_absolute_feuchte') }}
+        {% endif %}
+
+    - name: "Shelly H T Keller 017 DuBois Absolute Feuchte"
+      unique_id: template.shelly_h_t_keller_017_dubois_absolute_feuchte
+      device_class: weight
+      unit_of_measurement: "g"
+      state: >
+        {% set humidity = states('sensor.shelly_h_t_keller_017_dubois_humidity') %}
+        {% set temperature = states('sensor.shelly_h_t_keller_017_dubois_temperature') %}
+        {% if humidity is number and temperature is number %}
+          {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
+              10**((7.5 * temperature) / (237.3 + temperature)) / 
+              (temperature + 273.15))|round(1)) }}
+        {% else %}
+          {{ states('sensor.shelly_h_t_keller_017_dubois_absolute_feuchte') }}
+        {% endif %}
+
+    - name: "Shelly H T Keller 018 Kuhn Absolute Feuchte"
+      unique_id: template.shelly_h_t_keller_018_kuhn_absolute_feuchte
+      device_class: weight
+      unit_of_measurement: "g"
+      state: >
+        {% set humidity = states('sensor.shelly_h_t_keller_018_kuhn_humidity') %}
+        {% set temperature = states('sensor.shelly_h_t_keller_018_kuhn_temperature') %}
+        {% if humidity is number and temperature is number %}
+          {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
+              10**((7.5 * temperature) / (237.3 + temperature)) / 
+              (temperature + 273.15))|round(1)) }}
+        {% else %}
+          {{ states('sensor.shelly_h_t_keller_018_kuhn_absolute_feuchte') }}
+        {% endif %}
+
+    - name: "Shelly H T Keller 019 Rufenacht Absolute Feuchte"
+      unique_id: template.shelly_h_t_keller_019_rufenacht_absolute_feuchte
+      device_class: weight
+      unit_of_measurement: "g"
+      state: >
+        {% set humidity = states('sensor.shelly_h_t_keller_019_rufenacht_humidity') %}
+        {% set temperature = states('sensor.shelly_h_t_keller_019_rufenacht_temperature') %}
+        {% if humidity is number and temperature is number %}
+          {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
+              10**((7.5 * temperature) / (237.3 + temperature)) / 
+              (temperature + 273.15))|round(1)) }}
+        {% else %}
+          {{ states('sensor.shelly_h_t_keller_019_rufenacht_absolute_feuchte') }}
+        {% endif %}

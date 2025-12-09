@@ -12,5 +12,5 @@
       device_class: power
       unit_of_measurement: "W"
       attributes:
-        last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
+        last_updated:  "{{ now().strftime('%d.%m.%Y %H:%M') }}"
       unique_id: template.sensor_shelly_emobility_power

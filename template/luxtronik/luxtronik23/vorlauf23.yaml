@@ -6,11 +6,15 @@
 
 # Temperatur Vorlauf (with LTS)
     - name: "Luxtronik23 TVL"
-      state: "{% if states('sensor.luxtronik_23_value_state') == 'OK' -%}
-        {{ state_attr('sensor.luxtronik_23_value_state', 'values')['temperature_supply'] }}
-      {%- else -%}
-        {{ states('sensor.luxtronik23_tvl') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_23_value_state', 'values') %}
+{% if states('sensor.luxtronik_23_value_state') == 'OK' 
+  and luxtronik_values
+  and 'temperature_supply' in luxtronik_values 
+-%}
+  {{ luxtronik_values['temperature_supply'] }}
+{%- else -%}
+  {{ states('sensor.luxtronik23_tvl') }}
+{%- endif %}"
       device_class: temperature
       state_class: measurement
       unit_of_measurement: "°C"
@@ -18,11 +22,17 @@
 
 # Temperatur Spreizung Vorlauf und Rücklauf
     - name: "Luxtronik23 Spz TVL TRL"
-      state: "{% if states('sensor.luxtronik_23_value_state') == 'OK' -%}
-        {{ ((state_attr('sensor.luxtronik_23_value_state', 'values')['temperature_supply']) - (state_attr('sensor.luxtronik_23_value_state', 'values')['temperature_return']))|round(1) }}
-      {%- else -%}
-        {{ states('sensor.luxtronik23_spz_tvl_trl') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_23_value_state', 'values') %}
+{% if states('sensor.luxtronik_23_value_state') == 'OK' 
+  and luxtronik_values
+  and 'temperature_supply' in luxtronik_values 
+  and 'temperature_return' in luxtronik_values 
+-%}
+  {{ ((luxtronik_values['temperature_supply'])
+      -(luxtronik_values['temperature_return']))|round(1) }}
+{%- else -%}
+  {{ states('sensor.luxtronik23_spz_tvl_trl') }}
+{%- endif %}"
       device_class: temperature
       unit_of_measurement: "°C"
       unique_id: template.sensor_luxtronik23_spz_tvl_trl

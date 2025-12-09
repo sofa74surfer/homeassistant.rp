@@ -1,0 +1,10 @@
+# ####### ############################################ #######
+# ####### Integration Sensor gPlug Haus 25 Brandanlage #######
+# ####### ############################################ #######
+
+# Ableitung von Template Sensor gPlug.haus25.brandanlage.tpl.W.yaml
+platform: integration
+source: sensor.gplug_haus_25_brandanlage_power
+name: "gPlug Haus 25 Brandanlage Power Consumption"
+unit_prefix: k
+round: 3

@@ -1,0 +1,10 @@
+# ####### ############################# #######
+# ####### Integration Sensor eMobilität #######
+# ####### ############################# #######
+
+# Ableitung von Template Sensor emobilitat.tpl.yaml
+platform: integration
+source: sensor.emobilitat_power
+name: "eMobilität Power Consumption"
+unit_prefix: k
+round: 3

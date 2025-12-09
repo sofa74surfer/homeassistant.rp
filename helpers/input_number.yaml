@@ -211,6 +211,34 @@ luxtronik_25_ww_hysterese:
   mode: slider
   step: 1.0
 
+luxtronik_19_hz_hysterese:
+  min: 1.0
+  max: 5.0
+  name: Luxtronik 19 HZ Hysterese
+  mode: slider
+  step: 0.5
+
+luxtronik_21_hz_hysterese:
+  min: 1.0
+  max: 5.0
+  name: Luxtronik 21 HZ Hysterese
+  mode: slider
+  step: 0.5
+
+luxtronik_23_hz_hysterese:
+  min: 1.0
+  max: 5.0
+  name: Luxtronik 23 HZ Hysterese
+  mode: slider
+  step: 0.5
+
+luxtronik_25_hz_hysterese:
+  min: 1.0
+  max: 5.0
+  name: Luxtronik 25 HZ Hysterese
+  mode: slider
+  step: 0.5
+
 luxtronik_19_ww_solltemperatur_wunschwert:
   min: 30.0
   max: 70.0
@@ -257,12 +285,35 @@ luxtronik_ww_normaltemperatur:
   step: 1.0
   mode: slider
 
+luxtronik_ww_maximaltemperatur:
+  min: 30.0
+  max: 70.0
+  name: Luxtronik WW Solltemperatur Maximaltemperatur
+  step: 1.0
+  mode: slider
+
 luxtronik_ww_normalhysterese:
   min: 1.0
   max: 30.0
   name: Luxtronik WW Normalhysterese
   unit_of_measurement: °C
   step: 1.0
+  mode: slider
+
+luxtronik_hz_normalhysterese:
+  min: 1.0
+  max: 3.0
+  name: Luxtronik HZ Normalhysterese
+  unit_of_measurement: °C
+  step: 0.5
+  mode: slider
+
+luxtronik_hz_maximalhysterese:
+  min: 1.0
+  max: 5.0
+  name: Luxtronik HZ Maximalhysterese
+  unit_of_measurement: °C
+  step: 0.5
   mode: slider
 
 gwf_19_ww_l_helper:

@@ -6,11 +6,15 @@
 
  # Temperatur Wärmequelle Eintritt (in die Maschine hinein)
     - name: "Luxtronik19 TWQ ein"
-      state: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}
-        {{ ((state_attr('sensor.luxtronik_19_value_state', 'values')['temperature_heat_source_in'])|round(1)) }}
-      {%- else -%}
-        {{ states('sensor.luxtronik19_twq_ein') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_19_value_state', 'values') %}
+{% if states('sensor.luxtronik_19_value_state') == 'OK' 
+  and luxtronik_values
+  and 'temperature_heat_source_in' in luxtronik_values 
+-%}
+  {{ ((luxtronik_values['temperature_heat_source_in'])|round(1)) }}
+{%- else -%}
+  {{ states('sensor.luxtronik19_twq_ein') }}
+{%- endif %}"
       device_class: temperature
       state_class: measurement
       unit_of_measurement: "°C"
@@ -18,11 +22,15 @@
 
 # Temperatur Wärmequelle Austritt (aus der Maschine heraus)
     - name: "Luxtronik19 TWQ aus"
-      state: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}
-        {{ ((state_attr('sensor.luxtronik_19_value_state', 'values')['temperature_heat_source_out'])|round(1)) }}
-      {%- else -%}
-        {{ states('sensor.luxtronik19_twq_aus') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_19_value_state', 'values') %}
+{% if states('sensor.luxtronik_19_value_state') == 'OK' 
+  and luxtronik_values
+  and 'temperature_heat_source_out' in luxtronik_values 
+-%}
+  {{ ((luxtronik_values['temperature_heat_source_out'])|round(1)) }}
+{%- else -%}
+  {{ states('sensor.luxtronik19_twq_aus') }}
+{%- endif %}"
       device_class: temperature
       state_class: measurement
       unit_of_measurement: "°C"
@@ -30,44 +38,68 @@
 
 # Temperatur Spz Wärmequelle Austritt Eintritt
     - name: "Luxtronik19 Spz TWQ ein aus"
-      state: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}
-        {{ (state_attr('sensor.luxtronik_19_value_state', 'values')['temperature_heat_source_in'] - state_attr('sensor.luxtronik_19_value_state', 'values')['temperature_heat_source_out'])|round(1) }}
-      {%- else -%}
-        {{ states('sensor.luxtronik19_spz_twq_ein_aus') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_19_value_state', 'values') %}
+{% if states('sensor.luxtronik_19_value_state') == 'OK' 
+  and luxtronik_values
+  and 'temperature_heat_source_in' in luxtronik_values 
+  and 'temperature_heat_source_out' in luxtronik_values 
+-%}
+  {{ (luxtronik_values['temperature_heat_source_in']
+      -luxtronik_values['temperature_heat_source_out'])|round(1) }}
+{%- else -%}
+  {{ states('sensor.luxtronik19_spz_twq_ein_aus') }}
+{%- endif %}"
       device_class: temperature
       unit_of_measurement: "°C"
       unique_id: template.sensor_luxtronik19_spz_twq_ein_aus
 
 # Temperatur Wärmequelle Eintritt (in die Maschine hinein) (korr)
     - name: "Luxtronik19 TWQ ein korr"
-      state: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}
-        {{ ((state_attr('sensor.luxtronik_19_value_state', 'values')['temperature_heat_source_in'])+states('input_number.luxtronik_19_twq_ein_offset')|round(1)) }}
-      {%- else -%}
-        {{ states('sensor.luxtronik19_twq_ein_korr') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_19_value_state', 'values') %}
+{% if states('sensor.luxtronik_19_value_state') == 'OK' 
+  and luxtronik_values
+  and 'temperature_heat_source_in' in luxtronik_values 
+-%}
+  {{ ((luxtronik_values['temperature_heat_source_in'])
+      +states('input_number.luxtronik_19_twq_ein_offset')|round(1)) }}
+{%- else -%}
+  {{ states('sensor.luxtronik19_twq_ein_korr') }}
+{%- endif %}"
       device_class: temperature
       unit_of_measurement: "°C"
       unique_id: template.sensor_luxtronik19_twq_ein_korr
 
 # Temperatur Wärmequelle Austritt (aus der Maschine heraus) (korr)
     - name: "Luxtronik19 TWQ aus korr"
-      state: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}
-        {{ ((state_attr('sensor.luxtronik_19_value_state', 'values')['temperature_heat_source_out'])+states('input_number.luxtronik_19_twq_aus_offset')|round(1)) }}
-      {%- else -%}
-        {{ states('sensor.luxtronik19_twq_aus_korr') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_19_value_state', 'values') %}
+{% if states('sensor.luxtronik_19_value_state') == 'OK' 
+  and luxtronik_values
+  and 'temperature_heat_source_out' in luxtronik_values 
+-%}
+  {{ ((luxtronik_values['temperature_heat_source_out'])
+      +states('input_number.luxtronik_19_twq_aus_offset')|round(1)) }}
+{%- else -%}
+  {{ states('sensor.luxtronik19_twq_aus_korr') }}
+{%- endif %}"
       device_class: temperature
       unit_of_measurement: "°C"
       unique_id: template.sensor_luxtronik19_twq_aus_korr
 
 # Temperatur Spz Wärmequelle Eintritt Austritt (korr)
     - name: "Luxtronik19 Spz TWQ ein aus korr"
-      state: "{% if states('sensor.luxtronik_19_value_state') == 'OK' -%}
-        {{ ((state_attr('sensor.luxtronik_19_value_state', 'values')['temperature_heat_source_in']+states('input_number.luxtronik_19_twq_ein_offset')|float)-(state_attr('sensor.luxtronik_19_value_state', 'values')['temperature_heat_source_out']+states('input_number.luxtronik_19_twq_aus_offset')|float))|round(1) }}
-      {%- else -%}
-        {{ states('sensor.luxtronik19_spz_twq_ein_aus_korr') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_19_value_state', 'values') %}
+{% if states('sensor.luxtronik_19_value_state') == 'OK' 
+  and luxtronik_values
+  and 'temperature_heat_source_in' in luxtronik_values 
+  and 'temperature_heat_source_out' in luxtronik_values 
+-%}
+  {{ ((luxtronik_values['temperature_heat_source_in']
+      +states('input_number.luxtronik_19_twq_ein_offset')|float)
+      -(luxtronik_values['temperature_heat_source_out']
+      +states('input_number.luxtronik_19_twq_aus_offset')|float))|round(1) }}
+{%- else -%}
+  {{ states('sensor.luxtronik19_spz_twq_ein_aus_korr') }}
+{%- endif %}"
       device_class: temperature
       unit_of_measurement: "°C"
       unique_id: template.sensor_luxtronik19_spz_twq_ein_aus_korr

@@ -1,0 +1,58 @@
+# ####### ########################### #######
+# ####### Absolute Feuchte Netatmo    #######
+# ####### ########################### #######
+
+- sensor:
+    - name: "Netatmo Keller Buhler Absolute Feuchte"
+      # friendly_name: "Netatmo Keller Bühler absolute Feuchte g/m3"
+      unique_id: template.netatmo_keller_buhler_absolute_feuchte
+      device_class: weight
+      unit_of_measurement: "g"
+      state: >
+        {% set humidity = states('sensor.netatmo_keller_buhler_humidity') %}
+        {% set temperature = states('sensor.netatmo_keller_buhler_temperature') %}
+        {% if humidity is number and temperature is number %}
+          {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
+              10**((7.5 * temperature) / (237.3 + temperature)) / 
+              (temperature + 273.15))|round(1)) }}
+        {% else %}
+          {{ states('sensor.netatmo_keller_buhler_absolute_feuchte') }}
+        {% endif %}
+      attributes:
+        last_updated: "{{ now().strftime('%d.%m.%Y %H:%M') }}"
+
+    - name: "Netatmo Keller Gang Absolute Feuchte"
+      # friendly_name: "Netatmo Keller Gang absolute Feuchte g/m3"
+      unique_id: template.netatmo_keller_gang_absolute_feuchte
+      device_class: weight
+      unit_of_measurement: "g"
+      state: >
+        {% set humidity = states('sensor.netatmo_keller_gang_humidity') %}
+        {% set temperature = states('sensor.netatmo_keller_gang_temperature') %}
+        {% if humidity is number and temperature is number %}
+          {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
+              10**((7.5 * temperature) / (237.3 + temperature)) / 
+              (temperature + 273.15))|round(1)) }}
+        {% else %}
+          {{ states('sensor.netatmo_keller_gang_absolute_feuchte') }}
+        {% endif %}
+      attributes:
+        last_updated: "{{ now().strftime('%d.%m.%Y %H:%M') }}"
+
+    - name: "Netatmo Outdoor Absolute Feuchte"
+      # friendly_name: "Netatmo Outdoor absolute Feuchte g/m3"
+      unique_id: template.netatmo_outdoor_absolute_feuchte
+      device_class: weight
+      unit_of_measurement: "g"
+      state: >
+        {% set humidity = states('sensor.netatmo_outdoor_humidity') %}
+        {% set temperature = states('sensor.netatmo_outdoor_temperature') %}
+        {% if humidity is number and temperature is number %}
+          {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
+              10**((7.5 * temperature) / (237.3 + temperature)) / 
+              (temperature + 273.15))|round(1)) }}
+        {% else %}
+          {{ states('sensor.netatmo_outdoor_absolute_feuchte') }}
+        {% endif %}
+      attributes:
+        last_updated: "{{ now().strftime('%d.%m.%Y %H:%M') }}"

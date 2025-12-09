@@ -1,0 +1,24 @@
+# ####### ####################### #######
+# ####### Forecast Sensoren Solar #######
+# ####### ####################### #######
+
+- sensor:
+    - name: "Forecast Solar Production Next Hour"
+      # friendly_name: "Forecast Solar Production Next Hour kW"
+      unique_id: template.forecast_solar_production_next_hour
+      device_class: power
+      unit_of_measurement: "kW"
+      state: "{{ 
+        (
+          states('sensor.energy_next_hour_3')|regex_replace('.*[a-z]', '0')|float +
+          states('sensor.energy_next_hour_4')|regex_replace('.*[a-z]', '0')|float +
+          states('sensor.energy_next_hour_5')|regex_replace('.*[a-z]', '0')|float +
+          states('sensor.energy_next_hour_6')|regex_replace('.*[a-z]', '0')|float +
+          states('sensor.energy_next_hour_7')|regex_replace('.*[a-z]', '0')|float +
+          states('sensor.energy_next_hour_8')|regex_replace('.*[a-z]', '0')|float +
+          states('sensor.energy_next_hour_9')|regex_replace('.*[a-z]', '0')|float +
+          states('sensor.energy_next_hour_10')|regex_replace('.*[a-z]', '0')|float
+        )|round(0)
+      }}"
+      attributes:
+        last_updated: "{{ now().strftime('%d.%m.%Y %H:%M') }}"

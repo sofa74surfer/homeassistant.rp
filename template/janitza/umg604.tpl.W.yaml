@@ -1,0 +1,24 @@
+# ####### ######################## #######
+# ####### Wattage Sensoren Janitza #######
+# ####### ######################## #######
+
+- sensor:
+    - name: "Janitza UMG604 Power"
+      # friendly_name: "Janitza UMG604 W"
+      unique_id: template.sensor_janitza_umg604_power
+      device_class: power
+      unit_of_measurement: "W"
+      state: "{% set power_state = states('sensor.janitza_umg604_state') %}
+              {% set power_sum = state_attr('sensor.janitza_umg604_state', '_P_SUM3') | default(None) %}
+              {% if power_state in ['unknown', 'unavailable'] or power_sum is none %}
+                {{ states('sensor.janitza_umg604_power') }}
+              {% else %}
+                {% set power_value = power_sum | first | float if power_sum is sequence and power_sum | length > 0 else none %}
+                {% if power_value is number %}
+                  {{ power_value | round(0) }}
+                {% else %}
+                  {{ states('sensor.janitza_umg604_power') }}
+                {% endif %}
+              {% endif %}"
+      attributes:
+        last_updated: "{{ now().strftime('%d.%m.%Y %H:%M') }}"

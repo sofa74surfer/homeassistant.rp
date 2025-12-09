@@ -6,11 +6,15 @@
 
 # Temperatur Rücklauf (with LTS)
     - name: "Luxtronik21 TRL"
-      state: "{% if states('sensor.luxtronik_21_value_state') == 'OK' -%}
-        {{ state_attr('sensor.luxtronik_21_value_state', 'values')['temperature_return'] }}
-      {%- else -%}
-        {{ states('sensor.luxtronik21_trl') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_21_value_state', 'values') %}
+{% if states('sensor.luxtronik_21_value_state') == 'OK' 
+  and luxtronik_values
+  and 'temperature_return' in luxtronik_values 
+-%}
+  {{ luxtronik_values['temperature_return'] }}
+{%- else -%}
+  {{ states('sensor.luxtronik21_trl') }}
+{%- endif %}"
       device_class: temperature
       state_class: measurement
       unit_of_measurement: "°C"
@@ -18,11 +22,15 @@
 
 # Temperatur Rücklauf Extern (with LTS)
     - name: "Luxtronik21 TRL ext"
-      state: "{% if states('sensor.luxtronik_21_value_state') == 'OK' -%}
-        {{ state_attr('sensor.luxtronik_21_value_state', 'values')['temperature_extern_return'] }}
-      {%- else -%}
-        {{ states('sensor.luxtronik21_trl_ext') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_21_value_state', 'values') %}
+{% if states('sensor.luxtronik_21_value_state') == 'OK' 
+  and luxtronik_values
+  and 'temperature_extern_return' in luxtronik_values 
+-%}
+  {{ luxtronik_values['temperature_extern_return'] }}
+{%- else -%}
+  {{ states('sensor.luxtronik21_trl_ext') }}
+{%- endif %}"
       state_class: measurement
       device_class: temperature
       unit_of_measurement: "°C"
@@ -30,22 +38,32 @@
 
 # Temperatur Rücklauf Soll
     - name: "Luxtronik21 TRL soll"
-      state: "{% if states('sensor.luxtronik_21_value_state') == 'OK' -%}
-        {{ state_attr('sensor.luxtronik_21_value_state', 'values')['temperature_target_return'] }}
-      {%- else -%}
-        {{ states('sensor.luxtronik21_trl_soll') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_21_value_state', 'values') %}
+{% if states('sensor.luxtronik_21_value_state') == 'OK' 
+  and luxtronik_values
+  and 'temperature_target_return' in luxtronik_values 
+-%}
+  {{ luxtronik_values['temperature_target_return'] }}
+{%- else -%}
+  {{ states('sensor.luxtronik21_trl_soll') }}
+{%- endif %}"
       device_class: temperature
       unit_of_measurement: "°C"
       unique_id: template.sensor_luxtronik21_trl_soll
 
 # Temperatur Spreizung Rücklauf Soll Extern
     - name: "Luxtronik21 Spz TRL Soll Ext"
-      state: "{% if states('sensor.luxtronik_21_value_state') == 'OK' -%}
-        {{ ((state_attr('sensor.luxtronik_21_value_state', 'values')['temperature_extern_return']) - (state_attr('sensor.luxtronik_21_value_state', 'values')['temperature_target_return']))|round(1) }}
-      {%- else -%}
-        {{ states('sensor.luxtronik21_spz_trl_soll_ext') }}
-      {%- endif %}"
+      state: "{% set luxtronik_values = state_attr('sensor.luxtronik_21_value_state', 'values') %}
+{% if states('sensor.luxtronik_21_value_state') == 'OK' 
+  and luxtronik_values
+  and 'temperature_extern_return' in luxtronik_values 
+  and 'temperature_target_return' in luxtronik_values 
+-%}
+  {{ ((luxtronik_values['temperature_extern_return'])
+      -(luxtronik_values['temperature_target_return']))|round(1) }}
+{%- else -%}
+  {{ states('sensor.luxtronik21_spz_trl_soll_ext') }}
+{%- endif %}"
       device_class: temperature
       unit_of_measurement: "°C"
       unique_id: template.sensor_luxtronik21_spz_trl_soll_ext

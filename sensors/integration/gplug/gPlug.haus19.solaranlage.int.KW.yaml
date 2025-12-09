@@ -1,0 +1,10 @@
+# ####### ############################################ #######
+# ####### Integration Sensor gPlug Haus 19 Solaranlage #######
+# ####### ############################################ #######
+
+# Ableitung von Template Sensor gPlug.haus19.solaranlage.tpl.W.yaml
+platform: integration
+source: sensor.gplug_haus_19_solaranlage_production
+name: "gPlug Haus 19 Solaranlage Power Production"
+unit_prefix: k
+round: 3

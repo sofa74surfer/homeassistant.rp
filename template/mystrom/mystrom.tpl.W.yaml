@@ -1,0 +1,30 @@
+# ####### ######################## #######
+# ####### Wattage Sensoren MyStrom #######
+# ####### ######################## #######
+
+# ######## #########################################################################################
+# 25.08.12  Entferne sensor.mystrom_204_report
+# ######## #########################################################################################
+
+- sensor:
+    - name: "Mystrom Power"
+      # friendly_name: "MyStrom W"
+      unique_id: template.sensor_mystrom_power
+      device_class: power
+      unit_of_measurement: "W"
+      state: "{% set sensors = [
+              'mystrom_201_report', 'mystrom_202_report', 'mystrom_203_report', 'mystrom_205_report',
+              'mystrom_206_report', 'mystrom_207_report', 'mystrom_208_report', 'mystrom_209_report',
+              'mystrom_210_report', 'mystrom_211_report', 'mystrom_212_report', 'mystrom_213_report',
+              'mystrom_214_report', 'mystrom_215_report', 'mystrom_216_report', 'mystrom_217_report'
+              ] %}
+              {% set total_power = namespace(value=0) %}
+              {% for sensor in sensors %}
+                {% set power_attr = state_attr('sensor.' ~ sensor, 'power') %}
+                {% if power_attr is number %}
+                  {% set total_power.value = total_power.value + power_attr %}
+                {% endif %}
+              {% endfor %}
+              {{ total_power.value | round(0) }}"
+      attributes:
+        last_updated: "{{ now().strftime('%d.%m.%Y %H:%M') }}"

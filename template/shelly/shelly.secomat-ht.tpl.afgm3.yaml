@@ -5,103 +5,67 @@
 # Shelly Secomat Haus 19 (Raum 1)
 - sensor:
     - name: "Shelly HT Secomat 19.1 absolute feuchte"
-      state: "{{(10**5 * 
-                        18.016 / 
-                        8314.3 * 
-                        states('sensor.shelly_h_t_secomat_19_1_humidity')|float / 
-                        100 * 
-                        6.1078 * 
-                        10** (
-                              (7.5 * 
-                                states('sensor.shelly_h_t_secomat_19_1_temperature')|float) / 
-                                (237.3 + 
-                                states('sensor.shelly_h_t_secomat_19_1_temperature')|float
-                                )
-                              ) / 
-                              (states('sensor.shelly_h_t_secomat_19_1_temperature')|float + 
-                              273.15
-                              ) 
-                      )|round(1)}}"
+      unique_id: template.shelly_ht_secomat_19_1_absolute_feuchte
       device_class: weight
       unit_of_measurement: "g"
-      attributes:
-        last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
-      unique_id: template.shelly_ht_secomat_191_absolute_feuchte
+      state: >
+        {% set humidity = states('sensor.shelly_h_t_secomat_19_1_humidity') %}
+        {% set temperature = states('sensor.shelly_h_t_secomat_19_1_temperature') %}
+        {% if humidity is number and temperature is number %}
+          {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
+              10**((7.5 * temperature) / (237.3 + temperature)) / 
+              (temperature + 273.15))|round(1)) }}
+        {% else %}
+          {{ states('sensor.shelly_ht_secomat_19_1_absolute_feuchte') }}
+        {% endif %}
 
 # Shelly Secomat Haus 19 (Raum 2)
 - sensor:
     - name: "Shelly HT Secomat 19.2 absolute feuchte"
-      state: "{{(10**5 * 
-                        18.016 / 
-                        8314.3 * 
-                        states('sensor.shelly_h_t_secomat_19_2_humidity')|float / 
-                        100 * 
-                        6.1078 * 
-                        10** (
-                              (7.5 * 
-                                states('sensor.shelly_h_t_secomat_19_2_temperature')|float) / 
-                                (237.3 + 
-                                states('sensor.shelly_h_t_secomat_19_2_temperature')|float
-                                )
-                              ) / 
-                              (states('sensor.shelly_h_t_secomat_19_2_temperature')|float + 
-                              273.15
-                              ) 
-                      )|round(1)}}"
+      unique_id: template.shelly_ht_secomat_19_2_absolute_feuchte
       device_class: weight
       unit_of_measurement: "g"
-      attributes:
-        last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
-      unique_id: template.shelly_ht_secomat_192_absolute_feuchte
+      state: >
+        {% set humidity = states('sensor.shelly_h_t_secomat_19_2_humidity') %}
+        {% set temperature = states('sensor.shelly_h_t_secomat_19_2_temperature') %}
+        {% if humidity is number and temperature is number %}
+          {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
+              10**((7.5 * temperature) / (237.3 + temperature)) / 
+              (temperature + 273.15))|round(1)) }}
+        {% else %}
+          {{ states('sensor.shelly_ht_secomat_19_2_absolute_feuchte') }}
+        {% endif %}
 
 # Shelly Secomat Haus 25 (Raum 1)
 - sensor:
     - name: "Shelly HT Secomat 25.1 absolute feuchte"
-      state: "{{(10**5 * 
-                        18.016 / 
-                        8314.3 * 
-                        states('sensor.shelly_h_t_secomat_25_1_humidity')|float / 
-                        100 * 
-                        6.1078 * 
-                        10** (
-                              (7.5 * 
-                                states('sensor.shelly_h_t_secomat_25_1_temperature')|float) / 
-                                (237.3 + 
-                                states('sensor.shelly_h_t_secomat_25_1_temperature')|float
-                                )
-                              ) / 
-                              (states('sensor.shelly_h_t_secomat_25_1_temperature')|float + 
-                              273.15
-                              ) 
-                      )|round(1)}}"
+      unique_id: template.shelly_ht_secomat_25_1_absolute_feuchte
       device_class: weight
       unit_of_measurement: "g"
-      attributes:
-        last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
-      unique_id: template.shelly_ht_secomat_251_absolute_feuchte
+      state: >
+        {% set humidity = states('sensor.shelly_h_t_secomat_25_1_humidity') %}
+        {% set temperature = states('sensor.shelly_h_t_secomat_25_1_temperature') %}
+        {% if humidity is number and temperature is number %}
+          {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
+              10**((7.5 * temperature) / (237.3 + temperature)) / 
+              (temperature + 273.15))|round(1)) }}
+        {% else %}
+          {{ states('sensor.shelly_ht_secomat_25_1_absolute_feuchte') }}
+        {% endif %}
 
 # Shelly Secomat Haus 25 (Raum 2)
 - sensor:
     - name: "Shelly HT Secomat 25.2 absolute feuchte"
-      state: "{{(10**5 * 
-                        18.016 / 
-                        8314.3 * 
-                        states('sensor.shelly_h_t_secomat_25_2_humidity')|float / 
-                        100 * 
-                        6.1078 * 
-                        10** (
-                              (7.5 * 
-                                states('sensor.shelly_h_t_secomat_25_2_temperature')|float) / 
-                                (237.3 + 
-                                states('sensor.shelly_h_t_secomat_25_2_temperature')|float
-                                )
-                              ) / 
-                              (states('sensor.shelly_h_t_secomat_25_2_temperature')|float + 
-                              273.15
-                              ) 
-                      )|round(1)}}"
+      unique_id: template.shelly_ht_secomat_25_2_absolute_feuchte
       device_class: weight
       unit_of_measurement: "g"
-      attributes:
-        last_updated:  "{{ now().day|string+'.'+now().month|string+'.'+now().year|string+' '+now().hour|string+':'+now().minute|string }}"
-      unique_id: template.shelly_ht_secomat_252_absolute_feuchte
+      state: >
+        {% set humidity = states('sensor.shelly_h_t_secomat_25_2_humidity') %}
+        {% set temperature = states('sensor.shelly_h_t_secomat_25_2_temperature') %}
+        {% if humidity is number and temperature is number %}
+          {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
+              10**((7.5 * temperature) / (237.3 + temperature)) / 
+              (temperature + 273.15))|round(1)) }}
+        {% else %}
+          {{ states('sensor.shelly_ht_secomat_25_2_absolute_feuchte') }}
+        {% endif %}
