@@ -9,8 +9,8 @@
       device_class: weight
       unit_of_measurement: "g"
       state: >
-        {% set humidity = states('sensor.shelly_h_t_secomat_19_1_humidity') %}
-        {% set temperature = states('sensor.shelly_h_t_secomat_19_1_temperature') %}
+        {% set humidity = states('sensor.shelly_h_t_secomat_19_1_humidity')|float(none) %}
+        {% set temperature = states('sensor.shelly_h_t_secomat_19_1_temperature')|float(none) %}
         {% if humidity is number and temperature is number %}
           {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
               10**((7.5 * temperature) / (237.3 + temperature)) / 
@@ -26,8 +26,8 @@
       device_class: weight
       unit_of_measurement: "g"
       state: >
-        {% set humidity = states('sensor.shelly_h_t_secomat_19_2_humidity') %}
-        {% set temperature = states('sensor.shelly_h_t_secomat_19_2_temperature') %}
+        {% set humidity = states('sensor.shelly_h_t_secomat_19_2_humidity')|float(none) %}
+        {% set temperature = states('sensor.shelly_h_t_secomat_19_2_temperature')|float(none) %}
         {% if humidity is number and temperature is number %}
           {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
               10**((7.5 * temperature) / (237.3 + temperature)) / 
@@ -43,8 +43,8 @@
       device_class: weight
       unit_of_measurement: "g"
       state: >
-        {% set humidity = states('sensor.shelly_h_t_secomat_25_1_humidity') %}
-        {% set temperature = states('sensor.shelly_h_t_secomat_25_1_temperature') %}
+        {% set humidity = states('sensor.shelly_h_t_secomat_25_1_humidity')|float(none) %}
+        {% set temperature = states('sensor.shelly_h_t_secomat_25_1_temperature')|float(none) %}
         {% if humidity is number and temperature is number %}
           {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
               10**((7.5 * temperature) / (237.3 + temperature)) / 
@@ -60,8 +60,8 @@
       device_class: weight
       unit_of_measurement: "g"
       state: >
-        {% set humidity = states('sensor.shelly_h_t_secomat_25_2_humidity') %}
-        {% set temperature = states('sensor.shelly_h_t_secomat_25_2_temperature') %}
+        {% set humidity = states('sensor.shelly_h_t_secomat_25_2_humidity')|float(none) %}
+        {% set temperature = states('sensor.shelly_h_t_secomat_25_2_temperature')|float(none) %}
         {% if humidity is number and temperature is number %}
           {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
               10**((7.5 * temperature) / (237.3 + temperature)) / 

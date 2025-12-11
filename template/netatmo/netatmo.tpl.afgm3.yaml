@@ -9,8 +9,8 @@
       device_class: weight
       unit_of_measurement: "g"
       state: >
-        {% set humidity = states('sensor.netatmo_keller_buhler_humidity') %}
-        {% set temperature = states('sensor.netatmo_keller_buhler_temperature') %}
+        {% set humidity = states('sensor.netatmo_keller_buhler_humidity')|float(none) %}
+        {% set temperature = states('sensor.netatmo_keller_buhler_temperature')|float(none) %}
         {% if humidity is number and temperature is number %}
           {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
               10**((7.5 * temperature) / (237.3 + temperature)) / 
@@ -27,8 +27,8 @@
       device_class: weight
       unit_of_measurement: "g"
       state: >
-        {% set humidity = states('sensor.netatmo_keller_gang_humidity') %}
-        {% set temperature = states('sensor.netatmo_keller_gang_temperature') %}
+        {% set humidity = states('sensor.netatmo_keller_gang_humidity')|float(none) %}
+        {% set temperature = states('sensor.netatmo_keller_gang_temperature')|float(none) %}
         {% if humidity is number and temperature is number %}
           {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
               10**((7.5 * temperature) / (237.3 + temperature)) / 
@@ -45,8 +45,8 @@
       device_class: weight
       unit_of_measurement: "g"
       state: >
-        {% set humidity = states('sensor.netatmo_outdoor_humidity') %}
-        {% set temperature = states('sensor.netatmo_outdoor_temperature') %}
+        {% set humidity = states('sensor.netatmo_outdoor_humidity')|float(none) %}
+        {% set temperature = states('sensor.netatmo_outdoor_temperature')|float(none) %}
         {% if humidity is number and temperature is number %}
           {{ ((10**5 * 18.016 / 8314.3 * humidity / 100 * 6.1078 * 
               10**((7.5 * temperature) / (237.3 + temperature)) / 
