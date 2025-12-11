@@ -5,82 +5,82 @@
 - sensor:
 
     - name: "Minute Hauser Power"
-      state: "{{ states('sensor.minute_haus_power') | float 
-              if states('input_text.minute_haus_power_value') | float
-              < states('sensor.minute_haus_power') | float
-              else states('input_text.minute_haus_power_value') | float }}"
+      state: "{{ states('sensor.minute_hauser_power')
+              if states('input_text.minute_hauser_power_value') | float(0)
+              < states('sensor.minute_hauser_power') | float(0)
+              else states('input_text.minute_hauser_power_value') | float(0) }}"
       device_class: power
       unit_of_measurement: "kWh"
       unique_id: template.minute_hauser_power
 
     - name: "Minute Allgemein Power"
-      state: "{{ states('sensor.minute_allgemein_power') | float 
-              if states('input_text.minute_allgemein_power_value') | float
-              < states('sensor.minute_allgemein_power') | float
-              else states('input_text.minute_allgemein_power_value') | float }}"
+      state: "{{ states('sensor.minute_allgemein_power') 
+              if states('input_text.minute_allgemein_power_value') | float(0)
+              < states('sensor.minute_allgemein_power') | float(0)
+              else states('input_text.minute_allgemein_power_value') | float(0) }}"
       device_class: power
       unit_of_measurement: "kWh"
       unique_id: template.minute_allgemein_power
 
     - name: "Minute Luftung Power"
-      state: "{{ states('sensor.minute_luftung_power') | float 
-              if states('input_text.minute_luftung_power_value') | float
-              < states('sensor.minute_luftung_power') | float
-              else states('input_text.minute_luftung_power_value') | float }}"
+      state: "{{ states('sensor.minute_luftung_power') 
+              if states('input_text.minute_luftung_power_value') | float(0)
+              < states('sensor.minute_luftung_power') | float(0)
+              else states('input_text.minute_luftung_power_value') | float(0) }}"
       device_class: power
       unit_of_measurement: "kWh"
       unique_id: template.minute_luftung_power
 
     - name: "Minute Cooling Power"
-      state: "{{ states('sensor.minute_cooling_power') | float 
-              if states('input_text.minute_cooling_power_value') | float
-              < states('sensor.minute_cooling_power') | float
-              else states('input_text.minute_cooling_power_value') | float }}"
+      state: "{{ states('sensor.minute_cooling_power') 
+              if states('input_text.minute_cooling_power_value') | float(0)
+              < states('sensor.minute_cooling_power') | float(0)
+              else states('input_text.minute_cooling_power_value') | float(0) }}"
       device_class: power
       unit_of_measurement: "kWh"
       unique_id: template.minute_cooling_power
 
     - name: "Minute Warmwasser Power"
-      state: "{{ states('sensor.minute_warmwasser_power') | float 
-              if states('input_text.minute_warmwasser_power_value') | float
-              < states('sensor.minute_warmwasser_power') | float
-              else states('input_text.minute_warmwasser_power_value') | float }}"
+      state: "{{ states('sensor.minute_warmwasser_power') 
+              if states('input_text.minute_warmwasser_power_value') | float(0)
+              < states('sensor.minute_warmwasser_power') | float(0)
+              else states('input_text.minute_warmwasser_power_value') | float(0) }}"
       device_class: power
       unit_of_measurement: "kWh"
       unique_id: template.minute_warmwasser_power
 
     - name: "Minute Heizung Power"
-      state: "{{ states('sensor.minute_heizung_power') | float 
-              if states('input_text.minute_heizung_power_value') | float
-              < states('sensor.minute_heizung_power') | float
-              else states('input_text.minute_heizung_power_value') | float }}"
+      state: "{{ states('sensor.minute_heizung_power') 
+              if states('input_text.minute_heizung_power_value') | float(0)
+              < states('sensor.minute_heizung_power') | float(0)
+              else states('input_text.minute_heizung_power_value') | float(0) }}"
       device_class: power
       unit_of_measurement: "kWh"
       unique_id: template.minute_heizung_power
 
     - name: "Minute eMobilitat Power"
-      state: "{{ states('sensor.minute_emobilitat_power') | float 
-              if states('input_text.minute_emobilitat_power_value') | float
-              < states('sensor.minute_emobilitat_power') | float
-              else states('input_text.minute_emobilitat_power_value') | float }}"
+      state: "{{ states('sensor.minute_emobilitat_power') 
+              if states('input_text.minute_emobilitat_power_value') | float(0)
+              < states('sensor.minute_emobilitat_power') | float(0)
+              else states('input_text.minute_emobilitat_power_value') | float(0) }}"
       device_class: power
       unit_of_measurement: "kWh"
       unique_id: template.minute_emobilitat_power
 
     - name: "Minute Secomat Power"
-      state: "{{ states('sensor.minute_secomat_power') | float 
-              if states('input_text.minute_secomat_power_value') | float
-              < states('sensor.minute_secomat_power') | float
-              else states('input_text.minute_secomat_power_value') | float }}"
+      state: "{{ states('sensor.minute_secomat_power') 
+              if states('input_text.minute_secomat_power_value') | float(0)
+              < states('sensor.minute_secomat_power') | float(0)
+              else states('input_text.minute_secomat_power_value') | float(0) }}"
       device_class: power
       unit_of_measurement: "kWh"
       unique_id: template.minute_secomat_power
 
     - name: "Minute Solar Power"
-      state: "{{ states('sensor.minute_solar_power') | float 
-              if states('input_text.minute_solar_power_value') | float
-              < states('sensor.minute_solar_power') | float
-              else states('input_text.minute_solar_power_value') | float }}"
+      state: "{{ states('sensor.minute_solar_power') 
+              if states('input_text.minute_solar_power_value') | float(0)
+              < states('sensor.minute_solar_power') | float(0)
+              else states('input_text.minute_solar_power_value') | float(0) }}"
       device_class: power
       unit_of_measurement: "kWh"
       unique_id: template.minute_solar_power
